@@ -1,0 +1,32 @@
+{
+  "name": "shorty-server",
+  "version": "1.0.0",
+  "description": "url shortner server",
+  "main": "index.js",
+  "author": "Claudio Quaglia <claudio.quaglia@feries.it>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "@sentry/node": "^4.6.3",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "helmet": "^3.15.1",
+    "mysql": "^2.16.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "test/*",
+      "docs/*"
+    ],
+    "delay": "800"
+  }
+}

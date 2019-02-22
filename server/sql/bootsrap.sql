@@ -1,0 +1,43 @@
+CREATE DATABASE `shotty`;
+
+USE `shotty`;
+
+DROP TABLE IF EXISTS `urls` ;
+
+CREATE TABLE `urls`(
+	id INT NOT NULL AUTO_INCREMENT,
+	external_id VARCHAR(36) NOT NULL,
+	source_url VARCHAR(255) NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	author VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE=INNODB;
+
+DROP TABLE IF EXISTS `stats` ;
+
+CREATE TABLE `stats` (
+	id INT NOT NULL AUTO_INCREMENT,
+	url_id INT NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	browser ENUM('Firefox', 'IE', 'Chrome', 'Opera', 'Safari', 'Edge', 'Other') NOT NULL,
+	os ENUM('Mac Os', 'Windows', 'Linux', 'Chorme OS', 'Android', 'iOS', 'Other') NOT NULL,
+	is_mobile BOOLEAN NOT NULL,
+	referral VARCHAR(255) NOT NULL,
+	country VARCHAR(5) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY fk_url(id)
+	REFERENCES urls(id)
+	ON UPDATE NO ACTION
+	ON DELETE NO ACTION
+) ENGINE=INNODB;
+
+DROP TABLE IF EXISTS `keys`
+
+CREATE TABLE `keys` (
+	id INT NOT NULL AUTO_INCREMENT,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`issuer` VARCHAR(255) NOT NULL,
+	`key` VARCHAR(255) NOT NULL,
+	PRIMARY KEY (id),
+	UNIQUE(`key`)
+) ENGINE=INNODB;

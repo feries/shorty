@@ -1,0 +1,21 @@
+{
+  "name": "shorty",
+  "version": "1.0.0",
+  "description": "Short is beautiful! Save the world by making it shorter!",
+  "main": "index.js",
+  "author": "Claudio Quaglia <claudio.quaglia@feries.it>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "server/*",
+    "client/*"
+  ],
+  "scripts": {
+    "dev:server": "yarn --cwd server dev",
+    "dev:frontend": "yarn --cwd client start",
+    "test:be": "yarn --cwd server lint:standard && yarn --cwd server test:unit",
+    "test:fe": "yarn --cwd client test",
+    "dev": "yarn run dev:server | yarn run dev:frontend",
+    "test": "yarn run test:be && yarn run test:fe"
+  }
+}
