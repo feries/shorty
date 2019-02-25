@@ -1,0 +1,1 @@
+INSERT urls (external_id, source_url, target_url, author_id) VALUES (?, ?, ?, ?);

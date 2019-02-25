@@ -1,0 +1,1 @@
+UPDATE users SET refresh_token=? WHERE id=?;

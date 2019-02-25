@@ -1,4 +1,6 @@
-const { queryLimit } = require('../../constants');
+const { queryLimit } = require('../../constants')
+const { sqlLoader } = require('../../lib')
+const { pool: db } = require('../../config')
 
 /**
  * @method GET
@@ -12,8 +14,6 @@ const { queryLimit } = require('../../constants');
  */
 
 module.exports = (req, res) => {
-  const limit = req.query.limit || queryLimit;
-  const skip = req.query.limit && req.query.skip ? req.query.skip : 0;
-
-  
-};
+  const limit = req.query.limit || queryLimit
+  const skip = req.query.limit && req.query.skip ? req.query.skip : 0
+}
