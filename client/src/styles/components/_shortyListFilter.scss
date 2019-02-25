@@ -1,0 +1,49 @@
+#shortyListFilter {
+  form {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    width: 1090px;
+    height: 72px;
+    box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
+    border: 1px solid $lightGrey;
+    border-radius: $radius;
+    background: $white;
+    input {
+      width: 300px;
+      height: 32px;
+      background: $white;
+      border: 1px solid $lightGrey;
+      font-size: $tiny;
+      padding: $doubleSpace;
+      box-sizing: border-box;
+      color: $dark;
+      margin-left: $doubleSpace;
+      box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.14);
+
+      &::placeholder {
+        color: $grey !important;
+      }
+      &:focus {
+        outline: none !important;
+        border: 1px solid $primary;
+      }
+    }
+    button {
+      border-radius: 3px;
+      background: #eee;
+      color: $lightDark;
+      font-weight: $bold;
+      border: none;
+      margin-right: $doubleSpace;
+      margin-left: $doubleSpace;
+      text-align: center;
+      padding: $doubleSpace;
+      cursor: pointer;
+      &:hover {
+        background: $primary;
+        color: $white;
+      }
+    }
+  }
+}

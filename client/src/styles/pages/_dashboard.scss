@@ -1,0 +1,12 @@
+@import 'components/shortyBar';
+@import 'components/shortyListFilter';
+
+.container {
+  margin: auto;
+  width: 90%;
+  border: 1px solid $dark;
+  .content {
+    margin: auto;
+    max-width: 1090px;
+  }
+}
