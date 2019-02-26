@@ -5,7 +5,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Launch",
+      "name": "Server",
       "type": "node",
       "request": "launch",
       "program": "${workspaceRoot}/server/index.js",
@@ -20,16 +20,20 @@
       "outFiles": []
     },
     {
-      "name": "Attach",
-      "type": "node",
-      "request": "attach",
-      "port": 5858,
-      "address": "localhost",
-      "restart": true,
-      "sourceMaps": false,
-      "outFiles": [],
-      "localRoot": "${workspaceRoot}",
-      "remoteRoot": null
+      "name": "Client",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:3000",
+      "webRoot": "${workspaceFolder}/client",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      }
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Server/Client",
+      "configurations": ["Server", "Client"]
     }
   ]
 }
