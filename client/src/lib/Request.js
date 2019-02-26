@@ -1,15 +1,18 @@
 import axios from 'axios'
 import Auth from './Authentication'
 
-class Request {
+import { BASE_URL } from '../constants/endpoint'
+
+export default class Request {
   constructor() {
     this._instance = axios.create({
-      baseURL: 'http://127.0.0.1:3001/',
+      baseURL: BASE_URL,
       timeout: 1000
     })
   }
 
-  get instance() {
+  getInstance() {
+    this.checkAndSetAuth()
     return this._instance
   }
 
