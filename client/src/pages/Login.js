@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Logo from '../components/Logo'
-import LoginBox from '../components/LoginBox'
+import LoginBox from '../containers/LoginBox'
 
 class Login extends Component {
   render() {

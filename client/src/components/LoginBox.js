@@ -1,28 +1,73 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-const LoginBox = ({ className }) => (
-  <div id="loginBox" className={className}>
-    <div className="invitation">
-      Welcome back! Please login to your account.
-    </div>
-    <form>
-      <input type="email" name="email" placeholder="insert your email" />
-      <input type="password" name="password" placeholder="password" />
-      <button>
-        login &nbsp;
-        <i class="far fa-sign-in-alt" />
-      </button>
-    </form>
-  </div>
-)
+import { debounce } from '../lib/helpers'
+import { isEmail } from '../lib/validators'
 
-LoginBox.propTypes = {
-  className: PropTypes.string
-}
+class LoginBox extends Component {
+  state = { isSubmitDisabled: true, username: '', password: '' }
 
-LoginBox.defaultProps = {
-  className: ''
+  static propTypes = {
+    className: PropTypes.string,
+    onSubmit: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    className: ''
+  }
+
+  componentDidMount() {
+    this.canSubmit()
+  }
+
+  canSubmit = debounce(() => {
+    const { username, password } = this.state
+    const usernameInvalid = username === '' || !isEmail(username)
+    const passwordInvalid = password === ''
+    this.setState({
+      isSubmitDisabled: usernameInvalid || passwordInvalid
+    })
+  }, 250)
+
+  handleSubmit = () => {
+    const { username, password } = this.state
+  }
+
+  handleChange = (evt, what) => {
+    this.setState({ [what]: evt.target.value })
+    this.canSubmit()
+  }
+
+  render() {
+    const { className } = this.props
+    const { isSubmitDisabled, username, password } = this.state
+
+    return (
+      <div id="loginBox" className={className}>
+        <div className="invitation">
+          Welcome back! Please login to your account.
+        </div>
+        <div className="loginBox-form">
+          <input
+            type="email"
+            value={username}
+            placeholder="insert your email"
+            onChange={(e) => this.handleChange(e, 'username')}
+          />
+          <input
+            type="password"
+            value={password}
+            placeholder="password"
+            onChange={(e) => this.handleChange(e, 'password')}
+          />
+          <button disabled={isSubmitDisabled} onClick={this.handleSubmit}>
+            login &nbsp;
+            <i class="far fa-sign-in-alt" />
+          </button>
+        </div>
+      </div>
+    )
+  }
 }
 
 export default LoginBox
