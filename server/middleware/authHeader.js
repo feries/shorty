@@ -1,16 +1,20 @@
-const { authHeaderKey } = require('../constants');
-const { sqlLoader } = require('../lib');
-const { pool: db } = require('../config');
+const jwt = require('express-jwt')
+
+const { authHeaderKey } = require('../constants')
+const { sqlLoader, isExpired } = require('../lib')
+const { pool: db } = require('../config')
 
 module.exports = async (req, res, next) => {
-  const authHeader = req.get(authHeaderKey);
+  const authHeader = req.get('authorization')
+  const authKey = req.get(authHeaderKey)
 
-  if (!authHeader) res.sendStatus(403);
+  if (!authHeader && !authKey) return res.sendStatus(401)
 
-  const sql = sqlLoader('checkAuthorizationKey.sql');
-  const query = await db.query(sql, [authHeader]);
+  if (authHeader) return next()
 
-  if (query.length === 0) return res.sendStatus(403);
+  const sql = sqlLoader('checkAuthorizationKey.sql')
+  const query = await db.query(sql, [authHeader])
 
-  next();
-};
+  if (query.length === 0) return res.sendStatus(403)
+  next('route')
+}
