@@ -1,6 +1,6 @@
 #shortyBar {
   form {
-    width: 1090px;
+    max-width: 1090px;
     input {
       width: 100%;
       height: 56px;
@@ -33,6 +33,38 @@
       margin-right: $space;
       &:hover {
         color: $hoverSecondary;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #shortyBar {
+    form {
+      input {
+        font-size: $medium;
+      }
+      button {
+        top: -38px;
+        font-size: $normal;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 470px) {
+  #shortyBar {
+    form {
+      input {
+        &::placeholder {
+          text-align: center;
+        }
+      }
+      button {
+        top: 0;
+        margin: auto;
+        float: none;
+        margin-top: $tripleSpace;
       }
     }
   }

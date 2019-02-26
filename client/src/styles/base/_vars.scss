@@ -4,6 +4,7 @@ $secondary: #ff6f00;
 $white: #fff;
 $dark: #3a3a3a;
 $grey: #cdcdcd;
+$blue: #0071ce;
 
 $lightPrimary: #e3f4f7;
 $lightSecondary: #ffebdb;
@@ -30,6 +31,8 @@ $big: 1.375rem;
 
 /* SPACING */
 $space: 5px;
-$doubleSpace: 10px;
+$doubleSpace: $space * 2;
+$tripleSpace: $space * 3;
 
 $radius: 7px;
+$radiusSmall: 3px;

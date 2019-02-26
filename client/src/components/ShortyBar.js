@@ -6,7 +6,8 @@ const Shortybar = ({ className }) => (
     <form>
       <input type="text" name="firstname" placeholder="Paste your long URL" />
       <button>
-        Shorten your link <i class="fas fa-link" />
+        Shorten your link &nbsp;
+        <i class="fas fa-link" />
       </button>
     </form>
   </div>
