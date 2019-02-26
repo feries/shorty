@@ -9,7 +9,7 @@ class LoginBox extends Component {
 
   static propTypes = {
     className: PropTypes.string,
-    onSubmit: PropTypes.func.isRequired
+    onLogin: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -31,6 +31,7 @@ class LoginBox extends Component {
 
   handleSubmit = () => {
     const { username, password } = this.state
+    this.props.onLogin(username, password)
   }
 
   handleChange = (evt, what) => {
