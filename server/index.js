@@ -7,7 +7,7 @@ const helmet = require('helmet')
 const Sentry = require('@sentry/node')
 
 // Import Routes
-const { routerV1 } = require('./routes/index')
+const { routerV1, hintTarget } = require('./routes/index')
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT
@@ -36,6 +36,7 @@ app.disable('x-powered-by')
 
 // Map Routes
 app.use('/api/v1', routerV1)
+app.get('/:shortid', hintTarget)
 
 // Global Error handler
 isProd && app.use(Sentry.Handlers.errorHandler())

@@ -14,12 +14,12 @@ const insertNewUrl = require('./insertNewUrl')
 const apiKey = require('./generateApiKey')
 
 // Authentication middleware
-// routerV1.use(unless(authHeader, '/login'))
+routerV1.use(unless(authHeader, '/login'))
 routerV1.use(
   jwt({
     secret: process.env.JWT_SECRET,
     issuer: process.env.JWT_ISSUER
-  }).unless({ path: ['/login'] })
+  }).unless({ path: ['/api/v1/login'] })
 )
 
 // Handle user login
@@ -39,9 +39,6 @@ routerV1.post('/urls', insertNewUrl)
 
 // Get specific url
 routerV1.get('/urls/:id', getAllUrls)
-
-// Update url stats
-routerV1.put('/urls/:id', getAllUrls)
 
 // Delete url
 routerV1.delete('/urls/:id', getAllUrls)

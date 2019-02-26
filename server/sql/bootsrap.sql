@@ -20,13 +20,14 @@ CREATE TABLE urls(
 	id INT AUTO_INCREMENT,
 	external_id VARCHAR(36) NOT NULL,
 	source_url VARCHAR(255) NOT NULL,
+	target_url VARCHAR(255) NOT NULL,
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	author_id INT NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY fk_author(id)
-	REFERENCES users(id)
-	ON UPDATE NO ACTION
-	ON DELETE NO ACTION
+	FOREIGN KEY fk_author(author_id)
+		REFERENCES users(id)
+		ON UPDATE NO ACTION
+		ON DELETE NO ACTION
 ) ENGINE=INNODB;
 
 DROP TABLE browsers;
@@ -53,18 +54,18 @@ CREATE TABLE stats (
 	browser_id INT NOT NULL,
 	os_id INT NOT NULL,
 	is_mobile BOOLEAN NOT NULL,
-	referral VARCHAR(255) NOT NULL,
+	referrer VARCHAR(255) NOT NULL,
 	country VARCHAR(5) NOT NULL,
 	PRIMARY KEY (id),
-	FOREIGN KEY fk_url(id)
+	FOREIGN KEY fk_url(url_id)
 		REFERENCES urls(id)
 		ON UPDATE NO ACTION
 		ON DELETE NO ACTION,
-	FOREIGN KEY fk_browser(id)
+	FOREIGN KEY fk_browser(browser_id)
 		REFERENCES browsers(id)
 		ON UPDATE NO ACTION
 		ON DELETE NO ACTION,
-	FOREIGN KEY fk_os(id)
+	FOREIGN KEY fk_os(os_id)
 		REFERENCES oss(id)
 		ON UPDATE NO ACTION
 		ON DELETE NO ACTION
