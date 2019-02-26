@@ -6,7 +6,7 @@ export default ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={(props) =>
-      Auth.fakeAuth() ? (
+      Auth.isAuthenticated() ? (
         <Component {...props} />
       ) : (
         <Redirect
