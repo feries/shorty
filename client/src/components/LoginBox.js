@@ -5,7 +5,7 @@ import { debounce } from '../lib/helpers'
 import { isEmail } from '../lib/validators'
 
 class LoginBox extends Component {
-  state = { isSubmitDisabled: true, username: '', password: '' }
+  state = { isSubmitDisabled: true, username: 'claudio.quaglia@feries.it', password: 'prova' }
 
   static propTypes = {
     className: PropTypes.string,
@@ -63,7 +63,7 @@ class LoginBox extends Component {
           />
           <button disabled={isSubmitDisabled} onClick={this.handleSubmit}>
             login &nbsp;
-            <i class="far fa-sign-in-alt" />
+            <i className="far fa-sign-in-alt" />
           </button>
         </div>
       </div>

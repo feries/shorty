@@ -1,7 +1,10 @@
 import {
   DASHBOARD_FETCH_START,
   DASHBOARD_FETCH_SUCCESS,
-  DASHBOARD_FETCH_ERROR
+  DASHBOARD_FETCH_ERROR,
+  SUBMIT_LINK_START,
+  SUBMIT_LINK_SUCCESS,
+  SUBMIT_LINK_ERROR
 } from '../constants/actions'
 
 const initialState = {
@@ -21,7 +24,7 @@ export default (state = initialState, action) => {
     case DASHBOARD_FETCH_SUCCESS:
       return {
         loading: false,
-        results: action.payload,
+        results: action.data,
         errorMessage: null
       }
 
@@ -29,6 +32,30 @@ export default (state = initialState, action) => {
       return {
         loading: false,
         results: [],
+        errorMessage: action.error
+      }
+
+    case SUBMIT_LINK_START:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case SUBMIT_LINK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        results: [
+          action.data,
+          ...state.results
+        ],
+        errorMessage: null
+      }
+
+    case SUBMIT_LINK_ERROR:
+      return {
+        ...state,
+        loading: false,
         errorMessage: action.error
       }
 
