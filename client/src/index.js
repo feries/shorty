@@ -1,8 +1,10 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
 import * as serviceWorker from './serviceWorker'
+import configureStore from './store'
 
 import routes from './Router'
 import AuthenticatedRoute from './hocs/AuthenticatedRoute'
@@ -27,7 +29,12 @@ const App = () => (
   </BrowserRouter>
 )
 
-ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(
+  <Provider store={configureStore()}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const ShortylistFilter = ({ className }) => (
+const ShortyListFilter = ({ className }) => (
   <div id="shortyListFilter" className={className}>
     <div className="large m-bottom-x2 m-left-x3">Recent shortened links</div>
     <form>
@@ -14,10 +14,10 @@ const ShortylistFilter = ({ className }) => (
         </div>
         <div className="navElements">
           <button>
-            <i class="fas fa-angle-left" />
+            <i className="fas fa-angle-left" />
           </button>
           <button>
-            <i class="fas fa-angle-right" />
+            <i className="fas fa-angle-right" />
           </button>
         </div>
       </div>
@@ -25,12 +25,12 @@ const ShortylistFilter = ({ className }) => (
   </div>
 )
 
-ShortylistFilter.propTypes = {
+ShortyListFilter.propTypes = {
   className: PropTypes.string
 }
 
-ShortylistFilter.defaultProps = {
+ShortyListFilter.defaultProps = {
   className: ''
 }
 
-export default ShortylistFilter
+export default ShortyListFilter

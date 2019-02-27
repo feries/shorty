@@ -1,24 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Shortybar = ({ className }) => (
+const ShortyBar = ({ className }) => (
   <div id="shortyBar" className={className}>
     <form>
-      <input type="text" name="firstname" placeholder="Paste your long URL" />
+      <input type="text" name="url" placeholder="Paste your long URL" />
       <button>
         Shorten your link &nbsp;
-        <i class="fas fa-link" />
+        <i className="fas fa-link" />
       </button>
     </form>
   </div>
 )
 
-Shortybar.propTypes = {
+ShortyBar.propTypes = {
   className: PropTypes.string
 }
 
-Shortybar.defaultProps = {
+ShortyBar.defaultProps = {
   className: ''
 }
 
-export default Shortybar
+export default ShortyBar
