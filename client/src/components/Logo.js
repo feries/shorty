@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Logo = ({ className }) => (
-  <div id="header" className={className}>
+  <div id="containerLogo" className={className}>
     <div id="logo" className="t-center">
       <img src="./img/logo.svg" alt="Shorty Link" />
     </div>

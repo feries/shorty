@@ -1,0 +1,30 @@
+#backToHome {
+  button {
+    border: none;
+    background: none;
+    font-size: $normal;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: flex-start;
+    cursor: pointer;
+    &:hover {
+      color: $primary;
+    }
+    .fas {
+      width: 25px;
+      height: 25px;
+      border-radius: 3px;
+      background: #eee;
+      color: $lightDark;
+      font-weight: $bold;
+      border: none;
+      margin-right: $space;
+      margin-left: $space;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
