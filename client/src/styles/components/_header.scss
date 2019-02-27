@@ -1,0 +1,24 @@
+#header {
+  &.logosmall {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: flex-start;
+    #logo {
+      img {
+        height: 44px;
+      }
+    }
+    .payoff {
+      text-align: left;
+      font-size: $large;
+      color: $lightDark;
+      margin-left: $tripleSpace;
+    }
+  }
+  .payoff {
+    text-align: center;
+    font-size: $large;
+    color: $lightDark;
+  }
+}
