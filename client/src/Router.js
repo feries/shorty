@@ -17,7 +17,7 @@ export default [
     component: LoginPage
   },
   {
-    path: '/logout',
+    path: '/detail',
     auth: true,
     component: DetailPage
   }

@@ -1,3 +1,22 @@
-import React from 'react'
+import React, { Component } from 'react'
+import Logo from '../components/Logo'
+import BackToHome from '../components/BackToHome'
+import DetailTopInfo from '../components/DetailTopInfo'
 
-export default () => <h1>Detail Page</h1>
+class Detail extends Component {
+  render() {
+    return (
+      <div className="container">
+        <div id="content" className="content m-top-x4">
+          <div className="flex flex-space">
+            <Logo className="logosmall" />
+            <BackToHome />
+          </div>
+          <DetailTopInfo />
+        </div>
+      </div>
+    )
+  }
+}
+
+export default Detail

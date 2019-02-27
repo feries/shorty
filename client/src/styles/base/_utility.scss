@@ -156,3 +156,14 @@
     }
   }
 }
+
+/* FLEX */
+.flex {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: flex-start;
+  &-space {
+    justify-content: space-between;
+  }
+}

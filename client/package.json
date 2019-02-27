@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apexcharts": "^3.5.0",
     "axios": "^0.18.0",
     "dayjs": "^1.8.8",
     "prop-types": "^15.7.2",
