@@ -1,8 +1,6 @@
-import { lazy } from 'react'
-
-const LoginPage = lazy(() => import('./pages/Login'))
-const DashboardPage = lazy(() => import('./pages/Dashboard'))
-const DetailPage = lazy(() => import('./pages/Detail'))
+import DashboardPage from './pages/Dashboard'
+import LoginPage from './pages/Login'
+import DetailPage from './pages/Detail'
 
 export default [
   {

@@ -4,7 +4,10 @@ import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
-import { GO_TO, QR_CODE, TRASH, COPY } from '../constants/common'
+import LabelToInput from './LabelToInput'
+
+import { GO_TO, QR_CODE, TRASH, COPY, nope } from '../constants/common'
+import { debounce } from '../lib/helpers'
 
 dayjs.extend(relativeTime)
 
@@ -20,15 +23,18 @@ class ShortyList extends Component {
         urlClick: PropTypes.number.isRequired
       })
     ).isRequired,
+    hasMore: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     error: PropTypes.string,
-    startFetch: PropTypes.func.isRequired
+    startFetch: PropTypes.func.isRequired,
+    startFilter: PropTypes.func
   }
 
   static defaultProps = {
     className: '',
     items: [],
-    loading: false
+    loading: false,
+    startFilter: nope
   }
 
   componentDidMount() {
@@ -39,16 +45,26 @@ class ShortyList extends Component {
     console.log(props)
   }
 
+  handleFilter = debounce((queryParam, queryValue) => {
+    if ((!queryParam || !queryValue) || queryValue.length < 3) return
+
+    this.props.startFilter(queryParam, queryValue)
+  }, 250)
+
   render() {
-    const { className, items } = this.props
+    const { className, items, hasMore } = this.props
 
     return (
       <div id="shortyList" className={className}>
         <ul className="head">
-          <li className="originalUrl">Original URL</li>
+          <li className="originalUrl">
+            <LabelToInput label='Original URL' queryParam="targetUrl" onFilter={this.handleFilter}/>
+          </li>
           <li className="created">Created</li>
-          <li className="shortUrl">Short URL</li>
-          <li className="clicks">Clicks</li>
+          <li className="shortUrl">
+            <LabelToInput label='Short URL' queryParam="sourceUrl" onFilter={this.handleFilter}/>
+          </li>
+          <li className="clicks">N° Click</li>
           <li className="actions" />
         </ul>
         {items.map((item, index) => (
@@ -99,6 +115,11 @@ class ShortyList extends Component {
             </li>
           </ul>
         ))}
+        {hasMore && (
+          <div className="footer">
+            <button>Load more</button>
+          </div>
+        )}
       </div>
     )
   }

@@ -6,9 +6,12 @@ import {
   DASHBOARD_FETCH_ERROR,
   SUBMIT_LINK_START,
   SUBMIT_LINK_SUCCESS,
-  SUBMIT_LINK_ERROR
+  SUBMIT_LINK_ERROR,
+  FILTER_START,
+  FILTER_SUCCESS,
+  FILTER_ERROR
 } from '../constants/actions'
-import { API_V1_ENDPOINT, URL_LIST } from '../constants/endpoint'
+import { API_V1_ENDPOINT, URL_LIST, FILTERED_URL_LIST } from '../constants/endpoint'
 import { PER_PAGE } from '../constants/common'
 
 import { objectToQuery } from '../lib/helpers'
@@ -26,7 +29,9 @@ export const startFetchLinks = (limit = PER_PAGE, skip = 0) => async (
     if (status !== 200)
       return  dispatch(fetchError(statusText))
 
-    dispatch(fetchSuccess(data))
+    const _skip = skip === 0 ? 1 : skip
+    const hasMore = data.count > (limit * _skip)
+    dispatch(fetchSuccess({...data, hasMore}))
   } catch (e) {
     return window.location.assign('/500')
   }
@@ -69,6 +74,34 @@ export const submitLinkSuccess = data => ({
 
 export const submitLinkError = error => ({
   type: SUBMIT_LINK_ERROR,
+  error
+})
+
+export const startFilter = (key, value) => async dispatch => {
+  try {
+    dispatch({ type: FILTER_START })
+    axios.defaults.headers.common['Authorization'] = Auth.getAuthenticationHeader()
+    const qp = objectToQuery({ key, value })
+
+    const { data } = await axios.get(`${API_V1_ENDPOINT}${FILTERED_URL_LIST}${qp}`,)
+
+    dispatch(startFilterSuccess(data))
+  } catch (e) {
+    if (e.response.status === 400) {
+      return dispatch(startFilterError(e.response.data.message))
+    } else {
+      window.location.assign('/500')
+    }
+  }
+}
+
+export const startFilterSuccess = data => ({
+  type: FILTER_SUCCESS,
+  data
+})
+
+export const startFilterError = error => ({
+  type: FILTER_ERROR,
   error
 })
 

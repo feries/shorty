@@ -1,6 +1,6 @@
-@import 'components/shortyBar';
-@import 'components/shortyList';
-@import 'components/shortyListFilter';
+@import '../components/shortyBar';
+@import '../components/shortyList';
+@import '../components/LabelToInput';
 
 .container {
   margin: auto;

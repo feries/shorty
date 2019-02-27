@@ -13,12 +13,10 @@ import Loader from './components/Loader'
 
 import './styles/style.scss'
 
-const wrapRoute = ({ path, exact, component, auth }, key) => {
-  const props = { key, path, exact, component }
+const wrapRoute = (props, key) => {
+  if (!props.auth) return <Route key={key} {...props}/>
 
-  if (!auth) return <Route {...props} />
-
-  return <AuthenticatedRoute {...props} />
+  return <AuthenticatedRoute key={key} {...props} />
 }
 
 const App = () => (

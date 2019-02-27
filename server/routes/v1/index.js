@@ -10,6 +10,7 @@ const { authHeader } = require('../../middleware')
 const login = require('./login')
 const signup = require('./signup')
 const getAllUrls = require('./getAllUrls')
+const getAllUrlsFiltered = require('./getAllUrlsFiltered')
 const insertNewUrl = require('./insertNewUrl')
 const apiKey = require('./generateApiKey')
 
@@ -33,6 +34,9 @@ routerV1.post('/api-key', apiKey)
 
 // Get all shorted urls
 routerV1.get('/urls', getAllUrls)
+
+// Filter Urls
+routerV1.get('/urls/filter', getAllUrlsFiltered)
 
 // Add new shorted url
 routerV1.post('/urls', insertNewUrl)

@@ -4,6 +4,21 @@
   border: 1px solid $lightGrey;
   border-radius: $radius;
   background: $white;
+  .footer {
+    font-weight: $bold;
+    font-size: $normal;
+    padding: $tripleSpace;
+    text-align: center;
+    button {
+      display: block;
+      width: 100%;
+      height: 40px;
+      border: none;
+      background-color: $grey;
+      opacity: .3;
+      text-transform: uppercase;
+    }
+  }
   ul {
     display: flex !important;
     flex-direction: row !important;
