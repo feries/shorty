@@ -3,7 +3,7 @@ import Logo from '../components/Logo'
 import BackToHome from '../components/BackToHome'
 import DetailTopInfo from '../components/DetailTopInfo'
 
-class Dashboard extends Component {
+class Detail extends Component {
   render() {
     return (
       <div className="container">
@@ -19,4 +19,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard
+export default Detail
