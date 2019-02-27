@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
 import { GO_TO, QR_CODE, TRASH, COPY } from '../constants/common'
+
+dayjs.extend(relativeTime)
 
 class ShortyList extends Component {
   static propTypes = {
@@ -11,8 +16,8 @@ class ShortyList extends Component {
         externalId: PropTypes.string.isRequired,
         shortedUrl: PropTypes.string.isRequired,
         targetUrl: PropTypes.string.isRequired,
-        createdAt: PropTypes.number.isRequired,
-        click: PropTypes.number.isRequired
+        createdAt: PropTypes.string.isRequired,
+        urlClick: PropTypes.number.isRequired
       })
     ).isRequired,
     loading: PropTypes.bool.isRequired,
@@ -59,8 +64,8 @@ class ShortyList extends Component {
               </a>
             </li>
             <li className="created">
-              <span className="label">Created:&nbsp;</span>less than a minute
-              ago
+              <span className="label">Created:&nbsp;</span>
+              {dayjs(item.createdAt).fromNow()}
             </li>
             <li className="shortUrl">
               <span className="label">Short URL:&nbsp;</span>
@@ -78,7 +83,7 @@ class ShortyList extends Component {
             </li>
             <li className="clicks">
               <span className="label">Clicks:&nbsp;</span>
-              {item.click}
+              {item.urlClick}
             </li>
             <li className="actions">
               <button name={GO_TO} className="stats" target={item.externalId}>

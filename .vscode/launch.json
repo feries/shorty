@@ -25,6 +25,17 @@
       "request": "launch",
       "url": "http://localhost:3000",
       "cwd": "${workspaceFolder}",
+      "webRoot": "${workspaceRoot}/client",
+      "userDataDir": "${workspaceRoot}/.vscode/chrome",
+      "sourceMapPathOverrides": {
+        "webpack:///src/*": "${webRoot}/*"
+      }
+    },
+    {
+      "type": "chrome",
+      "request": "attach",
+      "name": "Attach",
+      "port": 9222,
       "webRoot": "${workspaceFolder}/client",
       "sourceMapPathOverrides": {
         "webpack:///src/*": "${webRoot}/*"
@@ -34,7 +45,7 @@
   "compounds": [
     {
       "name": "Server/Client",
-      "configurations": ["Server", "Client"]
+      "configurations": ["Server", "Attach"]
     }
   ]
 }

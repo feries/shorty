@@ -29,6 +29,10 @@
       }
     }
     button {
+      &:disabled {
+        cursor: default;
+        opacity: .5;
+      }
       margin-top: $tripleSpace;
       color: $white;
       padding: $doubleSpace;
@@ -41,7 +45,7 @@
       background: $secondary;
       box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
       cursor: pointer;
-      &:hover {
+      &:hover:not(:disabled) {
         background: $hoverSecondary;
       }
     }

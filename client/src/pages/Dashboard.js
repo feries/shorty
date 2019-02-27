@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Logo from '../components/Logo'
-import ShortyBar from '../components/ShortyBar'
+import ShortyBar from '../containers/ShortyBar'
 import ShortyListFilter from '../components/ShortyListFilter'
 import ShortyList from '../containers/ShortyList'
 

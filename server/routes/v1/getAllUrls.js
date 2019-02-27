@@ -13,11 +13,11 @@ const { pool: db } = require('../../config')
  */
 
 module.exports = async (req, res) => {
-  const limit = req.query.limit || queryLimit
-  const skip = req.query.limit && req.query.skip ? req.query.skip : 0
+  const limit = Number(req.query.limit) || queryLimit
+  const skip = req.query.limit && Number(req.query.skip) ? req.query.skip : 0
 
   const sql = sqlLoader('getUrlsPaginated.sql')
-  const query = await db.query(sql, [skip, limit])
+  const query = await db.query(sql, [limit, skip])
 
   res.send(query)
 }
