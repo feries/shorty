@@ -14,7 +14,7 @@ import Loader from './components/Loader'
 import './styles/style.scss'
 
 const wrapRoute = (props, key) => {
-  if (!props.auth) return <Route key={key} {...props}/>
+  if (!props.auth) return <Route key={key} {...props} />
 
   return <AuthenticatedRoute key={key} {...props} />
 }

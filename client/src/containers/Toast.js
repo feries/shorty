@@ -9,8 +9,11 @@ const mapStateToProps = (state) => ({
   type: state.toast.type
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   dismiss: () => dispatch(unsetGlobalToast())
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Toast)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Toast)

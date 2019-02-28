@@ -19,6 +19,11 @@ class Modal extends Component {
     onClose: nope
   }
 
+  constructor(props) {
+    super(props)
+    this.modal = React.createRef()
+  }
+
   toggleScrollLock = () => {
     document.querySelector('html').classList.toggle('scroll-lock')
   }
@@ -35,8 +40,12 @@ class Modal extends Component {
     if (!_state) this.props.onClose()
   }
 
-  handleDismiss = () => {
-    if (!this.props.dismissible) return
+  handleDismiss = (evt) => {
+    if (
+      !this.props.dismissible ||
+      (this.modal && this.modal.contains(evt.target))
+    )
+      return
 
     this.toggleModal()
   }
@@ -50,7 +59,7 @@ class Modal extends Component {
     })
 
     return (
-      <div className={classes} onClick={this.handleDismiss}>
+      <div className={classes} onClick={this.handleDismiss} ref={this.modal}>
         <div className="modalCenter">
           <div className="modal modal-panel">
             <div className="closeButton">

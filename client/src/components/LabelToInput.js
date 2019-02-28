@@ -29,7 +29,7 @@ class LabelToInput extends Component {
 
   constructor(props){
     super(props)
-    this.input = React.createRef();
+    this.input = React.createRef()
   }
 
   componentDidMount() {

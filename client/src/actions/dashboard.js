@@ -9,9 +9,18 @@ import {
   SUBMIT_LINK_ERROR,
   FILTER_START,
   FILTER_SUCCESS,
-  FILTER_ERROR, GLOBAL_SET_TOAST, GLOBAL_UNSET_TOAST
+  FILTER_ERROR,
+  GLOBAL_SET_TOAST,
+  GLOBAL_UNSET_TOAST,
+  DELETE_URL_START,
+  DELETE_URL_SUCCESS,
+  DELETE_URL_ERROR
 } from '../constants/actions'
-import { API_V1_ENDPOINT, URL_LIST, FILTERED_URL_LIST } from '../constants/endpoint'
+import {
+  API_V1_ENDPOINT,
+  URL_LIST,
+  FILTERED_URL_LIST
+} from '../constants/endpoint'
 import { PER_PAGE } from '../constants/common'
 
 import { objectToQuery } from '../lib/helpers'
@@ -23,17 +32,21 @@ export const startFetchLinks = (limit = PER_PAGE, skip = 0) => async (
   try {
     dispatch({ type: DASHBOARD_FETCH_START })
     const qp = objectToQuery({ limit, skip })
-    axios.defaults.headers.common['Authorization'] = Auth.getAuthenticationHeader()
-    const {data, status, statusText} = await axios.get(`${API_V1_ENDPOINT}${URL_LIST}${qp}`)
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = Auth.getAuthenticationHeader()
+    const { data, status, statusText } = await axios.get(
+      `${API_V1_ENDPOINT}${URL_LIST}${qp}`
+    )
 
     if (status !== 200) {
       dispatch(setGlobalToast(statusText))
-      return  dispatch(fetchError())
+      return dispatch(fetchError())
     }
 
     const _skip = skip === 0 ? 1 : skip
-    const hasMore = data.count > (limit * _skip)
-    dispatch(fetchSuccess({...data, hasMore}))
+    const hasMore = data.count > limit * _skip
+    dispatch(fetchSuccess({ ...data, hasMore }))
   } catch (e) {
     return window.location.assign('/500')
   }
@@ -48,11 +61,16 @@ export const fetchError = () => ({
   type: DASHBOARD_FETCH_ERROR
 })
 
-export const startSubmitLink = url => async dispatch => {
+export const startSubmitLink = (url) => async (dispatch) => {
   try {
     dispatch({ type: SUBMIT_LINK_START })
-    axios.defaults.headers.common['Authorization'] = Auth.getAuthenticationHeader()
-    const {data, status, statusText} = await axios.post(`${API_V1_ENDPOINT}${URL_LIST}`, { url })
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = Auth.getAuthenticationHeader()
+    const { data, status, statusText } = await axios.post(
+      `${API_V1_ENDPOINT}${URL_LIST}`,
+      { url }
+    )
 
     if (status !== 201) {
       dispatch(setGlobalToast(statusText))
@@ -70,7 +88,7 @@ export const startSubmitLink = url => async dispatch => {
   }
 }
 
-export const submitLinkSuccess = data => ({
+export const submitLinkSuccess = (data) => ({
   type: SUBMIT_LINK_SUCCESS,
   data
 })
@@ -79,15 +97,19 @@ export const submitLinkError = () => ({
   type: SUBMIT_LINK_ERROR
 })
 
-export const startFilter = (key, value) => async dispatch => {
+export const startFilter = (key, value) => async (dispatch) => {
   try {
     dispatch({ type: FILTER_START })
-    axios.defaults.headers.common['Authorization'] = Auth.getAuthenticationHeader()
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = Auth.getAuthenticationHeader()
     const qp = objectToQuery({ key, value })
 
-    const { data } = await axios.get(`${API_V1_ENDPOINT}${FILTERED_URL_LIST}${qp}`,)
+    const { data } = await axios.get(
+      `${API_V1_ENDPOINT}${FILTERED_URL_LIST}${qp}`
+    )
 
-    dispatch(startFilterSuccess({ ...data, hasMore: false}))
+    dispatch(startFilterSuccess({ ...data, hasMore: false }))
   } catch (e) {
     if (e.response.status === 400) {
       dispatch(setGlobalToast(e.response.data.message))
@@ -98,16 +120,44 @@ export const startFilter = (key, value) => async dispatch => {
   }
 }
 
-export const startFilterSuccess = data => ({
+export const startFilterSuccess = (data) => ({
   type: FILTER_SUCCESS,
   data
 })
 
 export const startFilterError = () => ({
-  type: FILTER_ERROR,
+  type: FILTER_ERROR
 })
 
-export const setGlobalToast = data => ({
+export const startDelete = (externalId) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_URL_START })
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = Auth.getAuthenticationHeader()
+
+    await axios.delete(`${API_V1_ENDPOINT}${URL_LIST}`)
+    dispatch(deleteSuccess())
+  } catch (e) {
+    if (e.response.status === 400) {
+      dispatch(setGlobalToast(e.response.data.message))
+      return dispatch(deleteError())
+    } else {
+      window.location.assign('/500')
+    }
+  }
+}
+
+export const deleteSuccess = (data) => ({
+  type: DELETE_URL_SUCCESS,
+  data
+})
+
+export const deleteError = () => ({
+  type: DELETE_URL_ERROR
+})
+
+export const setGlobalToast = (data) => ({
   type: GLOBAL_SET_TOAST,
   data
 })
@@ -115,4 +165,3 @@ export const setGlobalToast = data => ({
 export const unsetGlobalToast = () => ({
   type: GLOBAL_UNSET_TOAST
 })
-

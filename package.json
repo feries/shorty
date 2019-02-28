@@ -17,5 +17,8 @@
     "test:fe": "yarn --cwd client test",
     "dev": "yarn run dev:server | yarn run dev:frontend",
     "test": "yarn run test:be && yarn run test:fe"
+  },
+  "devDependencies": {
+    "prettier": "^1.16.4"
   }
 }

@@ -5,7 +5,7 @@ import { debounce } from '../lib/helpers'
 import { isEmail } from '../lib/validators'
 
 class LoginBox extends Component {
-  state = { isSubmitDisabled: true, username: 'claudio.quaglia@feries.it', password: 'prova' }
+  state = { isSubmitDisabled: true, username: '', password: '' }
 
   static propTypes = {
     className: PropTypes.string,

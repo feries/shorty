@@ -1,17 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+
+import { startDelete } from '../actions/dashboard'
 
 const withConfirm = (ComposedComponent) => {
   class modalWithConfirm extends Component {
     render() {
-      const {
-        open,
-        value,
-        dismissible,
-        onClose,
-        onConfirm,
-        onDismiss
-      } = this.props
+      const { open, value, dismissible, onClose, onConfirm } = this.props
       return (
         <ComposedComponent
           open={open}
@@ -19,8 +15,8 @@ const withConfirm = (ComposedComponent) => {
           onClose={onClose}
         >
           {value}
-          <div className="modal--confirm modal--confirm-wrapepr">
-            <button onClick={onDismiss} className="dismiss">
+          <div className="modal--confirm modal--confirm-wrapper">
+            <button onClick={onClose} className="dismiss">
               Dismiss
             </button>
             <button onClick={onConfirm} className="confirm">
@@ -32,7 +28,14 @@ const withConfirm = (ComposedComponent) => {
     }
   }
 
-  return modalWithConfirm
+  const mapDispatchToProps = (dispatch) => ({
+    onConfirm: (externalId) => dispatch(startDelete(externalId))
+  })
+
+  return connect(
+    null,
+    mapDispatchToProps
+  )(modalWithConfirm)
 }
 
 withConfirm.propTypes = {

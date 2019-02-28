@@ -15,25 +15,35 @@ const ModalWithQr = withQr(Modal)
 const ModalWithConfirm = withConfirm(Modal)
 
 class Dashboard extends Component {
-  state = { qrCodeModal: false, qrCodeValue: '', confirmModal: false, confirmValue: '' }
+  state = {
+    qrCodeModal: false,
+    qrCodeValue: '',
+    confirmModal: false,
+    confirmValue: ''
+  }
 
   handleButtonClick = (what, value) => {
-    if (what === QR_CODE)
-      this.handleQrCode(true, value)
-    else if (what === TRASH)
-      this.confirmDelete()
+    if (what === QR_CODE) this.handleQrCode(true, value)
+    else if (what === TRASH) this.confirmDelete(true, value)
   }
 
   handleQrCode = (isOpenAction = true, value = '') => {
-    const newState =  {
-      qrCodeModal: isOpenAction ,
+    const newState = {
+      qrCodeModal: isOpenAction,
       qrCodeValue: isOpenAction ? value : ''
     }
 
     this.setState(newState)
   }
 
-  confirmDelete = () => {}
+  confirmDelete = (isOpenAction = true, externalId = '') => {
+    const newState = {
+      confirmModal: isOpenAction,
+      confirmValue: isOpenAction ? externalId : ''
+    }
+
+    this.setState(newState)
+  }
 
   render() {
     const { qrCodeModal, qrCodeValue, confirmModal, confirmValue } = this.state
@@ -43,10 +53,21 @@ class Dashboard extends Component {
         <Logo />
         <div id="content" className="content m-top-x4">
           <Toast />
-          <ModalWithQr value={qrCodeValue} open={qrCodeModal} onClose={() => this.handleQrCode(false)}/>
-          <ModalWithConfirm value={confirmValue} open={confirmModal} onClose={() => this.confirmDelete() }/>
+          <ModalWithQr
+            value={qrCodeValue}
+            open={qrCodeModal}
+            onClose={() => this.handleQrCode(false)}
+          />
+          <ModalWithConfirm
+            value={confirmValue}
+            open={confirmModal}
+            onClose={() => this.confirmDelete(false)}
+          />
           <ShortyBar className="t-center m-bottom-x10" />
-          <ShortyList className="m-top-x4" handleButtonClick={this.handleButtonClick}/>
+          <ShortyList
+            className="m-top-x4"
+            handleButtonClick={this.handleButtonClick}
+          />
         </div>
       </div>
     )

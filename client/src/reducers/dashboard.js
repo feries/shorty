@@ -31,7 +31,7 @@ export default (state = initialState, action) => {
       return {
         loading: false,
         results: action.data.urls,
-        hasMore: action.data.hasMore,
+        hasMore: action.data.hasMore
       }
 
     case DASHBOARD_FETCH_ERROR:
@@ -51,10 +51,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        results: [
-          action.data,
-          ...state.results
-        ]
+        results: [action.data, ...state.results]
       }
 
     case SUBMIT_LINK_ERROR:
