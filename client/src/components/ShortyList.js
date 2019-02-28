@@ -44,8 +44,14 @@ class ShortyList extends Component {
     this.props.startFetch()
   }
 
+  restoreFirstPage = debounce(() => {
+    this.props.startFetch()
+  }, 800)
+
 
   handleFilter = debounce((queryParam, queryValue) => {
+    if (queryValue.length === 0) return this.restoreFirstPage()
+
     if (!queryParam || !queryValue || queryValue.length < 3) return
 
     this.props.startFilter(queryParam, queryValue)

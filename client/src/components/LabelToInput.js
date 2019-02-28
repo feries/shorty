@@ -2,6 +2,7 @@ import React, { Fragment, Component } from 'react'
 import PropType from 'prop-types'
 import classnames from 'classnames'
 
+import { debounce } from '../lib/helpers'
 import { mobileBreakPoint } from '../constants/common'
 
 class LabelToInput extends Component {
@@ -24,17 +25,31 @@ class LabelToInput extends Component {
     inputClasses: ''
   }
 
+  constructor(props){
+    super(props)
+    this.input = React.createRef();
+  }
+
   componentDidMount() {
     this.viewportHandler()
-    //window.onresize(this.viewportHandler)
+    window.addEventListener('resize', this.viewportHandler, false)
   }
 
-  viewportHandler() {
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.viewportHandler)
+  }
+
+  viewportHandler = debounce(() => {
     const _winW = window.innerWidth
     this.setState({ isMobile: _winW <= mobileBreakPoint })
-  }
+  }, 150)
 
-  toggleState = () => this.setState({ isInput: !this.state.isInput })
+  toggleState = () => {
+    const newState = !this.state.isInput
+    this.setState({ isInput: newState }, () => {
+      if (newState) this.input.current.focus();
+    })
+  }
 
   handleInputChange = (e) => {
     const { type, onFilter, queryParam } = this.props
@@ -62,6 +77,7 @@ class LabelToInput extends Component {
         {isInput || isMobile ? (
           <Fragment>
             <input
+              ref={this.input}
               className={inputClasses}
               onChange={this.handleInputChange}
               placeholder={placeholder}
