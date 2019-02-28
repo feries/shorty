@@ -64,7 +64,7 @@ class ShortyList extends Component {
                 placeholder="search for original URL"
                 queryParam="targetUrl"
                 onFilter={this.handleFilter}
-                inputIcon={<i class="fas fa-search" />}
+                inputIcon={<i className="fas fa-search" />}
               />
             </li>
             <li className="created">Created</li>
@@ -74,7 +74,7 @@ class ShortyList extends Component {
                 placeholder="search for short URL"
                 queryParam="sourceUrl"
                 onFilter={this.handleFilter}
-                inputIcon={<i class="fas fa-search" />}
+                inputIcon={<i className="fas fa-search" />}
               />
             </li>
             <li className="clicks">N° Click</li>
