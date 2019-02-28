@@ -20,12 +20,11 @@ class Modal extends Component {
   }
 
   toggleScrollLock = () => {
-    document.querySelector('html').classList.toggle('scroll-lock');
-  };
+    document.querySelector('html').classList.toggle('scroll-lock')
+  }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.open !== this.props.open)
-      this.toggleModal(this.props.open)
+    if (prevProps.open !== this.props.open) this.toggleModal(this.props.open)
   }
 
   toggleModal = (newState) => {
@@ -33,8 +32,7 @@ class Modal extends Component {
     const _state = newState !== undefined ? newState : !this.state.isOpen
     this.setState({ isOpen: _state })
 
-    if (!_state)
-      this.props.onClose()
+    if (!_state) this.props.onClose()
   }
 
   handleDismiss = () => {
@@ -48,20 +46,22 @@ class Modal extends Component {
     const { children } = this.props
 
     const classes = classnames('modal modal-backdrop', {
-      'hidden': !isOpen
+      hidden: !isOpen
     })
-
 
     return (
       <div className={classes} onClick={this.handleDismiss}>
-        <div className="modal modal-panel">
-          {children}
+        <div className="modalCenter">
+          <div className="modal modal-panel">
+            <div className="closeButton">
+              <i className="fas fa-times" />
+            </div>
+            {children}
+          </div>
         </div>
       </div>
     )
   }
-
-
 }
 
 export default Modal

@@ -1,19 +1,77 @@
 .modal {
   &.modal-backdrop {
-    display: block;
     position: fixed;
     left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.3);
+    z-index: 10;
     &.hidden {
       display: none;
     }
-    > .modal-panel {
-      position: absolute;
-      display: block;
+    .modalCenter {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+    .modal-panel {
+      width: 20vw;
+      height: 20vh;
       background: $white;
+      position: relative;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center;
+      justify-content: center;
+      .closeButton {
+        cursor: pointer;
+        font-size: $normal;
+        position: absolute;
+        right: $doubleSpace;
+        top: $doubleSpace;
+        color: $dark;
+        &:hover {
+          color: $lightDark;
+        }
+      }
+      .modal--confirm {
+        position: absolute;
+        bottom: 0;
+        padding: $doubleSpace;
+        button {
+          border-radius: $radiusSmall;
+          margin-left: $space;
+          margin-right: $space;
+          font-size: $normal;
+          font-weight: $bold;
+          border: none;
+          padding: $space;
+          padding-left: $doubleSpace;
+          padding-right: $doubleSpace;
+          text-transform: uppercase;
+          cursor: pointer;
+          &.confirm {
+            background-color: $primary;
+            color: $white;
+            &:hover {
+              background-color: $hoverPrimary;
+            }
+          }
+          &.dismiss {
+            border: 1px solid $red;
+            background-color: $white;
+            color: $red;
+            &:hover {
+              color: $hoverRed;
+              border: 1px solid $hoverRed;
+            }
+          }
+        }
+      }
     }
   }
 }

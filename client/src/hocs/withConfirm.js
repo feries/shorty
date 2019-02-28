@@ -1,19 +1,29 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 const withConfirm = (ComposedComponent) => {
   class modalWithConfirm extends Component {
-
     render() {
-      const { open, value, dismissible, onClose, onConfirm, onDismiss } = this.props
-      return(
-        <ComposedComponent open={open} dismissible={dismissible} onClose={onClose}>
+      const {
+        open,
+        value,
+        dismissible,
+        onClose,
+        onConfirm,
+        onDismiss
+      } = this.props
+      return (
+        <ComposedComponent
+          open={open}
+          dismissible={dismissible}
+          onClose={onClose}
+        >
           {value}
           <div className="modal--confirm modal--confirm-wrapepr">
-            <button onClick={onDismiss}>
+            <button onClick={onDismiss} className="dismiss">
               Dismiss
             </button>
-            <button onClick={onConfirm}>
+            <button onClick={onConfirm} className="confirm">
               Confirm
             </button>
           </div>
@@ -31,7 +41,7 @@ withConfirm.propTypes = {
   dismissible: PropTypes.bool,
   onClose: PropTypes.func,
   onConfirm: PropTypes.func.isRequired,
-  onDismiss: PropTypes.func.isRequired,
+  onDismiss: PropTypes.func.isRequired
 }
 
 export default withConfirm
