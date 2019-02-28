@@ -2,8 +2,10 @@ import React, { Fragment, Component } from 'react'
 import PropType from 'prop-types'
 import classnames from 'classnames'
 
+import { mobileBreakPoint } from '../constants/common'
+
 class LabelToInput extends Component {
-  state = { isInput: false }
+  state = { isInput: false, isMobile: false }
 
   static propTypes = {
     type: PropType.oneOf(['text', 'number']),
@@ -11,13 +13,25 @@ class LabelToInput extends Component {
     labelClasses: PropType.string,
     inputClasses: PropType.string,
     onFilter: PropType.func,
-    queryParam: PropType.string
+    queryParam: PropType.string,
+    inputIcon: PropType.node,
+    placeholder: PropType.string
   }
 
   static defaultProps = {
     type: 'text',
     labelClasses: '',
-    inputClasses: '',
+    inputClasses: ''
+  }
+
+  componentDidMount() {
+    this.viewportHandler()
+    //window.onresize(this.viewportHandler)
+  }
+
+  viewportHandler() {
+    const _winW = window.innerWidth
+    this.setState({ isMobile: _winW <= mobileBreakPoint })
   }
 
   toggleState = () => this.setState({ isInput: !this.state.isInput })
@@ -30,24 +44,39 @@ class LabelToInput extends Component {
   }
 
   render() {
-    const { isInput } = this.state
-    const { label, labelClasses, inputClasses } = this.props
+    const { isInput, isMobile } = this.state
+    const {
+      label,
+      labelClasses,
+      inputClasses,
+      inputIcon,
+      placeholder
+    } = this.props
 
     const wrapperClasses = classnames('magicInput-wrapper', {
-      labelClasses: !isInput && labelClasses.length > 0,
+      labelClasses: !isInput && labelClasses.length > 0
     })
 
     return (
       <span className={wrapperClasses}>
-        {isInput ? (
+        {isInput || isMobile ? (
           <Fragment>
-            <input className={inputClasses} onChange={this.handleInputChange}/>
-            <button onClick={this.toggleState} >
-              <i className="fas fa-times" />
-            </button>
+            <input
+              className={inputClasses}
+              onChange={this.handleInputChange}
+              placeholder={placeholder}
+            />
+            {!isMobile && (
+              <button onClick={this.toggleState}>
+                <i className="fas fa-times" />
+              </button>
+            )}
           </Fragment>
         ) : (
-          <span onClick={this.toggleState}>{label}</span>
+          <span onClick={this.toggleState}>
+            {label}
+            {inputIcon && <span>&nbsp; {inputIcon}</span>}
+          </span>
         )}
       </span>
     )
