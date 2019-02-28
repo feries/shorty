@@ -85,7 +85,7 @@ export const startFilter = (key, value) => async dispatch => {
 
     const { data } = await axios.get(`${API_V1_ENDPOINT}${FILTERED_URL_LIST}${qp}`,)
 
-    dispatch(startFilterSuccess(data))
+    dispatch(startFilterSuccess({ ...data, hasMore: false}))
   } catch (e) {
     if (e.response.status === 400) {
       return dispatch(startFilterError(e.response.data.message))

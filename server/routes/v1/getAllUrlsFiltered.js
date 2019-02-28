@@ -20,8 +20,7 @@ module.exports = async (req, res) => {
     const escaped = formatted.replace(`'${where}'`, where)
     const filtered = await db.query(escaped)
 
-
-    res.send(filtered)
+    res.send({urls: filtered})
   } catch (e) {
     res
       .status(500)
