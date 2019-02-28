@@ -166,4 +166,20 @@
   &-space {
     justify-content: space-between;
   }
+  &-stretch {
+    align-items: stretch;
+  }
+  &-grow {
+    flex-grow: 1;
+  }
+}
+
+/* BOX */
+.box {
+  box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
+  border: 1px solid $lightGrey;
+  border-radius: $radius;
+  background: $white;
+  padding: $tripleSpace;
+  margin-top: $tripleSpace;
 }
