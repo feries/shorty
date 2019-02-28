@@ -9,5 +9,6 @@ SELECT
 FROM urls
 	LEFT JOIN users ON users.id = urls.author_id
 	LEFT JOIN stats ON stats.url_id = urls.id
+WHERE active = 1
 ORDER BY urls.created_at DESC
 LIMIT ? OFFSET ?;

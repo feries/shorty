@@ -3,6 +3,9 @@
 @import 'base/vars';
 @import 'base/reset';
 @import 'base/utility';
+
+@import "components/modal";
+
 @import 'pages/dashboard';
 @import 'pages/login';
 @import 'pages/detail';

@@ -1,19 +1,19 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import Qrcode from 'qrcode.react'
 import { Link } from 'react-router-dom'
 
 import LabelToInput from './LabelToInput'
 
-import { GO_TO, QR_CODE, TRASH, COPY, nope } from '../constants/common'
+import { QR_CODE, TRASH, COPY, nope } from '../constants/common'
 import { debounce } from '../lib/helpers'
 
 dayjs.extend(relativeTime)
 
 class ShortyList extends Component {
+
   static propTypes = {
     className: PropTypes.string,
     items: PropTypes.arrayOf(
@@ -29,7 +29,8 @@ class ShortyList extends Component {
     loading: PropTypes.bool.isRequired,
     error: PropTypes.string,
     startFetch: PropTypes.func.isRequired,
-    startFilter: PropTypes.func
+    startFilter: PropTypes.func,
+    handleButtonClick: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -43,9 +44,6 @@ class ShortyList extends Component {
     this.props.startFetch()
   }
 
-  handleButtonClick = (props) => {
-    console.log(props)
-  }
 
   handleFilter = debounce((queryParam, queryValue) => {
     if (!queryParam || !queryValue || queryValue.length < 3) return
@@ -57,84 +55,86 @@ class ShortyList extends Component {
     const { className, items, hasMore } = this.props
 
     return (
-      <div id="shortyList" className={className}>
-        <ul className="head">
-          <li className="originalUrl">
-            <LabelToInput
-              label="Original URL"
-              placeholder="search for original URL"
-              queryParam="targetUrl"
-              onFilter={this.handleFilter}
-              inputIcon={<i class="fas fa-search" />}
-            />
-          </li>
-          <li className="created">Created</li>
-          <li className="shortUrl">
-            <LabelToInput
-              label="Short URL"
-              placeholder="search for short URL"
-              queryParam="sourceUrl"
-              onFilter={this.handleFilter}
-              inputIcon={<i class="fas fa-search" />}
-            />
-          </li>
-          <li className="clicks">N° Click</li>
-          <li className="actions" />
-        </ul>
-        {items.map((item, index) => (
-          <ul className="itemList" key={index}>
+      <Fragment>
+        <div id="shortyList" className={className}>
+          <ul className="head">
             <li className="originalUrl">
-              <span className="label">Original URL:&nbsp;</span>
-              <a
-                href={item.targetUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {item.targetUrl}
-              </a>
+              <LabelToInput
+                label="Original URL"
+                placeholder="search for original URL"
+                queryParam="targetUrl"
+                onFilter={this.handleFilter}
+                inputIcon={<i class="fas fa-search" />}
+              />
             </li>
-            <li className="created">
-              <span className="label">Created:&nbsp;</span>
-              {dayjs(item.createdAt).fromNow()}
-            </li>
+            <li className="created">Created</li>
             <li className="shortUrl">
-              <span className="label">Short URL:&nbsp;</span>
-              <button name={COPY}>
-                <i className="far fa-copy" />
-              </button>
-              &nbsp;
-              <a
-                href={`https://feri.es/${item.shortedUrl}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {`feri.es/${item.shortedUrl}`}
-              </a>
+              <LabelToInput
+                label="Short URL"
+                placeholder="search for short URL"
+                queryParam="sourceUrl"
+                onFilter={this.handleFilter}
+                inputIcon={<i class="fas fa-search" />}
+              />
             </li>
-            <li className="clicks">
-              <span className="label">Clicks:&nbsp;</span>
-              {item.urlClick}
-            </li>
-            <li className="actions">
-              <Link to={`/detail/${item.externalId}`} className="stats">
-                <i className="fas fa-chart-bar" />
-                <span>stats</span>
-              </Link>
-              <button name={QR_CODE} className="qr">
-                <i className="fas fa-qrcode" />
-              </button>
-              <button name={TRASH} className="delete">
-                <i className="far fa-trash-alt" />
-              </button>
-            </li>
+            <li className="clicks">N° Click</li>
+            <li className="actions" />
           </ul>
-        ))}
-        {hasMore && (
-          <div className="footer">
-            <button>Load more</button>
-          </div>
-        )}
-      </div>
+          {items.map((item, index) => (
+            <ul className="itemList" key={index}>
+              <li className="originalUrl">
+                <span className="label">Original URL:&nbsp;</span>
+                <a
+                  href={item.targetUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {item.targetUrl}
+                </a>
+              </li>
+              <li className="created">
+                <span className="label">Created:&nbsp;</span>
+                {dayjs(item.createdAt).fromNow()}
+              </li>
+              <li className="shortUrl">
+                <span className="label">Short URL:&nbsp;</span>
+                <button name={COPY}>
+                  <i className="far fa-copy" />
+                </button>
+                &nbsp;
+                <a
+                  href={`https://feri.es/${item.shortedUrl}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {`feri.es/${item.shortedUrl}`}
+                </a>
+              </li>
+              <li className="clicks">
+                <span className="label">Clicks:&nbsp;</span>
+                {item.urlClick}
+              </li>
+              <li className="actions">
+                <Link to={`/detail/${item.externalId}`} className="stats">
+                  <i className="fas fa-chart-bar" />
+                  <span>stats</span>
+                </Link>
+                <button onClick={() => this.props.handleButtonClick(QR_CODE, `https://feri.es/${item.shortedUrl}`)}>
+                  <i className="fas fa-qrcode" />
+                </button>
+                <button onClick={() => this.props.handleButtonClick(TRASH)}>
+                  <i className="far fa-trash-alt" />
+                </button>
+              </li>
+            </ul>
+          ))}
+          {hasMore && (
+            <div className="footer">
+              <button>Load more</button>
+            </div>
+          )}
+        </div>
+      </Fragment>
     )
   }
 }

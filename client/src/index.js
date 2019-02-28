@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { Provider } from 'react-redux'
 
 import * as serviceWorker from './serviceWorker'
@@ -22,7 +22,10 @@ const wrapRoute = (props, key) => {
 const App = () => (
   <BrowserRouter>
     <Suspense fallback={<Loader />}>
-      <Switch>{routes.map((route, index) => wrapRoute(route, index))}</Switch>
+      <Switch>
+        {routes.map((route, index) => wrapRoute(route, index))}
+        <Redirect to="/404" />
+      </Switch>
     </Suspense>
   </BrowserRouter>
 )

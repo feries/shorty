@@ -10,4 +10,5 @@ FROM urls
 	LEFT JOIN users ON users.id = urls.author_id
 	LEFT JOIN stats ON stats.url_id = urls.id
 WHERE ? LIKE CONCAT('%', ?, '%')
+  AND active = 1
 ORDER BY urls.created_at DESC;
