@@ -13,7 +13,6 @@ import { debounce } from '../lib/helpers'
 dayjs.extend(relativeTime)
 
 class ShortyList extends Component {
-
   static propTypes = {
     className: PropTypes.string,
     items: PropTypes.arrayOf(
@@ -43,7 +42,6 @@ class ShortyList extends Component {
   componentDidMount() {
     this.props.startFetch()
   }
-
 
   handleFilter = debounce((queryParam, queryValue) => {
     if (!queryParam || !queryValue || queryValue.length < 3) return
@@ -119,7 +117,14 @@ class ShortyList extends Component {
                   <i className="fas fa-chart-bar" />
                   <span>stats</span>
                 </Link>
-                <button onClick={() => this.props.handleButtonClick(QR_CODE, `https://feri.es/${item.shortedUrl}`)}>
+                <button
+                  onClick={() =>
+                    this.props.handleButtonClick(
+                      QR_CODE,
+                      `https://feri.es/${item.shortedUrl}`
+                    )
+                  }
+                >
                   <i className="fas fa-qrcode" />
                 </button>
                 <button onClick={() => this.props.handleButtonClick(TRASH)}>
@@ -129,8 +134,11 @@ class ShortyList extends Component {
             </ul>
           ))}
           {hasMore && (
-            <div className="footer">
-              <button>Load more</button>
+            <div className="loadMore">
+              <button>
+                <i className="fas fa-angle-down" /> &nbsp;Load more&nbsp;
+                <i className="fas fa-angle-down" />
+              </button>
             </div>
           )}
         </div>
