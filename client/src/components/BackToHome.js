@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 const BackToHome = ({ className }) => (
   <div id="backToHome" className={className}>
-    <button>
+    <Link to="/">
       <i className="fas fa-angle-left" />
       Back to home
-    </button>
+    </Link>
   </div>
 )
 
