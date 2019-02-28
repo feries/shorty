@@ -69,6 +69,7 @@ class ShortyList extends Component {
                 queryParam="targetUrl"
                 onFilter={this.handleFilter}
                 inputIcon={<i className="fas fa-search" />}
+                onClose={this.restoreFirstPage}
               />
             </li>
             <li className="created">Created</li>
@@ -79,6 +80,7 @@ class ShortyList extends Component {
                 queryParam="sourceUrl"
                 onFilter={this.handleFilter}
                 inputIcon={<i className="fas fa-search" />}
+                onClose={this.restoreFirstPage}
               />
             </li>
             <li className="clicks">N° Click</li>

@@ -3,10 +3,10 @@ import PropType from 'prop-types'
 import classnames from 'classnames'
 
 import { debounce } from '../lib/helpers'
-import { mobileBreakPoint } from '../constants/common'
+import { mobileBreakPoint, nope } from '../constants/common'
 
 class LabelToInput extends Component {
-  state = { isInput: false, isMobile: false }
+  state = { isInput: false, isMobile: false, value: '' }
 
   static propTypes = {
     type: PropType.oneOf(['text', 'number']),
@@ -16,13 +16,15 @@ class LabelToInput extends Component {
     onFilter: PropType.func,
     queryParam: PropType.string,
     inputIcon: PropType.node,
-    placeholder: PropType.string
+    placeholder: PropType.string,
+    onClose: PropType.func
   }
 
   static defaultProps = {
     type: 'text',
     labelClasses: '',
-    inputClasses: ''
+    inputClasses: '',
+    onClose: nope
   }
 
   constructor(props){
@@ -47,19 +49,26 @@ class LabelToInput extends Component {
   toggleState = () => {
     const newState = !this.state.isInput
     this.setState({ isInput: newState }, () => {
-      if (newState) this.input.current.focus();
+      if (newState) {
+        this.setState({ value: '' })
+        this.input.current.focus();
+      }
+      if (!newState && (this.state.value !== '' && this.state.value.length >= 3))
+        this.props.onClose()
     })
   }
 
   handleInputChange = (e) => {
     const { type, onFilter, queryParam } = this.props
-    const value = e.target.value
+    const { value } = e.target
+
+    this.setState({ value })
 
     if (type === 'text' && onFilter) return onFilter(queryParam, value)
   }
 
   render() {
-    const { isInput, isMobile } = this.state
+    const { isInput, isMobile, value } = this.state
     const {
       label,
       labelClasses,
@@ -81,6 +90,7 @@ class LabelToInput extends Component {
               className={inputClasses}
               onChange={this.handleInputChange}
               placeholder={placeholder}
+              value={value}
             />
             {!isMobile && (
               <button onClick={this.toggleState}>
