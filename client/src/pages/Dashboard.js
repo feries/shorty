@@ -14,13 +14,13 @@ const ModalWithQr = withQr(Modal)
 const ModalWithConfirm = withConfirm(Modal)
 
 class Dashboard extends Component {
-  state = { qrCodeModal: false, qrCodeValue: '' }
+  state = { qrCodeModal: false, qrCodeValue: '', confirmModal: false, confirmValue: '' }
 
   handleButtonClick = (what, value) => {
     if (what === QR_CODE)
       this.handleQrCode(true, value)
     else if (what === TRASH)
-      this.confirmDisable()
+      this.confirmDelete()
   }
 
   handleQrCode = (isOpenAction = true, value = '') => {
@@ -32,16 +32,17 @@ class Dashboard extends Component {
     this.setState(newState)
   }
 
-  confirmDisable = () => {}
+  confirmDelete = () => {}
 
   render() {
-    const { qrCodeModal, qrCodeValue } = this.state
+    const { qrCodeModal, qrCodeValue, confirmModal, confirmValue } = this.state
 
     return (
       <div className="container">
         <Logo />
         <div id="content" className="content m-top-x4">
           <ModalWithQr value={qrCodeValue} open={qrCodeModal} onClose={() => this.handleQrCode(false)}/>
+          <ModalWithConfirm value={confirmValue} open={confirmModal} onClose={() => this.confirmDelete() }/>
           <ShortyBar className="t-center m-bottom-x10" />
           <ShortyList className="m-top-x4" handleButtonClick={this.handleButtonClick}/>
         </div>
