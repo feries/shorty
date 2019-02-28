@@ -46,7 +46,7 @@ class ShortyList extends Component {
 
 
   handleFilter = debounce((queryParam, queryValue) => {
-    if ((!queryParam || !queryValue) || queryValue.length < 3) return
+    if (!queryParam || !queryValue || queryValue.length < 3) return
 
     this.props.startFilter(queryParam, queryValue)
   }, 250)
@@ -59,11 +59,23 @@ class ShortyList extends Component {
         <div id="shortyList" className={className}>
           <ul className="head">
             <li className="originalUrl">
-              <LabelToInput label='Original URL' queryParam="targetUrl" onFilter={this.handleFilter}/>
+              <LabelToInput
+                label="Original URL"
+                placeholder="search for original URL"
+                queryParam="targetUrl"
+                onFilter={this.handleFilter}
+                inputIcon={<i class="fas fa-search" />}
+              />
             </li>
             <li className="created">Created</li>
             <li className="shortUrl">
-              <LabelToInput label='Short URL' queryParam="sourceUrl" onFilter={this.handleFilter}/>
+              <LabelToInput
+                label="Short URL"
+                placeholder="search for short URL"
+                queryParam="sourceUrl"
+                onFilter={this.handleFilter}
+                inputIcon={<i class="fas fa-search" />}
+              />
             </li>
             <li className="clicks">N° Click</li>
             <li className="actions" />

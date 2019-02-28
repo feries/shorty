@@ -13,3 +13,6 @@ export const COPY = 'COPY'
 
 // Utils
 export const nope = () => {}
+
+// Responsive
+export const mobileBreakPoint = 768

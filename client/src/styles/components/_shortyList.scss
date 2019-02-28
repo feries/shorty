@@ -15,7 +15,7 @@
       height: 40px;
       border: none;
       background-color: $grey;
-      opacity: .3;
+      opacity: 0.3;
       text-transform: uppercase;
     }
   }
@@ -31,7 +31,9 @@
     &.head {
       font-weight: $bold;
       font-size: $normal;
-      padding: $tripleSpace;
+      padding-left: $tripleSpace;
+      padding-right: $tripleSpace;
+      height: 66px;
     }
     &.itemList {
       .label {
@@ -45,8 +47,11 @@
         text-align: right;
         a {
           &.stats {
+            border-radius: $radiusSmall;
             background: $primary !important;
             color: $white !important;
+            padding: $space $doubleSpace $space $doubleSpace;
+            margin-right: $doubleSpace;
             span {
               margin-left: $space;
             }
@@ -64,9 +69,15 @@
         font-size: $tiny;
         border-radius: $radiusSmall;
         font-weight: $bold;
-        &:hover {
-          background: $primary;
-          color: $white;
+        &.qr {
+          &:hover {
+            color: $primary;
+          }
+        }
+        &.delete {
+          &:hover {
+            color: $red;
+          }
         }
       }
       .originalUrl {
@@ -93,19 +104,19 @@
       margin-right: 1%;
     }
     .created {
-      width: 14%;
+      width: 12%;
       margin-right: 1%;
     }
     .shortUrl {
-      width: 14%;
+      width: 20%;
       margin-right: 1%;
     }
     .clicks {
-      width: 9%;
+      width: 7%;
       margin-right: 1%;
     }
     .actions {
-      width: 15%;
+      width: 13%;
     }
   }
 }
@@ -164,7 +175,24 @@
       margin-bottom: $tripleSpace;
       display: block !important;
       &.head {
-        display: none !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch;
+        justify-content: space-between;
+        padding: 0;
+        .created,
+        .clicks,
+        .actions {
+          display: none !important;
+        }
+        .originalUrl,
+        .shortUrl {
+          width: 100%;
+          input {
+            width: 100%;
+            box-sizing: border-box;
+          }
+        }
       }
       &.itemList {
         padding: $tripleSpace;
