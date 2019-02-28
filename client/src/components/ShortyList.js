@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import Qrcode from 'qrcode.react'
 
 import LabelToInput from './LabelToInput'
 
@@ -102,7 +103,7 @@ class ShortyList extends Component {
               {item.urlClick}
             </li>
             <li className="actions">
-              <button name={GO_TO} className="stats" target={item.externalId}>
+              <button name={GO_TO} className="stats" data-target={item.externalId}>
                 <i className="fas fa-chart-bar" />
                 <span>stats</span>
               </button>
