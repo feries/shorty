@@ -1,0 +1,27 @@
+.toast {
+  &.toast-wrapper {
+    display: block;
+    position: absolute;
+    right: 10px;
+    bottom: 2px;
+    width: 250px;
+    height: 125px;
+    color: black;
+    z-index: 1000;
+    &.hidden {
+      display: none;
+    }
+    &.toast--info {
+      background-color: #38b1c4;
+    }
+    &.toast--success {
+      background-color: greenyellow;
+    }
+    &.toast--warning {
+      background-color: yellow;
+    }
+    &.toast--error {
+      background-color: red;
+    }
+  }
+}

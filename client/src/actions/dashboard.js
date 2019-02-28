@@ -9,7 +9,7 @@ import {
   SUBMIT_LINK_ERROR,
   FILTER_START,
   FILTER_SUCCESS,
-  FILTER_ERROR
+  FILTER_ERROR, GLOBAL_SET_TOAST, GLOBAL_UNSET_TOAST
 } from '../constants/actions'
 import { API_V1_ENDPOINT, URL_LIST, FILTERED_URL_LIST } from '../constants/endpoint'
 import { PER_PAGE } from '../constants/common'
@@ -26,8 +26,10 @@ export const startFetchLinks = (limit = PER_PAGE, skip = 0) => async (
     axios.defaults.headers.common['Authorization'] = Auth.getAuthenticationHeader()
     const {data, status, statusText} = await axios.get(`${API_V1_ENDPOINT}${URL_LIST}${qp}`)
 
-    if (status !== 200)
-      return  dispatch(fetchError(statusText))
+    if (status !== 200) {
+      dispatch(setGlobalToast(statusText))
+      return  dispatch(fetchError())
+    }
 
     const _skip = skip === 0 ? 1 : skip
     const hasMore = data.count > (limit * _skip)
@@ -37,15 +39,13 @@ export const startFetchLinks = (limit = PER_PAGE, skip = 0) => async (
   }
 }
 
-
 export const fetchSuccess = (data) => ({
   type: DASHBOARD_FETCH_SUCCESS,
   data
 })
 
-export const fetchError = (error) => ({
-  type: DASHBOARD_FETCH_ERROR,
-  error
+export const fetchError = () => ({
+  type: DASHBOARD_FETCH_ERROR
 })
 
 export const startSubmitLink = url => async dispatch => {
@@ -54,13 +54,16 @@ export const startSubmitLink = url => async dispatch => {
     axios.defaults.headers.common['Authorization'] = Auth.getAuthenticationHeader()
     const {data, status, statusText} = await axios.post(`${API_V1_ENDPOINT}${URL_LIST}`, { url })
 
-    if (status !== 201)
-      return dispatch(submitLinkError(statusText))
+    if (status !== 201) {
+      dispatch(setGlobalToast(statusText))
+      return dispatch(submitLinkError())
+    }
 
     dispatch(submitLinkSuccess(data))
   } catch (e) {
     if (e.response.status === 400) {
-      return dispatch(submitLinkError(e.response.data.message))
+      dispatch(setGlobalToast(e.response.data.message))
+      return dispatch(submitLinkError())
     } else {
       window.location.assign('/500')
     }
@@ -72,9 +75,8 @@ export const submitLinkSuccess = data => ({
   data
 })
 
-export const submitLinkError = error => ({
-  type: SUBMIT_LINK_ERROR,
-  error
+export const submitLinkError = () => ({
+  type: SUBMIT_LINK_ERROR
 })
 
 export const startFilter = (key, value) => async dispatch => {
@@ -88,7 +90,8 @@ export const startFilter = (key, value) => async dispatch => {
     dispatch(startFilterSuccess({ ...data, hasMore: false}))
   } catch (e) {
     if (e.response.status === 400) {
-      return dispatch(startFilterError(e.response.data.message))
+      dispatch(setGlobalToast(e.response.data.message))
+      return dispatch(startFilterError())
     } else {
       window.location.assign('/500')
     }
@@ -100,8 +103,16 @@ export const startFilterSuccess = data => ({
   data
 })
 
-export const startFilterError = error => ({
+export const startFilterError = () => ({
   type: FILTER_ERROR,
-  error
+})
+
+export const setGlobalToast = data => ({
+  type: GLOBAL_SET_TOAST,
+  data
+})
+
+export const unsetGlobalToast = () => ({
+  type: GLOBAL_UNSET_TOAST
 })
 

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import Logo from '../components/Logo'
 import ShortyBar from '../containers/ShortyBar'
 import ShortyList from '../containers/ShortyList'
+import Toast from '../containers/Toast'
 
 import withQr from '../hocs/withQr'
 import withConfirm from '../hocs/withConfirm'
@@ -41,6 +42,7 @@ class Dashboard extends Component {
       <div className="container">
         <Logo />
         <div id="content" className="content m-top-x4">
+          <Toast />
           <ModalWithQr value={qrCodeValue} open={qrCodeModal} onClose={() => this.handleQrCode(false)}/>
           <ModalWithConfirm value={confirmValue} open={confirmModal} onClose={() => this.confirmDelete() }/>
           <ShortyBar className="t-center m-bottom-x10" />

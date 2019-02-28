@@ -1,10 +1,8 @@
-import {  } from 'react-router';
 import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR } from '../constants/actions'
 
 const initialState = {
   loading: false,
-  data: {},
-  error: null
+  data: {}
 }
 
 export default (state = initialState, action) => {
@@ -19,15 +17,13 @@ export default (state = initialState, action) => {
       window.location.assign('/')
       return {
         loading: false,
-        data: action.data,
-        error: null
+        data: action.data
       }
 
     case LOGIN_ERROR:
       return {
         loading: false,
-        data: {},
-        error: action.error
+        data: {}
       }
 
     default:

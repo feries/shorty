@@ -31,7 +31,6 @@ export default (state = initialState, action) => {
       return {
         loading: false,
         results: action.data.urls,
-        errorMessage: null,
         hasMore: action.data.hasMore,
       }
 
@@ -39,8 +38,7 @@ export default (state = initialState, action) => {
     case FILTER_ERROR:
       return {
         loading: false,
-        results: [],
-        errorMessage: action.error
+        results: []
       }
 
     case SUBMIT_LINK_START:
@@ -56,17 +54,14 @@ export default (state = initialState, action) => {
         results: [
           action.data,
           ...state.results
-        ],
-        errorMessage: null
+        ]
       }
 
     case SUBMIT_LINK_ERROR:
       return {
         ...state,
-        loading: false,
-        errorMessage: action.error
+        loading: false
       }
-
 
     default:
       return state

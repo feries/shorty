@@ -19,11 +19,19 @@ class ShortyBar extends  Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const { url } = this.state
+    if (!url) return
 
-    if ((!url || !isUrl(url)) && this.props.onError)
-      return this.props.onError()
+    if (!isUrl(url) && this.props.onError) {
+      const shape = {
+        type: 'error',
+        message:'Invalid Url, you must provide a valid url address, in format `http(s)://www.domain.com/path`'
+      }
+      return this.props.onError(shape)
+    }
 
-    this.props.onSubmit(url)
+    this.props.onSubmit(url).then(() => {
+      this.setState({ url: '' })
+    })
 
   }
 

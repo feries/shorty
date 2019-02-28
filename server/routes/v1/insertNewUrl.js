@@ -21,7 +21,7 @@ module.exports = async ({ user, body }, res) => {
       return res.status(500).send({ message: 'Unable to add new url' })
 
     const [externalId, shortedUrl, targetUrl] = options
-    res.status(201).send({ externalId, shortedUrl, targetUrl })
+    res.status(201).send({ externalId, shortedUrl, targetUrl, urlClick: 0 })
   } catch (e) {
     if (e.code === 'ER_DUP_ENTRY') {
       return res.status(400).send({ message: 'This url already exists.'})
