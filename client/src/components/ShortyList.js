@@ -55,6 +55,11 @@ class ShortyList extends Component {
     this.props.startFilter(queryParam, queryValue)
   }, 250)
 
+  openShortLink = (shortedUrl, externalId) => {
+    this.props.shortLinkClick(externalId)
+    window.open(`https://feri.es/${shortedUrl}`, '_blank')
+  }
+
   render() {
     const { className, items, hasMore } = this.props
 
@@ -108,13 +113,14 @@ class ShortyList extends Component {
                   <i className="far fa-copy" />
                 </button>
                 &nbsp;
-                <a
-                  href={`https://feri.es/${item.shortedUrl}`}
-                  target="_blank"
+                <button
+                  onClick={() =>
+                    this.openShortLink(item.shortedUrl, item.externalId)
+                  }
                   rel="noopener noreferrer"
                 >
                   {`feri.es/${item.shortedUrl}`}
-                </a>
+                </button>
               </li>
               <li className="clicks">
                 <span className="label">Clicks:&nbsp;</span>

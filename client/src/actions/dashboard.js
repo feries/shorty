@@ -14,7 +14,8 @@ import {
   GLOBAL_UNSET_TOAST,
   DELETE_URL_START,
   DELETE_URL_SUCCESS,
-  DELETE_URL_ERROR
+  DELETE_URL_ERROR,
+  SHORT_LINK_CLICK
 } from '../constants/actions'
 import {
   API_V1_ENDPOINT,
@@ -162,6 +163,10 @@ export const deleteSuccess = (data) => ({
 
 export const deleteError = () => ({
   type: DELETE_URL_ERROR
+})
+
+export const shortLinkClick = (externalId) => ({
+  type: SHORT_LINK_CLICK
 })
 
 export const setGlobalToast = (data) => ({

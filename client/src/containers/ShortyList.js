@@ -2,7 +2,11 @@ import { connect } from 'react-redux'
 
 import ShortyList from '../components/ShortyList'
 
-import { startFetchLinks, startFilter } from '../actions/dashboard'
+import {
+  startFetchLinks,
+  startFilter,
+  shortLinkClick
+} from '../actions/dashboard'
 
 const mapStateToProps = (state) => ({
   items: state.dashboard.results,
@@ -13,7 +17,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   startFetch: (limit, skip) => dispatch(startFetchLinks(limit, skip)),
-  startFilter: (key, value) => dispatch(startFilter(key, value))
+  startFilter: (key, value) => dispatch(startFilter(key, value)),
+  shortLinkClick: (externalId) => dispatch(shortLinkClick(externalId))
 })
 
 export default connect(
