@@ -23,7 +23,15 @@ module.exports = async ({ user, body, hostname }, res) => {
       return res.status(500).send({ message: 'Something went wrong' })
 
     const hash = short || shortid.generate()
-    const options = [uuidv4(), hash, url, user.sub.external_id, hosts[0].id]
+    const isCustomHash = Boolean(hash)
+    const options = [
+      uuidv4(),
+      hash,
+      url,
+      user.sub.external_id,
+      hosts[0].id,
+      isCustomHash
+    ]
     const insertSql = sqlLoader('insertNewUrl.sql')
     const { affectedRows } = await db.query(insertSql, options)
 
