@@ -5,21 +5,25 @@ import {
   SUBMIT_LINK_START,
   SUBMIT_LINK_SUCCESS,
   SUBMIT_LINK_ERROR,
+  SUBMIT_LINK_ERROR_HOST,
   FILTER_START,
   FILTER_SUCCESS,
   FILTER_ERROR,
   DELETE_URL_START,
   DELETE_URL_SUCCESS,
-  DELETE_URL_ERROR
+  DELETE_URL_ERROR,
+  SHORT_LINK_CLICK
 } from '../constants/actions'
 
 import filter from '../selectors/filter'
+import incrementClickCounter from '../selectors/increment'
 
 const initialState = {
   loading: false,
   results: [],
   hasMore: false,
-  errorMessage: null
+  errorMessage: null,
+  hostIsValid: true
 }
 
 export default (state = initialState, action) => {
@@ -28,7 +32,8 @@ export default (state = initialState, action) => {
     case FILTER_START:
       return {
         ...initialState,
-        loading: true
+        loading: true,
+        hostIsValid: true
       }
 
     case DASHBOARD_FETCH_SUCCESS:
@@ -36,12 +41,14 @@ export default (state = initialState, action) => {
       return {
         loading: false,
         results: action.data.urls,
-        hasMore: action.data.hasMore
+        hasMore: action.data.hasMore,
+        hostIsValid: true
       }
 
     case DASHBOARD_FETCH_ERROR:
     case FILTER_ERROR:
       return {
+        ...state,
         loading: false,
         results: []
       }
@@ -82,6 +89,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false
+      }
+
+    case SHORT_LINK_CLICK:
+      return {
+        ...state,
+        results: incrementClickCounter(state.results, action.data)
+      }
+
+    case SUBMIT_LINK_ERROR_HOST:
+      return {
+        ...state,
+        hostIsValid: false
       }
 
     default:

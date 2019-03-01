@@ -27,7 +27,7 @@ class LabelToInput extends Component {
     onClose: nope
   }
 
-  constructor(props){
+  constructor(props) {
     super(props)
     this.input = React.createRef()
   }
@@ -51,9 +51,12 @@ class LabelToInput extends Component {
     this.setState({ isInput: newState }, () => {
       if (newState) {
         this.setState({ value: '' })
-        this.input.current.focus();
+        this.input.current.focus()
       }
-      if (!newState && (this.state.value !== '' && this.state.value.length >= 3))
+      if (
+        !newState &&
+        (this.state.value !== '' && this.state.value.length >= 3)
+      )
         this.props.onClose()
     })
   }

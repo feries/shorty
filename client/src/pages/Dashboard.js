@@ -7,12 +7,14 @@ import Toast from '../containers/Toast'
 
 import withQr from '../hocs/withQr'
 import withConfirm from '../hocs/withConfirm'
+import withHostForm from '../hocs/withHostForm'
 import Modal from '../components/Modal'
 
 import { QR_CODE, TRASH } from '../constants/common'
 
 const ModalWithQr = withQr(Modal)
 const ModalWithConfirm = withConfirm(Modal)
+const ModalWithForm = withHostForm(Modal)
 
 class Dashboard extends Component {
   state = {
@@ -20,7 +22,8 @@ class Dashboard extends Component {
     qrCodeValue: '',
     confirmModal: false,
     confirmValue: '',
-    confirmAction: ''
+    confirmAction: '',
+    host: ''
   }
 
   handleButtonClick = (what, value, externalId = null) => {
@@ -47,13 +50,16 @@ class Dashboard extends Component {
     this.setState(newState)
   }
 
+  handleHost = (host) => this.setState({ host })
+
   render() {
     const {
       qrCodeModal,
       qrCodeValue,
       confirmModal,
       confirmValue,
-      confirmAction
+      confirmAction,
+      host
     } = this.state
 
     return (
@@ -61,6 +67,7 @@ class Dashboard extends Component {
         <Logo className="m-top-x10" />
         <div id="content" className="content m-top-x4">
           <Toast />
+          <ModalWithForm value={host} />
           <ModalWithQr
             value={qrCodeValue}
             open={qrCodeModal}
@@ -72,7 +79,10 @@ class Dashboard extends Component {
             action={confirmAction}
             onClose={() => this.confirmDelete(false)}
           />
-          <ShortyBar className="t-center m-bottom-x10" />
+          <ShortyBar
+            className="t-center m-bottom-x10"
+            hostToAdd={this.handleHost}
+          />
           <ShortyList
             className="m-top-x4"
             handleButtonClick={this.handleButtonClick}

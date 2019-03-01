@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import LabelToInput from './LabelToInput'
 
 import { QR_CODE, TRASH, COPY, nope } from '../constants/common'
-import { debounce } from '../lib/helpers'
+import { debounce, clearUrl } from '../lib/helpers'
 
 dayjs.extend(relativeTime)
 
@@ -120,7 +120,7 @@ class ShortyList extends Component {
                   }
                   rel="noopener noreferrer"
                 >
-                  {`feri.es/${item.shortedUrl}`}
+                  {`${clearUrl(item.shortHost)}/${item.shortedUrl}`}
                 </button>
               </li>
               <li className="clicks">

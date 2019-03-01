@@ -2,7 +2,7 @@ import { localStorage } from '../lib/helpers'
 import { JWT_STORAGE_KEY, RWT_STORAGE_KEY } from '../constants/common'
 
 export default class Auth {
-  static  authenticate(jwt, rwt) {
+  static authenticate(jwt, rwt) {
     localStorage(JWT_STORAGE_KEY, jwt)
     localStorage(RWT_STORAGE_KEY, rwt)
   }
