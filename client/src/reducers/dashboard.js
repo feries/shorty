@@ -10,10 +10,12 @@ import {
   FILTER_ERROR,
   DELETE_URL_START,
   DELETE_URL_SUCCESS,
-  DELETE_URL_ERROR
+  DELETE_URL_ERROR,
+  SHORT_LINK_CLICK
 } from '../constants/actions'
 
 import filter from '../selectors/filter'
+import incrementClickCounter from '../selectors/increment'
 
 const initialState = {
   loading: false,
@@ -82,6 +84,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false
+      }
+
+    case SHORT_LINK_CLICK:
+      return {
+        ...state,
+        results: incrementClickCounter(state.results, action.data)
       }
 
     default:

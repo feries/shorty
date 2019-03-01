@@ -165,8 +165,9 @@ export const deleteError = () => ({
   type: DELETE_URL_ERROR
 })
 
-export const shortLinkClick = (externalId) => ({
-  type: SHORT_LINK_CLICK
+export const shortLinkClick = (data) => ({
+  type: SHORT_LINK_CLICK,
+  data
 })
 
 export const setGlobalToast = (data) => ({
