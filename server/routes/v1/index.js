@@ -12,6 +12,7 @@ const signup = require('./signup')
 const getAllUrls = require('./getAllUrls')
 const getAllUrlsFiltered = require('./getAllUrlsFiltered')
 const insertNewUrl = require('./insertNewUrl')
+const deleteUrl = require('./deleteUrl')
 const apiKey = require('./generateApiKey')
 
 // Authentication middleware
@@ -45,6 +46,6 @@ routerV1.post('/urls', insertNewUrl)
 routerV1.get('/urls/:id', getAllUrls)
 
 // Delete url
-routerV1.delete('/urls/:id', getAllUrls)
+routerV1.delete('/urls/:id', deleteUrl)
 
 module.exports = routerV1

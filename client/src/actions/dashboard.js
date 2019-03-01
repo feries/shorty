@@ -136,11 +136,16 @@ export const startDelete = (externalId) => async (dispatch) => {
       'Authorization'
     ] = Auth.getAuthenticationHeader()
 
-    await axios.delete(`${API_V1_ENDPOINT}${URL_LIST}`)
-    dispatch(deleteSuccess())
+    await axios.delete(`${API_V1_ENDPOINT}${URL_LIST}/${externalId}`)
+    dispatch(
+      setGlobalToast({ type: 'success', message: 'URL successfully deleted!' })
+    )
+    dispatch(deleteSuccess(externalId))
   } catch (e) {
     if (e.response.status === 400) {
-      dispatch(setGlobalToast(e.response.data.message))
+      dispatch(
+        setGlobalToast({ type: 'error', message: e.response.data.message })
+      )
       return dispatch(deleteError())
     } else {
       window.location.assign('/500')

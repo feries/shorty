@@ -135,7 +135,15 @@ class ShortyList extends Component {
                 >
                   <i className="fas fa-qrcode" />
                 </button>
-                <button onClick={() => this.props.handleButtonClick(TRASH)}>
+                <button
+                  onClick={() =>
+                    this.props.handleButtonClick(
+                      TRASH,
+                      `https://feri.es/${item.shortedUrl}`,
+                      item.externalId
+                    )
+                  }
+                >
                   <i className="far fa-trash-alt" />
                 </button>
               </li>

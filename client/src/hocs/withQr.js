@@ -1,15 +1,19 @@
-import React, { Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Qrcode from 'qrcode.react'
 
 const withQr = (ComposedComponent) => {
   class modalWithQr extends Component {
-
     render() {
       const { open, value, dismissible, onClose } = this.props
-      return(
-        <ComposedComponent open={open} dismissible={dismissible} onClose={onClose}>
-          <Qrcode value={value}/>
+      return (
+        <ComposedComponent
+          open={open}
+          dismissible={dismissible}
+          onClose={onClose}
+          size="small"
+        >
+          <Qrcode value={value} />
         </ComposedComponent>
       )
     }

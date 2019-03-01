@@ -19,12 +19,13 @@ class Dashboard extends Component {
     qrCodeModal: false,
     qrCodeValue: '',
     confirmModal: false,
-    confirmValue: ''
+    confirmValue: '',
+    confirmAction: ''
   }
 
-  handleButtonClick = (what, value) => {
+  handleButtonClick = (what, value, externalId = null) => {
     if (what === QR_CODE) this.handleQrCode(true, value)
-    else if (what === TRASH) this.confirmDelete(true, value)
+    else if (what === TRASH) this.confirmDelete(true, value, externalId)
   }
 
   handleQrCode = (isOpenAction = true, value = '') => {
@@ -36,17 +37,24 @@ class Dashboard extends Component {
     this.setState(newState)
   }
 
-  confirmDelete = (isOpenAction = true, externalId = '') => {
+  confirmDelete = (isOpenAction = true, value = '', externalId = '') => {
     const newState = {
       confirmModal: isOpenAction,
-      confirmValue: isOpenAction ? externalId : ''
+      confirmValue: isOpenAction ? value : '',
+      confirmAction: isOpenAction ? externalId : ''
     }
 
     this.setState(newState)
   }
 
   render() {
-    const { qrCodeModal, qrCodeValue, confirmModal, confirmValue } = this.state
+    const {
+      qrCodeModal,
+      qrCodeValue,
+      confirmModal,
+      confirmValue,
+      confirmAction
+    } = this.state
 
     return (
       <div className="container">
@@ -61,6 +69,7 @@ class Dashboard extends Component {
           <ModalWithConfirm
             value={confirmValue}
             open={confirmModal}
+            action={confirmAction}
             onClose={() => this.confirmDelete(false)}
           />
           <ShortyBar className="t-center m-bottom-x10" />

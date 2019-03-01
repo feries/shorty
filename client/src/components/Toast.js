@@ -18,12 +18,11 @@ class Toast extends Component {
     color: 'success',
     icon: null,
     dismissible: true,
-    timeout: 5000,
+    timeout: 5000
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.show !== this.props.show)
-      this.toggleToast(this.props.show)
+    if (prevProps.show !== this.props.show) this.toggleToast(this.props.show)
   }
 
   toggleToast = (show = true) => {
@@ -34,10 +33,16 @@ class Toast extends Component {
     }
   }
 
-  dismissToast = () => this.toggleToast(false)
-
   render() {
-    const { title, message, show, icon, dismissible, color } = this.props
+    const {
+      title,
+      message,
+      show,
+      icon,
+      dismissible,
+      color,
+      dismiss
+    } = this.props
 
     if (!show) return null
 
@@ -51,15 +56,11 @@ class Toast extends Component {
 
     return (
       <div className={wrapperClasses}>
-        {dismissible && <i className="fa fa-times" onClick={this.dismissToast}/> }
-        {icon && (
-          <span className="toast-icon">
-            {icon}
-          </span>
-        )}
+        {dismissible && <i className="fa fa-times" onClick={dismiss} />}
+        {icon && <span className="toast-icon">{icon}</span>}
         <span>
-          {title && (<h4>{title}</h4>)}
-          {message && (<p>{message}</p>)}
+          {title && <h4>{title}</h4>}
+          {message && <p>{message}</p>}
         </span>
       </div>
     )

@@ -7,8 +7,13 @@ import {
   SUBMIT_LINK_ERROR,
   FILTER_START,
   FILTER_SUCCESS,
-  FILTER_ERROR
+  FILTER_ERROR,
+  DELETE_URL_START,
+  DELETE_URL_SUCCESS,
+  DELETE_URL_ERROR
 } from '../constants/actions'
+
+import filter from '../selectors/filter'
 
 const initialState = {
   loading: false,
@@ -55,6 +60,25 @@ export default (state = initialState, action) => {
       }
 
     case SUBMIT_LINK_ERROR:
+      return {
+        ...state,
+        loading: false
+      }
+
+    case DELETE_URL_START:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case DELETE_URL_SUCCESS:
+      return {
+        ...state,
+        results: filter(state.results, action.data),
+        loading: false
+      }
+
+    case DELETE_URL_ERROR:
       return {
         ...state,
         loading: false

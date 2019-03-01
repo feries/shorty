@@ -7,19 +7,35 @@ import { startDelete } from '../actions/dashboard'
 const withConfirm = (ComposedComponent) => {
   class modalWithConfirm extends Component {
     render() {
-      const { open, value, dismissible, onClose, onConfirm } = this.props
+      const {
+        open,
+        value,
+        action,
+        dismissible,
+        onClose,
+        onConfirm
+      } = this.props
       return (
         <ComposedComponent
           open={open}
           dismissible={dismissible}
           onClose={onClose}
         >
-          {value}
+          <p>
+            Are you sure you want to delete this short link? Once deleted it
+            will no longer be reachable by users.
+            <br />
+            <br />
+            <b>{value}</b>
+          </p>
           <div className="modal--confirm modal--confirm-wrapper">
             <button onClick={onClose} className="dismiss">
               Dismiss
             </button>
-            <button onClick={onConfirm} className="confirm">
+            <button
+              onClick={() => onConfirm(action).then(() => onClose())}
+              className="confirm"
+            >
               Confirm
             </button>
           </div>
@@ -40,6 +56,7 @@ const withConfirm = (ComposedComponent) => {
 
 withConfirm.propTypes = {
   value: PropTypes.string.isRequired,
+  action: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
   dismissible: PropTypes.bool,
   onClose: PropTypes.func,

@@ -19,14 +19,24 @@
       position: relative;
     }
     .modal-panel {
-      width: 20vw;
-      height: 20vh;
       background: $white;
       position: relative;
       display: flex !important;
       flex-direction: row !important;
       align-items: center;
       justify-content: center;
+      &.small {
+        width: 20vw;
+        height: 20vh;
+      }
+      &.normal {
+        width: 50vw;
+        height: 30vh;
+      }
+      &.big {
+        width: 50vw;
+        height: 30vh;
+      }
       .closeButton {
         cursor: pointer;
         font-size: $normal;

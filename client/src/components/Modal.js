@@ -11,17 +11,20 @@ class Modal extends Component {
     open: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
     dismissible: PropTypes.bool,
+    size: PropTypes.oneOf(['small', 'normal', 'big']),
     onClose: PropTypes.func
   }
 
   static defaultProps = {
     dismissible: true,
-    onClose: nope
+    onClose: nope,
+    size: 'normal'
   }
 
   constructor(props) {
     super(props)
     this.modal = React.createRef()
+    this.close = React.createRef()
   }
 
   toggleScrollLock = () => {
@@ -40,10 +43,12 @@ class Modal extends Component {
     if (!_state) this.props.onClose()
   }
 
-  handleDismiss = (evt) => {
+  handleDismiss = ({ target }) => {
+    if (target === this.close.current) return this.toggleModal(false)
+
     if (
       !this.props.dismissible ||
-      (this.modal && this.modal.current !== evt.target)
+      (this.modal && this.modal.current !== target)
     )
       return
 
@@ -52,18 +57,28 @@ class Modal extends Component {
 
   render() {
     const { isOpen } = this.state
-    const { children } = this.props
+    const { children, size } = this.props
 
     const classes = classnames('modal modal-backdrop', {
       hidden: !isOpen
     })
 
+    const modalPanelClasses = classnames('modal modal-panel', {
+      small: size === 'small',
+      normal: size === 'normal',
+      big: size === 'big'
+    })
+
     return (
       <div className={classes} onClick={this.handleDismiss}>
         <div className="modalCenter" ref={this.modal}>
-          <div className="modal modal-panel">
+          <div className={modalPanelClasses}>
             <div className="closeButton">
-              <i className="fas fa-times" />
+              <i
+                className="fas fa-times"
+                ref={this.close}
+                onClick={this.toggleModal}
+              />
             </div>
             {children}
           </div>
