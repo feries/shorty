@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 
 import Logo from '../components/Logo'
+import ProfileBox from '../components/ProfileBox'
 import ShortyBar from '../containers/ShortyBar'
 import ShortyList from '../containers/ShortyList'
 import Toast from '../containers/Toast'
@@ -64,6 +65,7 @@ class Dashboard extends Component {
 
     return (
       <div className="container">
+        <ProfileBox />
         <Logo className="m-top-x10" />
         <div id="content" className="content m-top-x4">
           <Toast />
