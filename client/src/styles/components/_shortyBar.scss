@@ -1,13 +1,19 @@
 #shortyBar {
   form {
     max-width: 1090px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    border-radius: $radius;
+    background: $white;
+    box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
+    border: 1px solid $lightGrey;
     input {
-      width: 100%;
+      width: 40%;
       height: 56px;
-      border-radius: $radius;
-      background: $white;
-      border: 1px solid $lightGrey;
-      box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
+      border: none;
       font-size: $large;
       padding: $tripleSpace;
       box-sizing: border-box;
@@ -15,11 +21,18 @@
       &::placeholder {
         color: $grey !important;
       }
+      &.shortyUrl {
+        width: 50%;
+      }
+      &.shortyCustom {
+        width: 30%;
+        border-left: 1px solid $lightGrey;
+        border-right: 1px solid $lightGrey;
+      }
     }
     button {
-      float: right;
-      position: relative;
-      top: -40px;
+      width: 20%;
+      text-align: right;
       color: $secondary;
       font-weight: bold;
       font-size: $medium;
@@ -33,16 +46,35 @@
     }
   }
 }
+@media screen and (max-width: 1024px) {
+  #shortyBar {
+    form {
+      input {
+        font-size: $medium;
+        &::placeholder {
+          font-size: $normal;
+        }
+      }
+      button {
+        top: -38px;
+        font-size: $tiny;
+      }
+    }
+  }
+}
 
 @media screen and (max-width: 768px) {
   #shortyBar {
     form {
       input {
         font-size: $medium;
+        &::placeholder {
+          font-size: $tiny;
+        }
       }
       button {
         top: -38px;
-        font-size: $normal;
+        font-size: $tiny;
       }
     }
   }
