@@ -1,0 +1,23 @@
+{
+  "name": "proxy",
+  "version": "1.0.0",
+  "description": "Shory proxy",
+  "main": "index.js",
+  "author": "Claudio Quaglia <claudio.quaglia@feries.it>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "@sentry/node": "^4.6.3",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "express-useragent": "^1.0.12",
+    "helmet": "^3.15.1",
+    "jsonwebtoken": "^8.5.0",
+    "ms": "^2.1.1",
+    "mysql": "^2.16.0",
+    "uuid": "^3.3.2"
+  }
+}

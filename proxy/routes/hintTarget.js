@@ -3,6 +3,8 @@ const userAgent = require('express-useragent')
 const { sqlLoader } = require('../lib')
 const { pool: db } = require('../config')
 
+const isProd = process.env.NODE_ENV !== 'development'
+
 module.exports = async (req, res) => {
   const ua = req.get('user-agent')
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress
@@ -13,7 +15,10 @@ module.exports = async (req, res) => {
   const sql = sqlLoader('getUrlByShort.sql')
   const rows = await db.query(sql, [shortid])
 
-  if (rows.length !== 1) return res.send(500)
+  if (rows.length !== 1)
+    return res.redirect(
+      isProd ? 'https://feri.es/404' : 'http://localhost:3000/404'
+    )
 
   const { id, targetUrl } = rows[0]
 

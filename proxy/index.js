@@ -8,11 +8,10 @@ const compression = require('compression')
 const helmet = require('helmet')
 const Sentry = require('@sentry/node')
 
-// Import Routes
-const { routerV1 } = require('./routes/index')
+const hintTarget = require('./routes/hintTarget')
 
 const HOST = process.env.HOST
-const PORT = process.env.PORT
+const PORT = process.env.PROXY_PORT
 const STATIC_PATH = process.env.STATIC_PATH
 
 const isProd = process.env.NODE_ENV !== 'development'
@@ -37,7 +36,14 @@ app.use(helmet())
 app.disable('x-powered-by')
 
 // Map Routes
-app.use('/api/v1', routerV1)
+app.get('/:shortid', hintTarget)
+
+// Default case for unmatched routes
+app.use((req, res) => {
+  // Invalid request
+  if (!isProd) return res.redirect('http://localhost:3000/404')
+  res.redirect('https://feri.es/404')
+})
 
 // Global Error handler
 isProd && app.use(Sentry.Handlers.errorHandler())
