@@ -2,26 +2,33 @@
   &.toast-wrapper {
     display: block;
     position: absolute;
-    right: 10px;
+    right: $tripleSpace * 5;
     bottom: 2px;
     width: 250px;
     height: 125px;
     color: black;
     z-index: 1000;
+    font-size: $medium;
+    color: $white;
+    padding: $tripleSpace;
+    .fa-times {
+      position: absolute;
+      right: $tripleSpace;
+    }
     &.hidden {
       display: none;
     }
     &.toast--info {
-      background-color: #38b1c4;
+      background-color: $primary;
     }
     &.toast--success {
-      background-color: greenyellow;
+      background-color: $green;
     }
     &.toast--warning {
-      background-color: yellow;
+      background-color: $secondary;
     }
     &.toast--error {
-      background-color: red;
+      background-color: $red;
     }
   }
 }
