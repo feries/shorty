@@ -21,7 +21,7 @@ const wrapRoute = (props, key) => {
 
 const App = () => (
   <BrowserRouter>
-    <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader isFullScreen />}>
       <Switch>
         {routes.map((route, index) => wrapRoute(route, index))}
         <Redirect to="/404" />

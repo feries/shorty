@@ -61,3 +61,14 @@ export const localStorage = (key, value) =>
       ? window.localStorage.setItem(key, value)
       : window.localStorage.removeItem(key)
     : window.localStorage.getItem(key)
+
+/**
+ * @name clearUrl
+ * @description Remove http(s):// from given url
+ * @param {String} url - Url to clear
+ * @returns {string|*}
+ */
+export const clearUrl = (url) => {
+  if (url.indexOf('://') !== -1) return url.substr(url.indexOf('://') + 3)
+  return url
+}

@@ -12,6 +12,7 @@ const signup = require('./signup')
 const getAllUrls = require('./getAllUrls')
 const getAllUrlsFiltered = require('./getAllUrlsFiltered')
 const insertNewUrl = require('./insertNewUrl')
+const insertNewHost = require('./insertNewHost')
 const deleteUrl = require('./deleteUrl')
 const apiKey = require('./generateApiKey')
 
@@ -41,6 +42,9 @@ routerV1.get('/urls/filter', getAllUrlsFiltered)
 
 // Add new shorted url
 routerV1.post('/urls', insertNewUrl)
+
+// Add new host url
+routerV1.post('/urls/host', insertNewHost)
 
 // Get specific url
 routerV1.get('/urls/:id', getAllUrls)

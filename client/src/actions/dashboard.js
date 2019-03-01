@@ -7,6 +7,7 @@ import {
   SUBMIT_LINK_START,
   SUBMIT_LINK_SUCCESS,
   SUBMIT_LINK_ERROR,
+  SUBMIT_LINK_ERROR_HOST,
   FILTER_START,
   FILTER_SUCCESS,
   FILTER_ERROR,
@@ -15,13 +16,19 @@ import {
   DELETE_URL_START,
   DELETE_URL_SUCCESS,
   DELETE_URL_ERROR,
-  SHORT_LINK_CLICK
+  SHORT_LINK_CLICK,
+  ADD_HOST_START,
+  ADD_HOST_SUCCESS,
+  ADD_HOST_ERROR
 } from '../constants/actions'
+
 import {
   API_V1_ENDPOINT,
   URL_LIST,
+  HOSTS,
   FILTERED_URL_LIST
 } from '../constants/endpoint'
+
 import { PER_PAGE } from '../constants/common'
 
 import { objectToQuery } from '../lib/helpers'
@@ -73,7 +80,13 @@ export const startSubmitLink = (url) => async (dispatch) => {
       { url }
     )
 
+    if (status === 200) {
+      dispatch(invalidHost(url))
+      return dispatch(submitLinkError())
+    }
+
     if (status !== 201) {
+      console.log('IN')
       dispatch(setGlobalToast(statusText))
       return dispatch(submitLinkError())
     }
@@ -90,6 +103,11 @@ export const startSubmitLink = (url) => async (dispatch) => {
     }
   }
 }
+
+export const invalidHost = (host) => ({
+  type: SUBMIT_LINK_ERROR_HOST,
+  host
+})
 
 export const submitLinkSuccess = (data) => ({
   type: SUBMIT_LINK_SUCCESS,
@@ -163,6 +181,43 @@ export const deleteSuccess = (data) => ({
 
 export const deleteError = () => ({
   type: DELETE_URL_ERROR
+})
+
+export const startAddHost = (shortUrl, fullUrl) => async (dispatch) => {
+  try {
+    dispatch({ type: ADD_HOST_START })
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = Auth.getAuthenticationHeader()
+
+    await axios.post(`${API_V1_ENDPOINT}${HOSTS}`, { shortUrl, fullUrl })
+    dispatch(
+      setGlobalToast({
+        type: 'success',
+        message: `New Host (${fullUrl} as ${shortUrl}) successfully added!`
+      })
+    )
+
+    dispatch(addHostSuccess())
+  } catch (e) {
+    if (e.response.status === 400) {
+      dispatch(
+        setGlobalToast({ type: 'error', message: e.response.data.message })
+      )
+      return dispatch(addHostError())
+    } else {
+      window.location.assign('/500')
+    }
+  }
+}
+
+export const addHostSuccess = (data) => ({
+  type: ADD_HOST_SUCCESS,
+  data
+})
+
+export const addHostError = () => ({
+  type: ADD_HOST_ERROR
 })
 
 export const shortLinkClick = (data) => ({
