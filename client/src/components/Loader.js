@@ -1,16 +1,12 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
-class Loader extends Component {
-  render() {
-    const { isFullScreen } = this.props
-    return (
-      <div className={isFullScreen ? 'loader-wrapper' : ''}>
-        <img className="loader" src="./img/loader.svg" />
-      </div>
-    )
-  }
-}
+const Loader = ({ isFullScreen }) => (
+  <div className={isFullScreen ? 'loader-wrapper' : ''}>
+    <img className="loader" src="./img/loader.svg" />
+  </div>
+)
+
 Loader.propTypes = {
   isFullScreen: PropTypes.bool
 }
