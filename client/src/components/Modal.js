@@ -43,7 +43,7 @@ class Modal extends Component {
   handleDismiss = (evt) => {
     if (
       !this.props.dismissible ||
-      (this.modal && this.modal.contains(evt.target))
+      (this.modal && this.modal.current !== evt.target)
     )
       return
 
@@ -59,8 +59,8 @@ class Modal extends Component {
     })
 
     return (
-      <div className={classes} onClick={this.handleDismiss} ref={this.modal}>
-        <div className="modalCenter">
+      <div className={classes} onClick={this.handleDismiss}>
+        <div className="modalCenter" ref={this.modal}>
           <div className="modal modal-panel">
             <div className="closeButton">
               <i className="fas fa-times" />
