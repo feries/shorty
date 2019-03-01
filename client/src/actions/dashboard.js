@@ -80,7 +80,9 @@ export const startSubmitLink = (url) => async (dispatch) => {
     dispatch(submitLinkSuccess(data))
   } catch (e) {
     if (e.response.status === 400) {
-      dispatch(setGlobalToast(e.response.data.message))
+      dispatch(
+        setGlobalToast({ type: 'error', message: e.response.data.message })
+      )
       return dispatch(submitLinkError())
     } else {
       window.location.assign('/500')

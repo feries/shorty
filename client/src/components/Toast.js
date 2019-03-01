@@ -7,7 +7,7 @@ class Toast extends Component {
     show: PropTypes.bool.isRequired,
     title: PropTypes.string,
     message: PropTypes.string,
-    color: PropTypes.oneOf(['info', 'success', 'toast.js', 'warning']),
+    type: PropTypes.oneOf(['info', 'success', 'error', 'warning']),
     icon: PropTypes.node,
     dismissible: PropTypes.bool,
     timeout: PropTypes.number,
@@ -15,7 +15,7 @@ class Toast extends Component {
   }
 
   static defaultProps = {
-    color: 'success',
+    type: 'success',
     icon: null,
     dismissible: true,
     timeout: 5000
@@ -40,7 +40,7 @@ class Toast extends Component {
       show,
       icon,
       dismissible,
-      color,
+      type,
       dismiss
     } = this.props
 
@@ -48,10 +48,10 @@ class Toast extends Component {
 
     const wrapperClasses = classnames('toast toast-wrapper', {
       hidden: !show,
-      'toast--info': color === 'info',
-      'toast--success': color === 'success',
-      'toast--error': color === 'toast.js',
-      'toast--warning': color === 'warning'
+      'toast--info': type === 'info',
+      'toast--success': type === 'success',
+      'toast--error': type === 'error',
+      'toast--warning': type === 'warning'
     })
 
     return (
