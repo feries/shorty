@@ -51,9 +51,18 @@ class ShortyBar extends Component {
       <div id="shortyBar" className={className}>
         <form>
           <input
+            className="shortyUrl"
             type="text"
             name="url"
             placeholder="Paste your long URL"
+            value={url}
+            onChange={this.handleChange}
+          />
+          <input
+            className="shortyCustom"
+            type="text"
+            name="urlCustom"
+            placeholder="Insert your custom short url"
             value={url}
             onChange={this.handleChange}
           />
