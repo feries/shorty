@@ -58,7 +58,7 @@ class Dashboard extends Component {
 
     return (
       <div className="container">
-        <Logo />
+        <Logo className="m-top-x10" />
         <div id="content" className="content m-top-x4">
           <Toast />
           <ModalWithQr

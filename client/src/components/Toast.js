@@ -17,8 +17,8 @@ class Toast extends Component {
   static defaultProps = {
     type: 'success',
     icon: null,
-    dismissible: true,
-    timeout: 5000
+    dismissible: false,
+    timeout: 5500
   }
 
   componentDidUpdate(prevProps) {
@@ -44,10 +44,10 @@ class Toast extends Component {
       dismiss
     } = this.props
 
-    if (!show) return null
+    //if (!show) return null
 
     const wrapperClasses = classnames('toast toast-wrapper', {
-      hidden: !show,
+      animateToast: show,
       'toast--info': type === 'info',
       'toast--success': type === 'success',
       'toast--error': type === 'error',

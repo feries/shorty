@@ -109,11 +109,12 @@ class ShortyList extends Component {
               </li>
               <li className="shortUrl">
                 <span className="label">Short URL:&nbsp;</span>
-                <button name={COPY}>
+                <button className="copy" name={COPY}>
                   <i className="far fa-copy" />
                 </button>
                 &nbsp;
                 <button
+                  className="shortUrlLink"
                   onClick={() =>
                     this.openShortLink(item.shortedUrl, item.externalId)
                   }
@@ -132,6 +133,7 @@ class ShortyList extends Component {
                   <span>stats</span>
                 </Link>
                 <button
+                  className="qr"
                   onClick={() =>
                     this.props.handleButtonClick(
                       QR_CODE,
@@ -142,6 +144,7 @@ class ShortyList extends Component {
                   <i className="fas fa-qrcode" />
                 </button>
                 <button
+                  className="delete"
                   onClick={() =>
                     this.props.handleButtonClick(
                       TRASH,
