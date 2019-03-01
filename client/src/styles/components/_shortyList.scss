@@ -76,6 +76,11 @@
             color: $primary;
           }
         }
+        &.copy {
+          &:hover {
+            color: $primary;
+          }
+        }
         &.delete {
           &:hover {
             color: $red;
@@ -112,6 +117,10 @@
     .shortUrl {
       width: 20%;
       margin-right: 1%;
+      .shortUrlLink {
+        font-weight: $regular;
+        color: $blue;
+      }
     }
     .clicks {
       width: 7%;

@@ -25,13 +25,15 @@
       flex-direction: row !important;
       align-items: center;
       justify-content: center;
+      padding: $tripleSpace;
+      border-radius: $radius;
       &.small {
         width: 20vw;
-        height: 20vh;
+        height: 15vh;
       }
       &.normal {
-        width: 50vw;
-        height: 30vh;
+        width: 30vw;
+        height: 20vh;
       }
       &.big {
         width: 50vw;
