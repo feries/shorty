@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { isUrl } from '../lib/validators'
-import { nope } from '../constants/common'
+import { nope, SHORT_URL_LENGTH } from '../constants/common'
 
 class ShortyBar extends Component {
-  state = { url: '' }
+  state = { url: '', custom: '' }
 
   static propTypes = {
     className: PropTypes.string,
@@ -23,8 +23,14 @@ class ShortyBar extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const { url } = this.state
+    const { url, custom } = this.state
     if (!url) return
+
+    if (custom && custom.length > SHORT_URL_LENGTH)
+      return this.props.onError({
+        type: 'error',
+        message: `The custom URL can contain a maximum of ${SHORT_URL_LENGTH} characters`
+      })
 
     if (!isUrl(url) && this.props.onError) {
       const shape = {
@@ -35,16 +41,16 @@ class ShortyBar extends Component {
       return this.props.onError(shape)
     }
 
-    this.props.onSubmit(url).then(() => {
-      !this.props.hostIsValid && this.props.hostToAdd(url)
-      this.setState({ url: '' })
+    this.props.onSubmit(url, custom).then(() => {
+      !this.props.hostIsValid && this.props.hostToAdd(url, custom)
+      this.setState({ url: '', custom: '' })
     })
   }
 
-  handleChange = (evt) => this.setState({ url: evt.target.value })
+  handleChange = (evt, what) => this.setState({ [what]: evt.target.value })
 
   render() {
-    const { url } = this.state
+    const { url, custom } = this.state
     const { className } = this.props
 
     return (
@@ -56,15 +62,15 @@ class ShortyBar extends Component {
             name="url"
             placeholder="Paste your long URL"
             value={url}
-            onChange={this.handleChange}
+            onChange={(evt) => this.handleChange(evt, 'url')}
           />
           <input
             className="shortyCustom"
             type="text"
             name="urlCustom"
             placeholder="Insert your custom short url"
-            value={url}
-            onChange={this.handleChange}
+            value={custom}
+            onChange={(evt) => this.handleChange(evt, 'custom')}
           />
           <button onClick={this.handleSubmit}>
             Shorten your link &nbsp;

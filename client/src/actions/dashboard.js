@@ -69,7 +69,7 @@ export const fetchError = () => ({
   type: DASHBOARD_FETCH_ERROR
 })
 
-export const startSubmitLink = (url) => async (dispatch) => {
+export const startSubmitLink = (url, short) => async (dispatch) => {
   try {
     dispatch({ type: SUBMIT_LINK_START })
     axios.defaults.headers.common[
@@ -77,7 +77,7 @@ export const startSubmitLink = (url) => async (dispatch) => {
     ] = Auth.getAuthenticationHeader()
     const { data, status, statusText } = await axios.post(
       `${API_V1_ENDPOINT}${URL_LIST}`,
-      { url }
+      { url, short }
     )
 
     if (status === 200) {
@@ -86,7 +86,6 @@ export const startSubmitLink = (url) => async (dispatch) => {
     }
 
     if (status !== 201) {
-      console.log('IN')
       dispatch(setGlobalToast(statusText))
       return dispatch(submitLinkError())
     }

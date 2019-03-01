@@ -6,7 +6,7 @@ const { pool: db } = require('../../config')
 
 module.exports = async ({ user, body, hostname }, res) => {
   try {
-    const { url } = body
+    const { url, short } = body
 
     if (!url || !user)
       return res.status(403).send({ message: 'Invalid payload' })
@@ -22,13 +22,8 @@ module.exports = async ({ user, body, hostname }, res) => {
     else if (hosts.length > 1)
       return res.status(500).send({ message: 'Something went wrong' })
 
-    const options = [
-      uuidv4(),
-      shortid.generate(),
-      url,
-      user.sub.external_id,
-      hosts[0].id
-    ]
+    const hash = short || shortid.generate()
+    const options = [uuidv4(), hash, url, user.sub.external_id, hosts[0].id]
     const insertSql = sqlLoader('insertNewUrl.sql')
     const { affectedRows } = await db.query(insertSql, options)
 

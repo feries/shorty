@@ -9,7 +9,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (url) => dispatch(startSubmitLink(url)),
+  onSubmit: (url, short) => dispatch(startSubmitLink(url, short)),
   onError: (message) => dispatch(setGlobalToast(message))
 })
 
