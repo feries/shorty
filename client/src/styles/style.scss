@@ -3,9 +3,10 @@
 @import 'base/vars';
 @import 'base/reset';
 @import 'base/utility';
+@import 'base/common';
 
-@import "components/modal";
-@import "components/toast";
+@import 'components/modal';
+@import 'components/toast';
 
 @import 'pages/dashboard';
 @import 'pages/login';
