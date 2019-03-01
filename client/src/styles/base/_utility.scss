@@ -72,6 +72,14 @@
 .big {
   font-size: $big;
 }
+/* 44px */
+.doubleBig {
+  font-size: $big * 2;
+}
+/* 220px */
+.extraBig {
+  font-size: $big * 10;
+}
 
 /* FONT WEIGHT */
 .regular {
@@ -99,6 +107,12 @@
     }
     &-x4 {
       margin-top: $space * 4 !important;
+    }
+    &-x5 {
+      margin-top: $space * 5 !important;
+    }
+    &-x10 {
+      margin-top: $space * 10 !important;
     }
   }
   &-bottom {
