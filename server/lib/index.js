@@ -1,10 +1,17 @@
 const sqlLoader = require('./sqlLoader')
 const unless = require('./middlewareSkipper')
-const { isExpired, isValidUrl } = require('./common')
+const {
+  isExpired,
+  isValidUrl,
+  getDomainFromUrl,
+  removeInitialSlash
+} = require('./common')
 
 module.exports = {
   sqlLoader,
   unless,
   isExpired,
-  isValidUrl
+  isValidUrl,
+  getDomainFromUrl,
+  removeInitialSlash
 }

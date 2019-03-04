@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { isUrl } from '../lib/validators'
 import { nope, SHORT_URL_LENGTH } from '../constants/common'
+import { SUBMIT_LINK_SUCCESS } from '../constants/actions'
 
 class ShortyBar extends Component {
   state = { url: '', custom: '' }
@@ -33,19 +34,19 @@ class ShortyBar extends Component {
       })
 
     if (!isUrl(url) && this.props.onError) {
-      const shape = {
+      return this.props.onError({
         type: 'error',
         message:
           'Invalid Url, you must provide a valid url address, in format `http(s)://www.domain.com/path`'
-      }
-      return this.props.onError(shape)
+      })
     }
 
-    this.props.onSubmit(url, custom).then(() => {
-      !this.props.hostIsValid && this.props.hostToAdd(url, custom)
-      this.setState({ url: '', custom: '' })
+    this.props.onSubmit(url, custom).then(({ type }) => {
+      if (type === SUBMIT_LINK_SUCCESS) return this.resetState()
     })
   }
+
+  resetState = () => this.setState({ url: '', custom: '' })
 
   handleChange = (evt, what) => this.setState({ [what]: evt.target.value })
 

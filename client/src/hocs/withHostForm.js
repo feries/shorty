@@ -2,7 +2,11 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import { addHostError, startAddHost } from '../actions/dashboard'
+import {
+  startAddHost,
+  addHostError,
+  setGlobalToast
+} from '../actions/dashboard'
 import { isUrl } from '../lib/validators'
 
 const withHostForm = (ComposedComponent) => {
@@ -36,17 +40,19 @@ const withHostForm = (ComposedComponent) => {
           </p>
           <input ref={this.input} />
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.preventDefault()
               const inputVal = this.input.current.value
 
               if (!isUrl(inputVal))
                 return onError({
                   type: 'error',
-                  message: 'You must provide a valid URL'
+                  message:
+                    'You must provide a valid URL in the format http(s)://<short-domain>'
                 })
 
               onSubmit(inputVal, value).then(() => {
-                onClose()
+                onClose && onClose()
               })
             }}
           >
@@ -63,7 +69,10 @@ const withHostForm = (ComposedComponent) => {
 
   const mapDispatchToProps = (dispatch) => ({
     onSubmit: (shortUrl, fullUrl) => dispatch(startAddHost(shortUrl, fullUrl)),
-    onError: (error) => dispatch(addHostError(error))
+    onError: (error) => {
+      dispatch(addHostError())
+      dispatch(setGlobalToast(error))
+    }
   })
 
   return connect(

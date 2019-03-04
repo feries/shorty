@@ -72,3 +72,12 @@ export const clearUrl = (url) => {
   if (url.indexOf('://') !== -1) return url.substr(url.indexOf('://') + 3)
   return url
 }
+
+/**
+ * @name removeInitialSlash
+ * @description Remove initial slash from path
+ * @param {String} path - Path to check
+ * @return {String}
+ */
+export const removeInitialSlash = (path) =>
+  path.indexOf('/') === 0 ? path.substr(1) : path

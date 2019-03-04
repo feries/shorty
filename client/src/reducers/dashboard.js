@@ -12,7 +12,10 @@ import {
   DELETE_URL_START,
   DELETE_URL_SUCCESS,
   DELETE_URL_ERROR,
-  SHORT_LINK_CLICK
+  SHORT_LINK_CLICK,
+  ADD_HOST_START,
+  ADD_HOST_ERROR,
+  ADD_HOST_SUCCESS
 } from '../constants/actions'
 
 import filter from '../selectors/filter'
@@ -54,6 +57,8 @@ export default (state = initialState, action) => {
       }
 
     case SUBMIT_LINK_START:
+    case ADD_HOST_START:
+    case DELETE_URL_START:
       return {
         ...state,
         loading: true
@@ -66,28 +71,18 @@ export default (state = initialState, action) => {
         results: [action.data, ...state.results]
       }
 
+    case DELETE_URL_ERROR:
+    case ADD_HOST_ERROR:
     case SUBMIT_LINK_ERROR:
       return {
         ...state,
         loading: false
       }
 
-    case DELETE_URL_START:
-      return {
-        ...state,
-        loading: true
-      }
-
     case DELETE_URL_SUCCESS:
       return {
         ...state,
         results: filter(state.results, action.data),
-        loading: false
-      }
-
-    case DELETE_URL_ERROR:
-      return {
-        ...state,
         loading: false
       }
 
@@ -101,6 +96,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         hostIsValid: false
+      }
+
+    case ADD_HOST_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        hostIsValid: true
       }
 
     default:

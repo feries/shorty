@@ -90,7 +90,7 @@ export const startSubmitLink = (url, short) => async (dispatch) => {
       return dispatch(submitLinkError())
     }
 
-    dispatch(submitLinkSuccess(data))
+    return dispatch(submitLinkSuccess(data))
   } catch (e) {
     if (e.response.status === 400) {
       dispatch(
@@ -197,7 +197,7 @@ export const startAddHost = (shortUrl, fullUrl) => async (dispatch) => {
       })
     )
 
-    dispatch(addHostSuccess())
+    return dispatch(addHostSuccess())
   } catch (e) {
     if (e.response.status === 400) {
       dispatch(

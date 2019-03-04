@@ -1,7 +1,5 @@
 import { connect } from 'react-redux'
-
 import { startSubmitLink, setGlobalToast } from '../actions/dashboard'
-
 import ShortyBar from '../components/ShortyBar'
 
 const mapStateToProps = (state) => ({
