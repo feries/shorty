@@ -35,9 +35,11 @@ import { PER_PAGE } from '../constants/common'
 import { objectToQuery } from '../lib/helpers'
 import Auth from '../lib/Authentication'
 
-export const startFetchLinks = (limit = PER_PAGE, skip = 0) => async (
-  dispatch
-) => {
+export const startFetchLinks = (
+  limit = PER_PAGE,
+  skip = 0,
+  clearResults = false
+) => async (dispatch) => {
   try {
     dispatch({ type: DASHBOARD_FETCH_START })
     const qp = objectToQuery({ limit, skip })
@@ -55,7 +57,7 @@ export const startFetchLinks = (limit = PER_PAGE, skip = 0) => async (
 
     const _skip = skip === 0 ? 1 : skip
     const hasMore = data.count > limit * _skip
-    dispatch(fetchSuccess({ ...data, hasMore }))
+    dispatch(fetchSuccess({ ...data, hasMore, clearResults }))
   } catch (e) {
     return window.location.assign('/500')
   }

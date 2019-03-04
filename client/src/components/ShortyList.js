@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 import LabelToInput from './LabelToInput'
 import CopyToClipboard from './CopyToClipboard'
 
-import { QR_CODE, TRASH, COPY, nope } from '../constants/common'
+import { QR_CODE, TRASH, COPY, nope, PER_PAGE } from '../constants/common'
 import { debounce, clearUrl } from '../lib/helpers'
 
 dayjs.extend(relativeTime)
@@ -43,11 +43,11 @@ class ShortyList extends Component {
   }
 
   componentDidMount() {
-    this.props.startFetch()
+    this.props.startFetch(undefined, undefined, true)
   }
 
   restoreFirstPage = debounce(() => {
-    this.props.startFetch()
+    this.props.startFetch(undefined, undefined, true)
   }, 800)
 
   handleFilter = debounce((queryParam, queryValue) => {
@@ -61,6 +61,11 @@ class ShortyList extends Component {
   openShortLink = (shortedUrl, externalId) => {
     this.props.shortLinkClick(externalId)
     window.open(`https://feri.es/${shortedUrl}`, '_blank')
+  }
+
+  loadMore = () => {
+    const { items, startFetch } = this.props
+    startFetch(PER_PAGE, items.length)
   }
 
   render() {
@@ -168,7 +173,7 @@ class ShortyList extends Component {
           ))}
           {hasMore && (
             <div className="loadMore">
-              <button>
+              <button onClick={this.loadMore}>
                 <i className="fas fa-angle-down" /> &nbsp;Load more&nbsp;
                 <i className="fas fa-angle-down" />
               </button>

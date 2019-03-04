@@ -17,7 +17,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  startFetch: (limit, skip) => dispatch(startFetchLinks(limit, skip)),
+  startFetch: (limit, skip, clear) =>
+    dispatch(startFetchLinks(limit, skip, clear)),
   startFilter: (key, value) => dispatch(startFilter(key, value)),
   shortLinkClick: (externalId) => dispatch(shortLinkClick(externalId)),
   shortLinkCopy: () => dispatch(shortLinkCopy())

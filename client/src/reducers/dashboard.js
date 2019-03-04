@@ -36,6 +36,11 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case DASHBOARD_FETCH_START:
+      return {
+        ...state,
+        loading: true
+      }
+
     case FILTER_START:
       return {
         ...initialState,
@@ -47,7 +52,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        results: action.data.urls,
+        results: action.data.clearResults
+          ? action.data.urls
+          : [...state.results, ...action.data.urls],
         hasMore: action.data.hasMore
       }
 
