@@ -12,7 +12,6 @@ import withHostForm from '../hocs/withHostForm'
 import Modal from '../components/Modal'
 
 import { QR_CODE, TRASH } from '../constants/common'
-import Footer from '../components/Footer'
 
 const ModalWithQr = withQr(Modal)
 const ModalWithConfirm = withConfirm(Modal)
@@ -62,11 +61,11 @@ class Dashboard extends Component {
 
     return (
       <div>
+        <Toast />
         <div className="container">
           <ProfileBox />
           <Logo className="m-top-x10" />
           <div id="content" className="content m-top-x4">
-            <Toast />
             <ModalWithForm />
             <ModalWithQr
               value={qrCodeValue}
@@ -86,7 +85,6 @@ class Dashboard extends Component {
             />
           </div>
         </div>
-        <Footer />
       </div>
     )
   }

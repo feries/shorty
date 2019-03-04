@@ -37,13 +37,13 @@ const withHostForm = (ComposedComponent) => {
           dismissible={dismissible}
           onClose={this.handleOnClose}
         >
-          <div className="flex flex-wrap flex-center">
-            <div className="m-top-x3 medium t-center secondary">
+          <div className="flex flex-wrap flex-center word-break">
+            <div className="m-top-x3 medium t-center alert">
               You're trying to add an URL we can't associate with a short
               version. <br />
               Enter the short version of the domain:{' '}
-              <b className="dark">{host}</b>.
             </div>
+            <div className="dark m-top-x3 bold">{host}</div>
             <div className="flex flex-wrap flex-center m-top-x3">
               <input
                 ref={this.input}
@@ -68,7 +68,7 @@ const withHostForm = (ComposedComponent) => {
                   })
                 }}
               >
-                Save
+                ADD NEW DOMAIN URL
               </button>
             </div>
           </div>

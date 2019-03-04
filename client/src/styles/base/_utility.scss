@@ -14,6 +14,9 @@
 .grey {
   color: $grey;
 }
+.alert {
+  color: $red;
+}
 
 .light {
   &Primary {
@@ -214,4 +217,11 @@
   &-100 {
     width: 100%;
   }
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 90%;
 }
