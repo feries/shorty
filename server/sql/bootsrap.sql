@@ -70,6 +70,8 @@ CREATE TABLE stats (
 	browser_id INT NOT NULL,
 	os_id INT NOT NULL,
 	is_mobile BOOLEAN NOT NULL,
+	is_tablet BOOLEAN NOT NULL,
+	is_desktop BOOLEAN NOT NULL,
 	referrer VARCHAR(255) NOT NULL,
 	country VARCHAR(5) NOT NULL,
 	PRIMARY KEY (id),

@@ -2,33 +2,40 @@ import React, { Component } from 'react'
 import Logo from '../components/Logo'
 import BackToHome from '../components/BackToHome'
 import DetailTopInfo from '../components/DetailTopInfo'
-import Chart from 'react-apexcharts'
-import Donut from 'react-apexcharts'
-const varOption = {
-  options: {
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'smooth'
-    },
 
-    xaxis: {
-      type: 'datetime',
-      categories: [
-        '2018-09-19T00:00:00',
-        '2018-09-19T01:30:00',
-        '2018-09-19T02:30:00',
-        '2018-09-19T03:30:00',
-        '2018-09-19T04:30:00',
-        '2018-09-19T05:30:00',
-        '2018-09-19T06:30:00'
-      ]
-    },
-    tooltip: {
-      x: {
-        format: 'dd/MM/yy HH:mm'
-      }
+import Chart from 'react-apexcharts'
+
+const varOption = {
+  dataLabels: {
+    enabled: false
+  },
+  stroke: {
+    curve: 'smooth'
+  },
+  fill: {
+    type: 'gradient',
+    gradient: {
+      shadeIntensity: 1,
+      opacityFrom: 0.6,
+      opacityTo: 0.9,
+      stops: [0, 90, 100]
+    }
+  },
+  xaxis: {
+    type: 'datetime',
+    categories: [
+      '2018-09-19T00:00:00',
+      '2018-09-19T01:30:00',
+      '2018-09-19T02:30:00',
+      '2018-09-19T03:30:00',
+      '2018-09-19T04:30:00',
+      '2018-09-19T05:30:00',
+      '2018-09-19T06:30:00'
+    ]
+  },
+  tooltip: {
+    x: {
+      format: 'dd/MM/yy HH:mm'
     }
   }
 }
@@ -36,10 +43,6 @@ const varSeries = [
   {
     name: 'series1',
     data: [31, 40, 28, 51, 42, 109, 100]
-  },
-  {
-    name: 'series2',
-    data: [11, 32, 45, 32, 34, 52, 41]
   }
 ]
 
@@ -154,7 +157,7 @@ class Detail extends Component {
           </div>
           <div className="flex flex-space flex-stretch">
             <div className="box flex-grow m-right-x2">
-              <Donut
+              <Chart
                 options={varOptionDonut}
                 series={varSeriesDonut}
                 type="donut"
@@ -162,7 +165,7 @@ class Detail extends Component {
               />
             </div>
             <div className="box flex-grow m-left-x2">
-              <Donut
+              <Chart
                 options={varOptionDonut}
                 series={varSeriesDonut}
                 type="donut"

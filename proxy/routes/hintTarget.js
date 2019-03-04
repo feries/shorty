@@ -1,4 +1,5 @@
 const userAgent = require('express-useragent')
+const uuidv4 = require('uuid/v4')
 
 const { sqlLoader } = require('../lib')
 const { pool: db } = require('../config')
@@ -22,78 +23,28 @@ module.exports = async (req, res) => {
 
   const { id, targetUrl } = rows[0]
 
-  const {
-    browser,
-    isAndroid,
-    isAndroidTablet,
-    isChrome,
-    isChromeOS,
-    isCurl,
-    isDesktop,
-    isEdge,
-    isFirefox,
-    isIE,
-    isiPad,
-    isiPhone,
-    isiPod,
-    isKindleFire,
-    isLinux,
-    isLinux64,
-    isMac,
-    isOpera,
-    isPhantomJS,
-    isRaspberry,
-    isSafari,
-    isSamsung,
-    isSmartTV,
-    isTablet,
-    isWindows,
-    isWindowsPhone,
-    os,
-    platform,
-    source,
-    version,
-    ...rest
-  } = userAgent.parse(ua)
+  const { browser, os, isMobile, isTablet, isDesktop } = userAgent.parse(ua)
 
-  const _isAndroid = isAndroid || isAndroidTablet
-  const _isChrome = isChrome || isChromeOS
-  const _isIE = isEdge || isWindows || isWindowsPhone || isIE
-  const _isSafari = isSafari
-  const _isOpera = isOpera
-  const _isFirefox = isFirefox
+  const browserQuery = sqlLoader('insertBrowserIfNotExist.sql')
+  const osQuery = sqlLoader('insertOsIfNotExist.sql')
 
-  const _isSamsung = isSamsung
-  const _isKindle = isKindleFire
-  const _isApple = isiPad || isiPod || isiPhone || isMac
-  const _isZombie = isCurl || isPhantomJS
-  const _isPi = isRaspberry
-  const _isLinux = isLinux || isLinux64
+  await db.query(browserQuery, [uuidv4(), browser, browser])
+  await db.query(osQuery, [uuidv4(), os, os])
 
-  const _isMobile = !isTablet && !isDesktop && !isSmartTV
   const geo = {}
 
-  const options = [
+  const insert = sqlLoader('insertUrlHint.sql')
+
+  await db.query(insert, [
+    id,
     browser,
-    version,
-    _isAndroid,
-    _isChrome,
-    _isIE,
-    _isSafari,
-    _isOpera,
-    _isFirefox,
-    _isSamsung,
-    _isKindle,
-    _isApple,
-    _isZombie,
-    _isPi,
-    _isLinux,
-    _isMobile,
     os,
-    platform,
-    source,
-    geo
-  ]
+    isMobile,
+    isTablet,
+    isDesktop,
+    referer,
+    ''
+  ])
 
   res.redirect(301, targetUrl)
 }
