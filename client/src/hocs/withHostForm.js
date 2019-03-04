@@ -31,33 +31,41 @@ const withHostForm = (ComposedComponent) => {
           dismissible={dismissible}
           onClose={onClose}
         >
-          <p>
-            <b>{value}</b>
-          </p>
-          <p>
-            You're trying to add a scream we can't associate with a short
-            version. Enter the short version of the domain in the field.
-          </p>
-          <input ref={this.input} />
-          <button
-            onClick={(e) => {
-              e.preventDefault()
-              const inputVal = this.input.current.value
+          <div className="flex flex-wrap flex-center">
+            <div className="m-top-x3 medium t-center secondary">
+              You're trying to add a scream we can't associate with a short
+              version. <br />
+              Enter the short version of the domain:{' '}
+              <b className="dark">{value}</b>.
+            </div>
+            <div className="flex flex-wrap flex-center m-top-x3">
+              <input
+                ref={this.input}
+                placeholder="Insert your custom SHORT HOST"
+                className="w-100 m-top-x2 m-bottom-x2"
+              />
+              <button
+                className="confirm"
+                onClick={(e) => {
+                  e.preventDefault()
+                  const inputVal = this.input.current.value
 
-              if (!isUrl(inputVal))
-                return onError({
-                  type: 'error',
-                  message:
-                    'You must provide a valid URL in the format http(s)://<short-domain>'
-                })
+                  if (!isUrl(inputVal))
+                    return onError({
+                      type: 'error',
+                      message:
+                        'You must provide a valid URL in the format http(s)://<short-domain>'
+                    })
 
-              onSubmit(inputVal, value).then(() => {
-                onClose && onClose()
-              })
-            }}
-          >
-            Save
-          </button>
+                  onSubmit(inputVal, value).then(() => {
+                    onClose && onClose()
+                  })
+                }}
+              >
+                Save
+              </button>
+            </div>
+          </div>
         </ComposedComponent>
       )
     }
