@@ -43,7 +43,7 @@ module.exports = async (req, res) => {
     isTablet,
     isDesktop,
     referer,
-    ''
+    ip
   ])
 
   res.redirect(301, targetUrl)
