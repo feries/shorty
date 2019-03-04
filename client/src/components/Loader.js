@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const Loader = ({ isFullScreen }) => (
   <div className={isFullScreen ? 'loader-wrapper' : ''}>
-    <img alt="loader" className="loader" src="./img/loader.svg" />
+    <img alt="loader" className="loader" src="../img/loader.svg" />
   </div>
 )
 
