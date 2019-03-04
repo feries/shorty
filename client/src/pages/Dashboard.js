@@ -12,6 +12,7 @@ import withHostForm from '../hocs/withHostForm'
 import Modal from '../components/Modal'
 
 import { QR_CODE, TRASH } from '../constants/common'
+import Footer from '../components/Footer'
 
 const ModalWithQr = withQr(Modal)
 const ModalWithConfirm = withConfirm(Modal)
@@ -64,32 +65,35 @@ class Dashboard extends Component {
     } = this.state
 
     return (
-      <div className="container">
-        <ProfileBox />
-        <Logo className="m-top-x10" />
-        <div id="content" className="content m-top-x4">
-          <Toast />
-          <ModalWithForm value={host} />
-          <ModalWithQr
-            value={qrCodeValue}
-            open={qrCodeModal}
-            onClose={() => this.handleQrCode(false)}
-          />
-          <ModalWithConfirm
-            value={confirmValue}
-            open={confirmModal}
-            action={confirmAction}
-            onClose={() => this.confirmDelete(false)}
-          />
-          <ShortyBar
-            className="t-center m-bottom-x10"
-            hostToAdd={this.handleHost}
-          />
-          <ShortyList
-            className="m-top-x4"
-            handleButtonClick={this.handleButtonClick}
-          />
+      <div>
+        <div className="container">
+          <ProfileBox />
+          <Logo className="m-top-x10" />
+          <div id="content" className="content m-top-x4">
+            <Toast />
+            <ModalWithForm value={host} />
+            <ModalWithQr
+              value={qrCodeValue}
+              open={qrCodeModal}
+              onClose={() => this.handleQrCode(false)}
+            />
+            <ModalWithConfirm
+              value={confirmValue}
+              open={confirmModal}
+              action={confirmAction}
+              onClose={() => this.confirmDelete(false)}
+            />
+            <ShortyBar
+              className="t-center m-bottom-x10"
+              hostToAdd={this.handleHost}
+            />
+            <ShortyList
+              className="m-top-x4"
+              handleButtonClick={this.handleButtonClick}
+            />
+          </div>
         </div>
+        <Footer />
       </div>
     )
   }

@@ -5,24 +5,15 @@
   height: 90px;
   margin-bottom: -90px;
   .profileItem {
-    box-sizing: border-box;
     min-width: 200px;
-    height: 60px;
-    border-radius: $radius;
-    background: $white;
-    border: 1px solid $lightGrey;
-    box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
     display: flex !important;
     flex-direction: row !important;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     list-style: none;
     position: absolute;
     top: 0;
     right: 0;
-    border-bottom: $space solid $primary;
-    font-size: $normal;
-    font-weight: $bold;
-    padding: $doubleSpace;
+    font-size: $tiny;
   }
 }
