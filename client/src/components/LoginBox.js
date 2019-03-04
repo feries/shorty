@@ -29,7 +29,8 @@ class LoginBox extends Component {
     })
   }, 250)
 
-  handleSubmit = () => {
+  handleSubmit = (e) => {
+    e.preventDefault()
     const { username, password } = this.state
     this.props.onLogin(username, password)
   }
@@ -48,7 +49,7 @@ class LoginBox extends Component {
         <div className="invitation">
           Welcome back! Please login to your account.
         </div>
-        <div className="loginBox-form">
+        <form className="loginBox-form">
           <input
             type="email"
             value={username}
@@ -65,7 +66,7 @@ class LoginBox extends Component {
             login &nbsp;
             <i className="far fa-sign-in-alt" />
           </button>
-        </div>
+        </form>
       </div>
     )
   }

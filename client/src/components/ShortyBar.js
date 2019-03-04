@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { isUrl } from '../lib/validators'
-import { nope, SHORT_URL_LENGTH } from '../constants/common'
-import { SUBMIT_LINK_SUCCESS } from '../constants/actions'
+import { SHORT_URL_LENGTH } from '../constants/common'
 
 class ShortyBar extends Component {
   state = { url: '', custom: '' }
@@ -12,14 +11,15 @@ class ShortyBar extends Component {
     className: PropTypes.string,
     onError: PropTypes.func,
     onSubmit: PropTypes.func.isRequired,
-    hostToAdd: PropTypes.func,
-    hostIsValid: PropTypes.bool
+    host: PropTypes.shape({
+      isValid: PropTypes.bool.isRequired,
+      targetUrl: PropTypes.string.isRequired,
+      short: PropTypes.string
+    }).isRequired
   }
 
   static defaultProps = {
-    className: '',
-    hostToAdd: nope,
-    hostIsValid: true
+    className: ''
   }
 
   handleSubmit = (e) => {
@@ -41,9 +41,8 @@ class ShortyBar extends Component {
       })
     }
 
-    this.props.onSubmit(url, custom).then(({ type }) => {
-      if (type === SUBMIT_LINK_SUCCESS) return this.resetState()
-    })
+    this.props.onSubmit(url, custom)
+    this.resetState()
   }
 
   resetState = () => this.setState({ url: '', custom: '' })

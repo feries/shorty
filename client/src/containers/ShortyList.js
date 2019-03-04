@@ -5,7 +5,8 @@ import ShortyList from '../components/ShortyList'
 import {
   startFetchLinks,
   startFilter,
-  shortLinkClick
+  shortLinkClick,
+  shortLinkCopy
 } from '../actions/dashboard'
 
 const mapStateToProps = (state) => ({
@@ -18,7 +19,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   startFetch: (limit, skip) => dispatch(startFetchLinks(limit, skip)),
   startFilter: (key, value) => dispatch(startFilter(key, value)),
-  shortLinkClick: (externalId) => dispatch(shortLinkClick(externalId))
+  shortLinkClick: (externalId) => dispatch(shortLinkClick(externalId)),
+  shortLinkCopy: () => dispatch(shortLinkCopy())
 })
 
 export default connect(

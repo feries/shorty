@@ -5,7 +5,8 @@ const {
   sqlLoader,
   isValidUrl,
   getDomainFromUrl,
-  removeInitialSlash
+  removeInitialSlash,
+  trailingSlash
 } = require('../../lib')
 const { pool: db } = require('../../config')
 
@@ -32,7 +33,7 @@ module.exports = async ({ user, body }, res) => {
     else if (hosts.length > 1)
       return res.status(500).send({ message: 'Something went wrong' })
 
-    const hash = removeInitialSlash(short) || shortid.generate()
+    const hash = trailingSlash(removeInitialSlash(short)) || shortid.generate()
     const isCustomHash = Boolean(short)
     const uuid = uuidv4()
     const options = [

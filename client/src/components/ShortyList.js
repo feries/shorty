@@ -6,6 +6,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { Link } from 'react-router-dom'
 
 import LabelToInput from './LabelToInput'
+import CopyToClipboard from './CopyToClipboard'
 
 import { QR_CODE, TRASH, COPY, nope } from '../constants/common'
 import { debounce, clearUrl } from '../lib/helpers'
@@ -29,7 +30,9 @@ class ShortyList extends Component {
     error: PropTypes.string,
     startFetch: PropTypes.func.isRequired,
     startFilter: PropTypes.func,
-    handleButtonClick: PropTypes.func.isRequired
+    handleButtonClick: PropTypes.func.isRequired,
+    shortLinkClick: PropTypes.func.isRequired,
+    shortLinkCopy: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -61,7 +64,7 @@ class ShortyList extends Component {
   }
 
   render() {
-    const { className, items, hasMore } = this.props
+    const { className, items, hasMore, shortLinkCopy } = this.props
 
     return (
       <Fragment>
@@ -109,9 +112,14 @@ class ShortyList extends Component {
               </li>
               <li className="shortUrl">
                 <span className="label">Short URL:&nbsp;</span>
-                <button className="copy" name={COPY}>
-                  <i className="far fa-copy" />
-                </button>
+                <CopyToClipboard
+                  text={`${item.shortHost}/${item.shortedUrl}`}
+                  onCopy={shortLinkCopy}
+                >
+                  <button className="copy" name={COPY}>
+                    <i className="far fa-copy" />
+                  </button>
+                </CopyToClipboard>
                 &nbsp;
                 <button
                   className="shortUrlLink"

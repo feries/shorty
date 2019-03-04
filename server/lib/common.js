@@ -25,9 +25,18 @@ const getDomainFromUrl = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)
 const removeInitialSlash = (path) =>
   path.indexOf('/') === 0 ? path.substr(1) : path
 
+/**
+ * @name trailingSlash
+ * @description Remove trailing slash
+ * @param {String} path - Path to check
+ * @return {String}
+ */
+const trailingSlash = (path) => path.replace(/\/$/, '')
+
 module.exports = {
   isExpired,
   isValidUrl,
   getDomainFromUrl,
-  removeInitialSlash
+  removeInitialSlash,
+  trailingSlash
 }

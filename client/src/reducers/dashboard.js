@@ -26,7 +26,11 @@ const initialState = {
   results: [],
   hasMore: false,
   errorMessage: null,
-  hostIsValid: true
+  host: {
+    isValid: true,
+    targetUrl: '',
+    short: ''
+  }
 }
 
 export default (state = initialState, action) => {
@@ -35,17 +39,16 @@ export default (state = initialState, action) => {
     case FILTER_START:
       return {
         ...initialState,
-        loading: true,
-        hostIsValid: true
+        loading: true
       }
 
     case DASHBOARD_FETCH_SUCCESS:
     case FILTER_SUCCESS:
       return {
+        ...state,
         loading: false,
         results: action.data.urls,
-        hasMore: action.data.hasMore,
-        hostIsValid: true
+        hasMore: action.data.hasMore
       }
 
     case DASHBOARD_FETCH_ERROR:
@@ -72,7 +75,6 @@ export default (state = initialState, action) => {
       }
 
     case DELETE_URL_ERROR:
-    case ADD_HOST_ERROR:
     case SUBMIT_LINK_ERROR:
       return {
         ...state,
@@ -95,14 +97,30 @@ export default (state = initialState, action) => {
     case SUBMIT_LINK_ERROR_HOST:
       return {
         ...state,
-        hostIsValid: false
+        host: {
+          isValid: false,
+          targetUrl: action.data.url,
+          short: action.data.short
+        }
+      }
+
+    case ADD_HOST_ERROR:
+      return {
+        ...state,
+        loading: false,
+        host: {
+          ...initialState.host,
+          isValid: true
+        }
       }
 
     case ADD_HOST_SUCCESS:
       return {
         ...state,
         loading: false,
-        hostIsValid: true
+        host: {
+          ...initialState.host
+        }
       }
 
     default:

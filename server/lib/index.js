@@ -4,7 +4,8 @@ const {
   isExpired,
   isValidUrl,
   getDomainFromUrl,
-  removeInitialSlash
+  removeInitialSlash,
+  trailingSlash
 } = require('./common')
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
   isExpired,
   isValidUrl,
   getDomainFromUrl,
-  removeInitialSlash
+  removeInitialSlash,
+  trailingSlash
 }

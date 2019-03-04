@@ -19,7 +19,8 @@ import {
   SHORT_LINK_CLICK,
   ADD_HOST_START,
   ADD_HOST_SUCCESS,
-  ADD_HOST_ERROR
+  ADD_HOST_ERROR,
+  SHORT_LINK_COPY
 } from '../constants/actions'
 
 import {
@@ -81,7 +82,7 @@ export const startSubmitLink = (url, short) => async (dispatch) => {
     )
 
     if (status === 200) {
-      dispatch(invalidHost(url))
+      dispatch(invalidHost({ url, short }))
       return dispatch(submitLinkError())
     }
 
@@ -103,9 +104,9 @@ export const startSubmitLink = (url, short) => async (dispatch) => {
   }
 }
 
-export const invalidHost = (host) => ({
+export const invalidHost = (data) => ({
   type: SUBMIT_LINK_ERROR_HOST,
-  host
+  data
 })
 
 export const submitLinkSuccess = (data) => ({
@@ -182,7 +183,10 @@ export const deleteError = () => ({
   type: DELETE_URL_ERROR
 })
 
-export const startAddHost = (shortUrl, fullUrl) => async (dispatch) => {
+export const startAddHost = (shortUrl, fullUrl) => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({ type: ADD_HOST_START })
     axios.defaults.headers.common[
@@ -197,6 +201,13 @@ export const startAddHost = (shortUrl, fullUrl) => async (dispatch) => {
       })
     )
 
+    const state = getState()
+    dispatch(
+      startSubmitLink(
+        state.dashboard.host.targetUrl,
+        state.dashboard.host.short
+      )
+    )
     return dispatch(addHostSuccess())
   } catch (e) {
     if (e.response.status === 400) {
@@ -222,6 +233,11 @@ export const addHostError = () => ({
 export const shortLinkClick = (data) => ({
   type: SHORT_LINK_CLICK,
   data
+})
+
+export const shortLinkCopy = () => ({
+  type: SHORT_LINK_COPY,
+  data: { type: 'info', message: 'Copied to clipboard' }
 })
 
 export const setGlobalToast = (data) => ({

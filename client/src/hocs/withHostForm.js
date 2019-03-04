@@ -11,32 +11,38 @@ import { isUrl } from '../lib/validators'
 
 const withHostForm = (ComposedComponent) => {
   class modalHostForm extends Component {
+    static propTypes = {
+      open: PropTypes.bool,
+      host: PropTypes.string
+    }
+
     constructor(props) {
       super(props)
       this.input = React.createRef()
     }
 
+    handleOnClose = () => {
+      const { onBeforeClose, onClose } = this.props
+
+      onBeforeClose()
+      onClose && onClose()
+    }
+
     render() {
-      const {
-        open,
-        value,
-        dismissible,
-        onClose,
-        onSubmit,
-        onError
-      } = this.props
+      const { open, host, dismissible, onSubmit, onError, onClose } = this.props
+
       return (
         <ComposedComponent
           open={open}
           dismissible={dismissible}
-          onClose={onClose}
+          onClose={this.handleOnClose}
         >
           <div className="flex flex-wrap flex-center">
             <div className="m-top-x3 medium t-center secondary">
-              You're trying to add a scream we can't associate with a short
+              You're trying to add an URL we can't associate with a short
               version. <br />
               Enter the short version of the domain:{' '}
-              <b className="dark">{value}</b>.
+              <b className="dark">{host}</b>.
             </div>
             <div className="flex flex-wrap flex-center m-top-x3">
               <input
@@ -57,7 +63,7 @@ const withHostForm = (ComposedComponent) => {
                         'You must provide a valid URL in the format http(s)://<short-domain>'
                     })
 
-                  onSubmit(inputVal, value).then(() => {
+                  onSubmit(inputVal, host).then(() => {
                     onClose && onClose()
                   })
                 }}
@@ -72,7 +78,8 @@ const withHostForm = (ComposedComponent) => {
   }
 
   const mapStateToProps = (state) => ({
-    open: !state.dashboard.hostIsValid
+    open: !state.dashboard.host.isValid,
+    host: state.dashboard.host.targetUrl
   })
 
   const mapDispatchToProps = (dispatch) => ({
@@ -80,7 +87,8 @@ const withHostForm = (ComposedComponent) => {
     onError: (error) => {
       dispatch(addHostError())
       dispatch(setGlobalToast(error))
-    }
+    },
+    onBeforeClose: () => dispatch(addHostError())
   })
 
   return connect(

@@ -3,7 +3,7 @@ import { startSubmitLink, setGlobalToast } from '../actions/dashboard'
 import ShortyBar from '../components/ShortyBar'
 
 const mapStateToProps = (state) => ({
-  hostIsValid: state.dashboard.hostIsValid
+  host: state.dashboard.host
 })
 
 const mapDispatchToProps = (dispatch) => ({
