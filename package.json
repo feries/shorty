@@ -12,6 +12,7 @@
     "proxy/*"
   ],
   "scripts": {
+    "bootstrap": "yarn --cwd server bootstrap",
     "dev:proxy": "yarn --cwd proxy dev",
     "dev:server": "yarn --cwd server dev",
     "dev:frontend": "yarn --cwd client start",
