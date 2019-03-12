@@ -62,7 +62,7 @@ class ShortyBar extends Component {
             name="url"
             placeholder="Paste your long URL"
             value={url}
-            onChange={(evt) => this.handleChange(evt, 'url')}
+            onChange={(evt) => this.handleChange(evt, 'getUrlDetail.js')}
           />
           <input
             className="shortyCustom"

@@ -16,7 +16,6 @@ module.exports = async (req, res) => {
 
     res.sendStatus(200)
   } catch (e) {
-    console.log('+++', e)
     res.status(500).send({ message: 'Terrible implementation' })
   }
 }

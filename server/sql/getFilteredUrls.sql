@@ -9,7 +9,6 @@ SELECT
   hosts.short_url AS "shortHost"
 FROM urls
 	LEFT JOIN users ON users.id = urls.author_id
-	LEFT JOIN stats ON stats.url_id = urls.id
 	LEFT JOIN hosts ON hosts.id = urls.host_id
 WHERE ? LIKE CONCAT('%', ?, '%')
   AND active = 1

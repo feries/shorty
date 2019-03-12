@@ -15,6 +15,7 @@ const insertNewUrl = require('./insertNewUrl')
 const insertNewHost = require('./insertNewHost')
 const deleteUrl = require('./deleteUrl')
 const apiKey = require('./generateApiKey')
+const getUrlDetail = require('./getUrlDetail')
 
 // Authentication middleware
 routerV1.use(unless(authHeader, '/login'))
@@ -47,7 +48,7 @@ routerV1.post('/urls', insertNewUrl)
 routerV1.post('/urls/host', insertNewHost)
 
 // Get specific url
-routerV1.get('/urls/:id', getAllUrls)
+routerV1.get('/urls/:id/:range?', getUrlDetail)
 
 // Delete url
 routerV1.delete('/urls/:id', deleteUrl)

@@ -18,3 +18,14 @@ export const nope = () => {}
 
 // Responsive
 export const mobileBreakPoint = 768
+
+// Helpers
+export const RANGE_ALL = 'all'
+export const RANGE_MONTH = 'month'
+export const RANGE_WEEK = 'week'
+export const RANGE_DAY = 'day'
+export const TIME_RANGE = new Map()
+TIME_RANGE.set(0, RANGE_ALL)
+TIME_RANGE.set(1, RANGE_MONTH)
+TIME_RANGE.set(2, RANGE_WEEK)
+TIME_RANGE.set(3, RANGE_DAY)
