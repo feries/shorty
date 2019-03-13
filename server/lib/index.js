@@ -1,5 +1,6 @@
 const sqlLoader = require('./sqlLoader')
 const unless = require('./middlewareSkipper')
+
 const {
   isExpired,
   isValidUrl,

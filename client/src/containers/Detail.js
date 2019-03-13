@@ -9,26 +9,24 @@ import { donutOptions, linearOptions } from '../constants/chart'
 import { startFetchData } from '../actions/detail'
 import { RANGE_ALL } from '../constants/common'
 
-const varSeries = [
-  {
-    name: 'series1',
-    data: [31, 40, 28, 51, 42, 109, 100]
-  }
-]
 const varSeriesDonut = [44, 55, 13, 33]
 
 class Detail extends Component {
+  state = { clicks: [{ name: 'Click', data: [] }] }
+
   static propTypes = {
     id: PropTypes.string.isRequired,
     fetchStart: PropTypes.func.isRequired,
     longUrl: PropTypes.string.isRequired,
-    shortUrl: PropTypes.string.isRequired
+    shortUrl: PropTypes.string.isRequired,
+    dayMap: PropTypes.shape().isRequired
   }
 
   static defaultProps = {
     longUrl: '',
     shortUrl: '',
-    totalClick: 0
+    totalClick: 0,
+    dayMap: {}
   }
 
   componentDidMount() {
@@ -36,13 +34,32 @@ class Detail extends Component {
     this.props.fetchStart(id)
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.dayMap !== this.props.dayMap) this.updateDaysMap()
+  }
+
   handleRangeChange = (range) => {
     const { id, fetchStart } = this.props
     fetchStart(id, true, range)
   }
 
+  updateDaysMap = () => {
+    const { dayMap } = this.props
+    const days = []
+    const hints = []
+
+    Object.keys(dayMap).forEach((key) => {
+      days.push(key)
+      hints.push(dayMap[key])
+    })
+
+    linearOptions.xaxis.categories = days
+    this.setState({ clicks: [{ name: 'Click', data: hints }] })
+  }
+
   render() {
     const { longUrl, shortUrl, totalClick } = this.props
+    const { clicks } = this.state
 
     return (
       <Fragment>
@@ -55,7 +72,7 @@ class Detail extends Component {
         <div className="box">
           <Chart
             options={linearOptions}
-            series={varSeries}
+            series={clicks}
             type="area"
             height="350"
           />
@@ -86,7 +103,8 @@ class Detail extends Component {
 const mapStateToProps = ({ detail }) => ({
   shortUrl: detail.shortUrl,
   longUrl: detail.longUrl,
-  totalClick: detail.totalClick
+  totalClick: detail.totalClick,
+  dayMap: detail.dayMap
 })
 
 const mapDispatchToProps = (dispatch) => ({

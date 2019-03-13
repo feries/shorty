@@ -1,8 +1,3 @@
--- Selezione del dettaglio di una url accetta 4 parametri
--- 1° External_id della url
--- 2° Booleano per applicare un filtro sulle date
--- 3° Data di inizio
--- 4° Data di fine
 SELECT
   DATE_FORMAT(s.created_at, '%Y-%m-%d') AS click_date,
   COUNT(1) AS total,

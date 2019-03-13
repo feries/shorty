@@ -8,27 +8,37 @@ import {
 import { API_V1_ENDPOINT, URL_DETAIL } from '../constants/endpoint'
 import { setGlobalToast } from './dashboard'
 
+import Auth from '../lib/Authentication'
+
 export const startFetchData = (externalId, hasRange, range) => async (
   dispatch
 ) => {
-  dispatch({ type: DETAIL_FETCH_START })
+  try {
+    dispatch({ type: DETAIL_FETCH_START })
 
-  const rangeFormatter = hasRange && range ? `/${range}` : ''
-  const formatted = URL_DETAIL.replace('{id}', externalId).replace(
-    '/{range}',
-    rangeFormatter
-  )
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = Auth.getAuthenticationHeader()
 
-  const { data, status, statusText } = await axios.get(
-    `${API_V1_ENDPOINT}${formatted}`
-  )
+    const rangeFormatter = hasRange && range ? `/${range}` : ''
+    const formatted = URL_DETAIL.replace('{id}', externalId).replace(
+      '/{range}',
+      rangeFormatter
+    )
 
-  if (status !== 200) {
-    dispatch(setGlobalToast(statusText))
-    return dispatch(fetchError())
+    const { data, status, statusText } = await axios.get(
+      `${API_V1_ENDPOINT}${formatted}`
+    )
+
+    if (status !== 200) {
+      dispatch(setGlobalToast(statusText))
+      return dispatch(fetchError())
+    }
+
+    dispatch(fetchSuccess(data))
+  } catch (e) {
+    return window.location.assign('/500')
   }
-
-  dispatch(fetchSuccess(data))
 }
 
 export const fetchSuccess = (data) => ({

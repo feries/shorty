@@ -20,7 +20,7 @@ export const linearOptions = {
   },
   tooltip: {
     x: {
-      format: 'dd/MM/yy HH:mm'
+      format: 'dd/MM/yy'
     }
   }
 }
@@ -48,54 +48,6 @@ export const donutOptions = {
       position: 'right',
       offsetY: 0,
       height: 230
-    }
-  }
-}
-
-export const barOptions = {
-  options: {
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        endingShape: 'rounded',
-        columnWidth: '55%'
-      }
-    },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ['transparent']
-    },
-    xaxis: {
-      categories: [
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul',
-        'Aug',
-        'Sep',
-        'Oct'
-      ]
-    },
-    yaxis: {
-      title: {
-        text: '$ (thousands)'
-      }
-    },
-    fill: {
-      opacity: 1
-    },
-    tooltip: {
-      y: {
-        formatter: function(val) {
-          return '$ ' + val + ' thousands'
-        }
-      }
     }
   }
 }
