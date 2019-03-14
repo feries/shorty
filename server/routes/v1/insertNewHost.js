@@ -11,12 +11,12 @@ module.exports = async ({ body }, res) => {
 
     if (!domain || !isValidUrl.test(domain))
       return res
-        .status(403)
+        .status(422)
         .send({ type: 'error', message: `The domain (${domain}) is not valid` })
 
     if (!shortUrl || !isValidUrl.test(shortUrl))
       return res
-        .status(403)
+        .status(422)
         .send({ message: 'You must provide a valid short URL' })
 
     const hostSql = sqlLoader('checkHostByShortUrl.sql')

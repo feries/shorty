@@ -16,6 +16,7 @@ const insertNewHost = require('./insertNewHost')
 const deleteUrl = require('./deleteUrl')
 const apiKey = require('./generateApiKey')
 const getUrlDetail = require('./getUrlDetail')
+const refreshToken = require('./refreshToken')
 
 // Authentication middleware
 routerV1.use(unless(authHeader, '/login'))
@@ -31,6 +32,9 @@ routerV1.post('/login', login)
 
 // Handle user signup
 routerV1.post('/signup', signup)
+
+// Refresh JWT
+routerV1.post('/refresh-token', refreshToken)
 
 // Generate new API-KEY
 routerV1.post('/api-key', apiKey)
