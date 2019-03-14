@@ -2,7 +2,7 @@ CREATE DATABASE `shorty`;
 
 USE `shorty`;
 
-DROP TABLE users;
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 	id INT AUTO_INCREMENT,
 	external_id VARCHAR(36) NOT NULL UNIQUE,
