@@ -13,7 +13,7 @@ CREATE TABLE users (
 	account_enabled TINYINT NOT NULL DEFAULT FALSE,
 	refresh_token VARCHAR(250),
 	PRIMARY KEY (id)
-) ENGINE=INNODB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE hosts;
 CREATE TABLE hosts (
@@ -22,7 +22,7 @@ CREATE TABLE hosts (
 	full_url VARCHAR(255) NOT NULL,
 	short_url varchar(25) NOT NULL UNIQUE,
 	PRIMARY KEY (id),
-) ENGINE=INNODB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE urls;
 CREATE TABLE urls(
@@ -44,7 +44,7 @@ CREATE TABLE urls(
 		REFERENCES hosts(id)
 		ON UPDATE NO ACTION
 		ON DELETE NO ACTION
-) ENGINE=INNODB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE browsers;
 CREATE TABLE browsers (
@@ -52,7 +52,7 @@ CREATE TABLE browsers (
 	external_id VARCHAR(36) NOT NULL,
 	name VARCHAR(50),
 	PRIMARY KEY (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE oss;
 CREATE TABLE oss (
@@ -60,7 +60,16 @@ CREATE TABLE oss (
 	external_id VARCHAR(36) NOT NULL,
 	name VARCHAR(50),
 	PRIMARY KEY (id)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE device_type (
+  id INT NOT NULL AUTO_INCREMENT,
+  type varchar(20) NOT NULL,
+  PRIMARY KEY (id),
+  UNIQUE KEY id (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO `device_type` (`type`) VALUES ('mobile'), ('tablet'), ('desktop'), ('other');
 
 DROP TABLE stats;
 CREATE TABLE stats (
@@ -69,9 +78,7 @@ CREATE TABLE stats (
 	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	browser_id INT NOT NULL,
 	os_id INT NOT NULL,
-	is_mobile BOOLEAN NOT NULL,
-	is_tablet BOOLEAN NOT NULL,
-	is_desktop BOOLEAN NOT NULL,
+	device_id INT NOT NULL,
 	referrer VARCHAR(255) NOT NULL,
 	country VARCHAR(5) NOT NULL,
 	PRIMARY KEY (id),
@@ -87,7 +94,11 @@ CREATE TABLE stats (
 		REFERENCES oss(id)
 		ON UPDATE NO ACTION
 		ON DELETE NO ACTION
-) ENGINE=INNODB;
+	FOREIGN KEY fk_device(device_id)
+		REFERENCES device_type(id)
+		ON UPDATE NO ACTION
+		ON DELETE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE `keys`;
 CREATE TABLE `keys` (
@@ -96,4 +107,4 @@ CREATE TABLE `keys` (
 	`issuer` VARCHAR(255) NOT NULL UNIQUE,
 	`key` VARCHAR(255) NOT NULL UNIQUE,
 	PRIMARY KEY (id)
-) ENGINE=INNODB;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

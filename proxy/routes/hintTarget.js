@@ -24,27 +24,29 @@ module.exports = async (req, res) => {
   const { id, targetUrl } = rows[0]
 
   const { browser, os, isMobile, isTablet, isDesktop } = userAgent.parse(ua)
+  const deviceType = isMobile
+    ? 'mobile'
+    : isTablet
+    ? 'tablet'
+    : isDesktop
+    ? 'desktop'
+    : 'other'
 
   const browserQuery = sqlLoader('insertBrowserIfNotExist.sql')
   const osQuery = sqlLoader('insertOsIfNotExist.sql')
+  const deviceQuery = sqlLoader('getDeviceTypeId.sql')
 
   await db.query(browserQuery, [uuidv4(), browser, browser])
   await db.query(osQuery, [uuidv4(), os, os])
 
-  const geo = {}
+  const [device] = await db.query(deviceQuery, deviceType)
+
+  // TODO: Find user Geo
+  const geo = ''
 
   const insert = sqlLoader('insertUrlHint.sql')
 
-  await db.query(insert, [
-    id,
-    browser,
-    os,
-    isMobile,
-    isTablet,
-    isDesktop,
-    referer,
-    ip
-  ])
+  await db.query(insert, [id, browser, os, device.id, referer, geo])
 
   res.redirect(301, targetUrl)
 }

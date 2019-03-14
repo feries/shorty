@@ -2,8 +2,10 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Chart from 'react-apexcharts'
+import classnames from 'classnames'
 
 import DetailTopInfo from '../components/DetailTopInfo'
+import Loader from '../components/Loader'
 
 import { donutOptions, linearOptions } from '../constants/chart'
 import { startFetchData } from '../actions/detail'
@@ -11,10 +13,10 @@ import { RANGE_ALL } from '../constants/common'
 
 class Detail extends Component {
   state = {
-    clicks: [{ name: 'Click', data: [] }],
-    browserSeries: [],
+    clicks: [{ name: 'Click', data: null }],
+    browserSeries: null,
     browserOptions: donutOptions,
-    osSeries: [],
+    osSeries: null,
     osOptions: donutOptions
   }
 
@@ -78,8 +80,10 @@ class Detail extends Component {
 
     this.setState({
       browserOptions: {
-        ...this.state.browserOptions
-      }
+        ...this.state.browserOptions,
+        labels
+      },
+      browserSeries: series
     })
   }
 
@@ -92,17 +96,35 @@ class Detail extends Component {
       labels.push(key)
       series.push(osMap[key])
     })
+
+    this.setState({
+      osOptions: {
+        ...this.state.osOptions,
+        labels
+      },
+      osSeries: series
+    })
   }
 
   render() {
     const { longUrl, shortUrl, totalClick } = this.props
     const {
       clicks,
-      browserSeries,
       browserOptions,
-      osSeries,
-      osOptions
+      browserSeries,
+      osOptions,
+      osSeries
     } = this.state
+
+    const hintBox = classnames('box', {
+      't-center': !clicks.data
+    })
+    const browserBox = classnames('box flex-grow m-right-x2', {
+      't-center': !browserSeries
+    })
+    const osBox = classnames('box flex-grow m-left-x2', {
+      't-center': !osSeries
+    })
 
     return (
       <Fragment>
@@ -112,30 +134,42 @@ class Detail extends Component {
           totalClick={totalClick}
           onRangeChange={this.handleRangeChange}
         />
-        <div className="box">
-          <Chart
-            options={linearOptions}
-            series={clicks}
-            type="area"
-            height="350"
-          />
+        <div className={hintBox}>
+          {clicks[0].data ? (
+            <Chart
+              options={linearOptions}
+              series={clicks}
+              type="area"
+              height="350"
+            />
+          ) : (
+            <Loader />
+          )}
         </div>
         <div className="flex flex-space flex-stretch">
-          <div className="box flex-grow m-right-x2">
-            <Chart
-              options={browserOptions}
-              series={browserSeries}
-              type="donut"
-              width="380"
-            />
+          <div className={browserBox}>
+            {browserSeries ? (
+              <Chart
+                options={browserOptions}
+                series={browserSeries}
+                type="donut"
+                width="380"
+              />
+            ) : (
+              <Loader />
+            )}
           </div>
-          <div className="box flex-grow m-left-x2">
-            <Chart
-              options={osOptions}
-              series={osSeries}
-              type="donut"
-              width="380"
-            />
+          <div className={osBox}>
+            {osSeries ? (
+              <Chart
+                options={osOptions}
+                series={osSeries}
+                type="donut"
+                width="380"
+              />
+            ) : (
+              <Loader />
+            )}
           </div>
         </div>
       </Fragment>
@@ -148,7 +182,8 @@ const mapStateToProps = ({ detail }) => ({
   longUrl: detail.longUrl,
   totalClick: detail.totalClick,
   dayMap: detail.dayMap,
-  browserMap: detail.browserMap
+  browserMap: detail.browserMap,
+  osMap: detail.osMap
 })
 
 const mapDispatchToProps = (dispatch) => ({

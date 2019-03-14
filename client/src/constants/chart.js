@@ -39,7 +39,6 @@ export const linearOptions = {
 }
 
 export const donutOptions = {
-  labels: [],
   responsive: [
     {
       breakpoint: 480,
