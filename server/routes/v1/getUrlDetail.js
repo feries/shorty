@@ -34,17 +34,21 @@ module.exports = async (req, res) => {
     const osMap = {}
     let shortUrl = null
     let targetUrl = null
+    let totalClick = 0
 
     for (const row of rows) {
       if (!shortUrl) shortUrl = row.shortUrl
       if (!targetUrl) targetUrl = row.targetUrl
 
+      // Update total click counter
+      totalClick += row.total
+
       // Build Click Map
-      if (dayMap.hasOwnProperty(row.click_date)) {
-        const tmp = dayMap[row.click_date]
-        dayMap[row.click_date] = tmp + row.total
+      if (dayMap.hasOwnProperty(row.clickDate)) {
+        const tmp = dayMap[row.clickDate]
+        dayMap[row.clickDate] = tmp + row.total
       } else {
-        dayMap[row.click_date] = row.total
+        dayMap[row.clickDate] = row.total
       }
 
       // Build Browser Map
@@ -70,7 +74,7 @@ module.exports = async (req, res) => {
       osMap,
       shortUrl,
       targetUrl,
-      totalClick: totalRecords
+      totalClick
     })
   } catch (e) {
     res.status(500).send({ message: 'Something went terribly wrong' })

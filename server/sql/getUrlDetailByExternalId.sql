@@ -1,5 +1,5 @@
 SELECT
-  DATE_FORMAT(s.created_at, '%Y-%m-%d') AS click_date,
+  DATE_FORMAT(s.created_at, '%Y-%m-%d') AS "clickDate",
   COUNT(1) AS total,
 	u.target_url AS "targetUrl",
 	CONCAT(h.short_url, '/', u.source_url) AS "shortUrl",

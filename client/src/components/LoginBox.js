@@ -55,6 +55,7 @@ class LoginBox extends Component {
             value={username}
             placeholder="insert your email"
             onChange={(e) => this.handleChange(e, 'username')}
+            autoFocus={true}
           />
           <input
             type="password"

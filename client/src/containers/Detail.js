@@ -9,10 +9,14 @@ import { donutOptions, linearOptions } from '../constants/chart'
 import { startFetchData } from '../actions/detail'
 import { RANGE_ALL } from '../constants/common'
 
-const varSeriesDonut = [44, 55, 13, 33]
-
 class Detail extends Component {
-  state = { clicks: [{ name: 'Click', data: [] }] }
+  state = {
+    clicks: [{ name: 'Click', data: [] }],
+    browserSeries: [],
+    browserOptions: donutOptions,
+    osSeries: [],
+    osOptions: donutOptions
+  }
 
   static propTypes = {
     id: PropTypes.string.isRequired,
@@ -26,16 +30,24 @@ class Detail extends Component {
     longUrl: '',
     shortUrl: '',
     totalClick: 0,
-    dayMap: {}
+    dayMap: {},
+    browserMap: {},
+    osMap: {}
   }
 
   componentDidMount() {
     const { id } = this.props
-    this.props.fetchStart(id)
+    this.props.fetchStart(id).then(() => {
+      this.updateDaysMap()
+      this.updateBrowserMap()
+      this.updateOsMap()
+    })
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.dayMap !== this.props.dayMap) this.updateDaysMap()
+    if (prevProps.browserMap !== this.props.browserMap) this.updateBrowserMap()
+    if (prevProps.osMap !== this.props.osMap) this.updateOsMap()
   }
 
   handleRangeChange = (range) => {
@@ -45,21 +57,52 @@ class Detail extends Component {
 
   updateDaysMap = () => {
     const { dayMap } = this.props
-    const days = []
-    const hints = []
+    const data = []
 
     Object.keys(dayMap).forEach((key) => {
-      days.push(key)
-      hints.push(dayMap[key])
+      data.push({ x: key, y: dayMap[key] })
     })
 
-    linearOptions.xaxis.categories = days
-    this.setState({ clicks: [{ name: 'Click', data: hints }] })
+    this.setState({ clicks: [{ name: 'Click', data }] })
+  }
+
+  updateBrowserMap = () => {
+    const { browserMap } = this.props
+    const series = []
+    const labels = []
+
+    Object.keys(browserMap).forEach((key) => {
+      labels.push(key)
+      series.push(browserMap[key])
+    })
+
+    this.setState({
+      browserOptions: {
+        ...this.state.browserOptions
+      }
+    })
+  }
+
+  updateOsMap = () => {
+    const { osMap } = this.props
+    const series = []
+    const labels = []
+
+    Object.keys(osMap).forEach((key) => {
+      labels.push(key)
+      series.push(osMap[key])
+    })
   }
 
   render() {
     const { longUrl, shortUrl, totalClick } = this.props
-    const { clicks } = this.state
+    const {
+      clicks,
+      browserSeries,
+      browserOptions,
+      osSeries,
+      osOptions
+    } = this.state
 
     return (
       <Fragment>
@@ -80,16 +123,16 @@ class Detail extends Component {
         <div className="flex flex-space flex-stretch">
           <div className="box flex-grow m-right-x2">
             <Chart
-              options={donutOptions}
-              series={varSeriesDonut}
+              options={browserOptions}
+              series={browserSeries}
               type="donut"
               width="380"
             />
           </div>
           <div className="box flex-grow m-left-x2">
             <Chart
-              options={donutOptions}
-              series={varSeriesDonut}
+              options={osOptions}
+              series={osSeries}
               type="donut"
               width="380"
             />
@@ -104,7 +147,8 @@ const mapStateToProps = ({ detail }) => ({
   shortUrl: detail.shortUrl,
   longUrl: detail.longUrl,
   totalClick: detail.totalClick,
-  dayMap: detail.dayMap
+  dayMap: detail.dayMap,
+  browserMap: detail.browserMap
 })
 
 const mapDispatchToProps = (dispatch) => ({

@@ -5,9 +5,7 @@ const ProfileBox = () => (
     <div className="profileItem m-top-x2">
       Ciao Gino &nbsp;
       <span className="lightGrey">|</span>&nbsp;{' '}
-      <a href="#" className="tiny">
-        Logout
-      </a>
+      <button className="tiny">Logout</button>
     </div>
   </div>
 )
