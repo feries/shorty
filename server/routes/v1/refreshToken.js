@@ -2,31 +2,40 @@ const { sqlLoader, generateTokens } = require('../../lib')
 const { pool: db } = require('../../config')
 
 module.exports = async (req, res) => {
-  const { rwt } = req.body
+  try {
+    const { rwt } = req.body
 
-  if (!rwt)
-    return res.status(422).send({
-      type: 'error',
-      message: 'You must provide a valid refresh token.'
-    })
+    if (!rwt)
+      return res.status(422).send({
+        type: 'error',
+        message: 'You must provide a valid refresh token.'
+      })
 
-  const sql = sqlLoader('getUserByRefreshToken.sql')
-  const [user] = await db.query(sql, [rwt])
+    const sql = sqlLoader('getUserByRefreshToken.sql')
+    const [user] = await db.query(sql, [rwt])
 
-  if (!user)
-    return res
-      .status(401)
-      .send({ type: 'error', message: 'Unauthorized user.' })
+    if (!user)
+      return res
+        .status(401)
+        .send({ type: 'error', message: 'Unauthorized user.' })
 
-  const { token, refreshToken } = generateTokens(user)
+    delete user.password
+    delete user.id
+    delete user.account_enabled
+    delete user.refresh_token
 
-  if (!token || !refreshToken)
-    return res
-      .status(500)
-      .send({ type: 'error', message: 'Something went wrong.' })
+    const { token, refreshToken } = generateTokens(user)
 
-  const updateUserRefreshToken = sqlLoader('updateUserRefreshToken.sql')
-  await db.query(updateUserRefreshToken, [refreshToken, user.id])
+    if (!token || !refreshToken)
+      return res
+        .status(500)
+        .send({ type: 'error', message: 'Something went wrong.' })
 
-  res.status(201).send({ token, refreshToken })
+    const updateUserRefreshToken = sqlLoader('updateUserRefreshToken.sql')
+    await db.query(updateUserRefreshToken, [refreshToken, user.id])
+
+    res.status(201).send({ token, refreshToken })
+  } catch (error) {
+    res.status(500).send({ type: 'error', message: 'Something went wrong.' })
+  }
 }

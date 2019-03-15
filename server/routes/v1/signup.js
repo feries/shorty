@@ -1,10 +1,8 @@
-const securePassword = require('secure-password')
+const SecurePassword = require('secure-password')()
 const uuidv4 = require('uuid/v4')
 
 const { sqlLoader } = require('../../lib')
 const { pool: db } = require('../../config')
-
-const SecurePassword = securePassword()
 
 module.exports = async (req, res) => {
   const { email, password } = req.body

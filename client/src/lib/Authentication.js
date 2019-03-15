@@ -28,8 +28,4 @@ export default class Auth {
   static isAuthenticated() {
     return Auth.getJwt() !== null
   }
-
-  static fakeAuth() {
-    return true
-  }
 }

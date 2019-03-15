@@ -53,7 +53,7 @@ const generateTokens = (user) => {
     }
   )
 
-  const refreshToken = jwt.sign(user, process.env.RWT_SECRET, {
+  const refreshToken = jwt.sign({ user }, process.env.RWT_SECRET, {
     expiresIn: process.env.RWT_EXPIRE_IN,
     issuer: process.env.JWT_ISSUER
   })
