@@ -10,7 +10,7 @@ const Sentry = require('@sentry/node')
 
 const {
   NODE_ENV,
-  HOST,
+  SERVER_HOST,
   SERVER_PORT,
   SENTRY_URL_SHORTENER_SERVER_DNS
 } = process.env
@@ -52,6 +52,6 @@ app.use(function onError(err, req, res) {
 })
 
 // Start server
-app.listen(SERVER_PORT, HOST, () => {
-  console.log(`Server is running on: http://${HOST}:${SERVER_PORT}/`)
+app.listen(SERVER_PORT, SERVER_HOST, () => {
+  console.log(`Server is running on: http://${SERVER_HOST}:${SERVER_PORT}/`)
 })

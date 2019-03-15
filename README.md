@@ -6,10 +6,10 @@ Short is beautiful! Save the world by making it shorter!
 ### Description
 
 ### Project Structure
-- Client
-- Server
-- Proxy
-- Sql
+- Client (create-react-app based)
+- Server (express server)
+- Proxy (express server)
+- Sql (some sql scripts)
 
 # Install
 ### Pre-requisite
@@ -24,8 +24,9 @@ Short is beautiful! Save the world by making it shorter!
 4. 
 
 # To Do
-- [ ] Test.
-- [ ] Enhance user handling and roles.
+- [ ] 🐳 Dockerize.
+- [ ] ⚠️ Test.
+- [ ] 🚨 Enhance user handling and roles.
 
 # Credit
 

@@ -1,0 +1,69 @@
+version: "3"
+services:
+  db:
+    image: mysql:latest
+    restart: always
+    ports: [DB_PORT:DB_PORT]
+    environment:
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+  api:
+    build: ./server
+    restart: always
+    depends_on:
+      - db
+    ports: [SERVER_PORT:SERVER_PORT]
+    volumes:
+      - ./server:/app:delegated
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - SERVER_HOST=${SERVER_HOST}
+      - SERVER_PORT=${SERVER_PORT}
+      - DOMAIN=${DOMAIN}
+      - SENTRY_URL_SHORTENER_SERVER_DNS=${SENTRY_URL_SHORTENER_SERVER_DNS}
+      - DB_URL=${DB_URL}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRE_IN=${JWT_EXPIRE_IN}
+      - JWT_ISSUER=${JWT_ISSUER}
+      - RWT_SECRET=${RWT_SECRET}
+      - RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
+  proxy:
+    build: ./proxy
+    restart: always
+    depends_on:
+      - db
+      - api
+    volumes:
+      - ./proxy:/app:delegated
+    ports: [PROXY_PORT:PROXY_PORT]
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PROXY_HOST=${SERVER_HOST}
+      - PROXY_PORT=${SERVER_PORT}
+      - DOMAIN=${DOMAIN}
+      - SENTRY_URL_SHORTENER_PROXY_DNS=${SENTRY_URL_SHORTENER_PROXY_DNS}
+      - DB_URL=${DB_URL}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+  client:
+    build: ./client
+    restart: always
+    depends_on:
+      - proxy
+    ports: [CLIENT_PORT:CLIENT_PORT]
+    volumes:
+      - ./client:/app:delegated
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - CLIENT_PORT=${CLIENT_PORT}
+      - DOMAIN=${DOMAIN}
+      - SENTRY_URL_SHORTENER_CLIENT_DNS=${SENTRY_URL_SHORTENER_CLIENT_DNS}
