@@ -1,0 +1,38 @@
+@import 'components/editableLabel';
+.settings {
+  max-width: 1090px;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  border-radius: $radius;
+  background: $white;
+  box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
+  border: 1px solid $lightGrey;
+  padding: $doubleSpace;
+  .item {
+    width: 27%;
+    margin-right: 1%;
+    &.item-last {
+      margin-right: 0;
+      width: 16%;
+      text-align: right;
+    }
+    button {
+      text-align: right;
+      padding: 0;
+      &.editPassword {
+        width: 90%;
+        text-align: center;
+        padding: $space;
+        font-weight: $bold;
+        border-radius: $radiusSmall;
+        background: $primary !important;
+        color: $white !important;
+        padding: $space $doubleSpace $space $doubleSpace;
+        border: none;
+      }
+    }
+  }
+}
