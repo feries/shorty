@@ -42,7 +42,7 @@ app.get('/:shortid', hintTarget)
 app.use((req, res) => {
   // Invalid request
   if (!isProd) return res.redirect('http://localhost:3000/404')
-  res.redirect('https://feri.es/404')
+  res.redirect(`${process.env.DOMAIN}/404`)
 })
 
 // Global Error handler

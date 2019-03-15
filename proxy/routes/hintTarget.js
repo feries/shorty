@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
 
   if (rows.length !== 1)
     return res.redirect(
-      isProd ? 'https://feri.es/404' : 'http://localhost:3000/404'
+      isProd ? `${process.env.DOMAIN}/404` : `http://localhost:${process.env.PORT}/404`
     )
 
   const { id, targetUrl } = rows[0]

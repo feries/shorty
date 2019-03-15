@@ -60,7 +60,7 @@ class ShortyList extends Component {
 
   openShortLink = (shortedUrl, externalId) => {
     this.props.shortLinkClick(externalId)
-    window.open(`https://feri.es/${shortedUrl}`, '_blank')
+    window.open(`${process.env.DOMAIN}/${shortedUrl}`, '_blank')
   }
 
   loadMore = () => {
@@ -150,7 +150,7 @@ class ShortyList extends Component {
                   onClick={() =>
                     this.props.handleButtonClick(
                       QR_CODE,
-                      `https://feri.es/${item.shortedUrl}`
+                      `${process.env.DOMAIN}/${item.shortedUrl}`
                     )
                   }
                 >
@@ -161,7 +161,7 @@ class ShortyList extends Component {
                   onClick={() =>
                     this.props.handleButtonClick(
                       TRASH,
-                      `https://feri.es/${item.shortedUrl}`,
+                      `${process.env.DOMAIN}/${item.shortedUrl}`,
                       item.externalId
                     )
                   }
