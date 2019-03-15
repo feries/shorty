@@ -3,12 +3,22 @@
   "version": "1.0.0",
   "description": "url shortner server",
   "main": "index.js",
-  "author": "Claudio Quaglia <claudio.quaglia@feries.it>",
+  "author": "Feries s.r.l <info@feries.it> (https://www.feries.it)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feries/shorty.git"
+  },
+  "bugs": "https://github.com/feries/shorty/issues",
+  "engines": {
+    "node": ">= 10.15.0",
+    "yarn": ">= 1.10.0"
+  },
   "license": "MIT",
   "private": true,
   "scripts": {
     "bootstrap": "node bin/init.js",
-    "dev": "node index.js"
+    "dev": "node index.js",
+    "prod": "NODE_ENV=production node index.js"
   },
   "dependencies": {
     "@sentry/node": "^4.6.3",
@@ -26,5 +36,13 @@
     "secure-password": "^3.1.0",
     "shortid": "^2.2.14",
     "uuid": "^3.3.2"
-  }
+  },
+  "contributors": [
+    "Claudio Quaglia <claudio.quaglia@feries.it>",
+    "Gabriele Pellegrini <gabriele.pellegrini@feries.it>"
+  ],
+  "keywords": [
+    "url shortener",
+    "shortener"
+  ]
 }

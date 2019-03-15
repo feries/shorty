@@ -9,6 +9,7 @@ Short is beautiful! Save the world by making it shorter!
 - Client
 - Server
 - Proxy
+- Sql
 
 # Install
 ### Pre-requisite
@@ -23,10 +24,11 @@ Short is beautiful! Save the world by making it shorter!
 4. 
 
 # To Do
-- [ ] Test, test and some test.
+- [ ] Test.
 - [ ] Enhance user handling and roles.
 
 # Credit
+
 [Claudio Quaglia](https://github.com/claudioquaglia) (Developer Frontend/Backend)
 
 [Garbiele Pellegrini](https://github.com/gabrielepellegrini) (Designer / Developer Frontend)

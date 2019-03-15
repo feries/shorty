@@ -8,20 +8,24 @@ const compression = require('compression')
 const helmet = require('helmet')
 const Sentry = require('@sentry/node')
 
-// Import Routes
-const { routerV1 } = require('./routes/index')
+const {
+  NODE_ENV,
+  HOST,
+  SERVER_PORT,
+  SENTRY_URL_SHORTENER_SERVER_DNS
+} = process.env
 
-const HOST = process.env.HOST
-const PORT = process.env.PORT
-const STATIC_PATH = process.env.STATIC_PATH
+const isProd = NODE_ENV === 'production'
 
-const isProd = process.env.NODE_ENV !== 'development'
 const app = express()
+
+// Import router
+const { routerV1 } = require('./routes/index')
 
 // Sentry Initialization
 isProd &&
   Sentry.init({
-    dsn: process.env.SENTRY_URL_SHORTNER_DNS,
+    dsn: SENTRY_URL_SHORTENER_SERVER_DNS,
     maxBreadcrumbs: 50
   })
 
@@ -29,7 +33,6 @@ isProd &&
 isProd && app.use(Sentry.Handlers.requestHandler())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static(__dirname + STATIC_PATH))
 app.use(compression())
 
 // Security settings
@@ -49,6 +52,6 @@ app.use(function onError(err, req, res) {
 })
 
 // Start server
-app.listen(PORT, HOST, () => {
-  console.log(`Server is running on: http://${HOST}:${PORT}/`)
+app.listen(SERVER_PORT, HOST, () => {
+  console.log(`Server is running on: http://${HOST}:${SERVER_PORT}/`)
 })

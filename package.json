@@ -3,7 +3,16 @@
   "version": "1.0.0",
   "description": "Short is beautiful! Save the world by making it shorter!",
   "main": "index.js",
-  "author": "Claudio Quaglia <claudio.quaglia@feries.it>",
+  "author": "Feries s.r.l <info@feries.it> (https://www.feries.it)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feries/shorty.git"
+  },
+  "bugs": "https://github.com/feries/shorty/issues",
+  "engines": {
+    "node": ">= 10.15.0",
+    "yarn": ">= 1.10.0"
+  },
   "license": "MIT",
   "private": true,
   "workspaces": [
@@ -16,9 +25,21 @@
     "dev:proxy": "yarn --cwd proxy dev",
     "dev:server": "yarn --cwd server dev",
     "dev:frontend": "yarn --cwd client start",
-    "dev": "yarn run dev:server && yarn run dev:proxy && yarn run dev:frontend"
+    "dev": "yarn run dev:server && yarn run dev:proxy && yarn run dev:frontend",
+    "prod:proxy": "yarn --cwd proxy prod",
+    "prod:server": "yarn --cwd server prod",
+    "prod:frontend": "yarn --cwd client prod",
+    "prod": "yarn run prod:proxy && yarn run prod:server && yarn run prod:frontend"
   },
   "devDependencies": {
     "prettier": "^1.16.4"
-  }
+  },
+  "contributors": [
+    "Claudio Quaglia <claudio.quaglia@feries.it>",
+    "Gabriele Pellegrini <gabriele.pellegrini@feries.it>"
+  ],
+  "keywords": [
+    "url shortener",
+    "shortener"
+  ]
 }

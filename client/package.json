@@ -1,6 +1,18 @@
 {
   "name": "client",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Shory client app",
+  "author": "Feries s.r.l <info@feries.it> (https://www.feries.it)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feries/shorty.git"
+  },
+  "bugs": "https://github.com/feries/shorty/issues",
+  "engines": {
+    "node": ">= 10.15.0",
+    "yarn": ">= 1.10.0"
+  },
+  "license": "MIT",
   "private": true,
   "dependencies": {
     "apexcharts": "^3.5.0",
@@ -8,6 +20,8 @@
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.0.8",
     "dayjs": "^1.8.8",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
     "prop-types": "^15.7.2",
     "qrcode.react": "^0.9.3",
     "react": "^16.8.3",
@@ -23,7 +37,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prod": "yarn run build && NODE_ENV=production node server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -37,5 +52,13 @@
   "devDependencies": {
     "node-sass": "^4.11.0"
   },
-  "proxy": "http://127.0.0.1:3001"
+  "proxy": "http://127.0.0.1:3001",
+  "contributors": [
+    "Claudio Quaglia <claudio.quaglia@feries.it>",
+    "Gabriele Pellegrini <gabriele.pellegrini@feries.it>"
+  ],
+  "keywords": [
+    "url shortener",
+    "shortener"
+  ]
 }
