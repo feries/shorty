@@ -36,7 +36,7 @@ Short is beautiful! Save the world by making it shorter!
 
 
 # Thanks
-[@Feries](http://www.feries.com)
+[@Feries](https://www.feries.it)
 
 # License
 The MIT License (MIT)
