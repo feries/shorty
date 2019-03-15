@@ -1,7 +1,5 @@
-const jwt = require('express-jwt')
-
 const { authHeaderKey } = require('../constants')
-const { sqlLoader, isExpired } = require('../lib')
+const { sqlLoader } = require('../lib')
 const { pool: db } = require('../config')
 
 module.exports = async (req, res, next) => {

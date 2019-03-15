@@ -6,7 +6,8 @@ const {
   isValidUrl,
   getDomainFromUrl,
   removeInitialSlash,
-  trailingSlash
+  trailingSlash,
+  generateTokens
 } = require('./common')
 
 module.exports = {
@@ -16,5 +17,6 @@ module.exports = {
   isValidUrl,
   getDomainFromUrl,
   removeInitialSlash,
-  trailingSlash
+  trailingSlash,
+  generateTokens
 }

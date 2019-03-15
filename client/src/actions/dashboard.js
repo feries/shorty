@@ -35,6 +35,8 @@ import { PER_PAGE } from '../constants/common'
 import { objectToQuery } from '../lib/helpers'
 import Auth from '../lib/Authentication'
 
+import { refreshToken } from './token'
+
 export const startFetchLinks = (
   limit = PER_PAGE,
   skip = 0,
@@ -58,7 +60,13 @@ export const startFetchLinks = (
     const _skip = skip === 0 ? 1 : skip
     const hasMore = data.count > limit * _skip
     dispatch(fetchSuccess({ ...data, hasMore, clearResults }))
-  } catch (e) {
+  } catch (error) {
+    dispatch(fetchError())
+
+    if (error.response.status === 401) {
+      return refreshToken(dispatch, startFetchLinks, limit, skip, clearResults)
+    }
+
     return window.location.assign('/500')
   }
 }
@@ -100,9 +108,10 @@ export const startSubmitLink = (url, short) => async (dispatch) => {
         setGlobalToast({ type: 'error', message: e.response.data.message })
       )
       return dispatch(submitLinkError())
-    } else {
-      window.location.assign('/500')
+    } else if (e.response.status === 401) {
+      return refreshToken(dispatch, startSubmitLink, url, short)
     }
+    window.location.assign('/500')
   }
 }
 
@@ -137,9 +146,11 @@ export const startFilter = (key, value) => async (dispatch) => {
     if (e.response.status === 400) {
       dispatch(setGlobalToast(e.response.data.message))
       return dispatch(startFilterError())
-    } else {
-      window.location.assign('/500')
+    } else if (e.response.status === 401) {
+      return refreshToken(dispatch, startFilter, key, value)
     }
+
+    window.location.assign('/500')
   }
 }
 
@@ -170,9 +181,11 @@ export const startDelete = (externalId) => async (dispatch) => {
         setGlobalToast({ type: 'error', message: e.response.data.message })
       )
       return dispatch(deleteError())
-    } else {
-      window.location.assign('/500')
+    } else if (e.response.status === 401) {
+      return refreshToken(dispatch, startDelete, externalId)
     }
+
+    window.location.assign('/500')
   }
 }
 
@@ -217,9 +230,10 @@ export const startAddHost = (shortUrl, fullUrl) => async (
         setGlobalToast({ type: 'error', message: e.response.data.message })
       )
       return dispatch(addHostError())
-    } else {
-      window.location.assign('/500')
+    } else if (e.response.status === 401) {
+      return refreshToken(dispatch, startAddHost, shortUrl, fullUrl)
     }
+    window.location.assign('/500')
   }
 }
 

@@ -1,4 +1,6 @@
 const ms = require('ms')
+const jwt = require('jsonwebtoken')
+const uuidv4 = require('uuid/v4')
 
 /**
  * @name isExpired
@@ -33,10 +35,37 @@ const removeInitialSlash = (path) =>
  */
 const trailingSlash = (path) => path.replace(/\/$/, '')
 
+const generateTokens = (user) => {
+  const now = Math.floor(Date.now() / 1000)
+  const iat = now - 10
+  const jti = `SVC-AUTH/${user.external_id}/${uuidv4()}`
+  const token = jwt.sign(
+    {
+      jti,
+      iat,
+      sub: user,
+      nbf: 3000
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRE_IN,
+      issuer: process.env.JWT_ISSUER
+    }
+  )
+
+  const refreshToken = jwt.sign(user, process.env.RWT_SECRET, {
+    expiresIn: process.env.RWT_EXPIRE_IN,
+    issuer: process.env.JWT_ISSUER
+  })
+
+  return { token, refreshToken }
+}
+
 module.exports = {
   isExpired,
   isValidUrl,
   getDomainFromUrl,
   removeInitialSlash,
-  trailingSlash
+  trailingSlash,
+  generateTokens
 }

@@ -19,12 +19,12 @@ const getUrlDetail = require('./getUrlDetail')
 const refreshToken = require('./refreshToken')
 
 // Authentication middleware
-routerV1.use(unless(authHeader, '/login'))
+routerV1.use(unless(authHeader, '/login', '/api/v1/refresh-token'))
 routerV1.use(
   jwt({
     secret: process.env.JWT_SECRET,
     issuer: process.env.JWT_ISSUER
-  }).unless({ path: ['/api/v1/login'] })
+  }).unless({ path: ['/api/v1/login', '/api/v1/refresh-token'] })
 )
 
 // Handle user login

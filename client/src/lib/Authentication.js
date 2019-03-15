@@ -16,6 +16,10 @@ export default class Auth {
     return localStorage(JWT_STORAGE_KEY)
   }
 
+  static getRwt() {
+    return localStorage(RWT_STORAGE_KEY)
+  }
+
   static getAuthenticationHeader() {
     if (!Auth.isAuthenticated()) return null
 

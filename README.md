@@ -28,6 +28,7 @@ Short is beautiful! Save the world by making it shorter!
 
 # Credit
 [Claudio Quaglia](https://github.com/claudioquaglia) (Developer Frontend/Backend)
+
 [Garbiele Pellegrini](https://github.com/gabrielepellegrini) (Designer / Developer Frontend)
 
 

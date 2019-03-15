@@ -1,1 +1,1 @@
-UPDATE users SET last_login=? WHERE id=?;
+UPDATE users SET last_login=CURRENT_TIMESTAMP WHERE id=?;
