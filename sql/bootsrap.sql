@@ -1,4 +1,4 @@
-CREATE DATABASE `shorty`;
+CREATE DATABASE IF NOT EXISTS `shorty`;
 
 USE `shorty`;
 

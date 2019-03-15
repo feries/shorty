@@ -6,13 +6,16 @@ Short is beautiful! Save the world by making it shorter!
 ### Description
 
 ### Project Structure
-- Client (create-react-app based)
-- Server (express server)
-- Proxy (express server)
-- Sql (some sql scripts)
+- Client (create-react-app based app)
+- Server (express server for app api)
+- Proxy (express server for hint route)
+- Sql (sql scripts used by server and proxy)
 
 # Install
-### Pre-requisite
+You can skip this block if you are going to use it in dockerized environment. Everithing is setted up in `docker-compose.yaml`, 
+and all configurable parameters are defined into `.env` file.
+
+### Pre-requisite for non-docker environment 
 - MySQL >= 5.5.40
 - Node.js >= 10.15.0
 - Yarn >= 1.10.1 *(optional)*
@@ -27,12 +30,14 @@ Short is beautiful! Save the world by making it shorter!
 - [ ] 🐳 Dockerize.
 - [ ] ⚠️ Test.
 - [ ] 🚨 Enhance user handling and roles.
+- [ ] 🚀 CI/CD Set up
+- [ ] 🤖 Add Google Tag Manager
 
 # Credit
 
 [Claudio Quaglia](https://github.com/claudioquaglia) (Developer Frontend/Backend)
 
-[Garbiele Pellegrini](https://github.com/gabrielepellegrini) (Designer / Developer Frontend)
+[Gabriele Pellegrini](https://github.com/gabrielepellegrini) (Designer/Developer Frontend)
 
 
 # Thanks
