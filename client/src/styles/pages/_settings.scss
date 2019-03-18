@@ -1,16 +1,14 @@
 @import 'components/editableLabel';
+@import 'components/apiKeyList';
 .settings {
-  max-width: 1090px;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center;
-  justify-content: space-between;
-  list-style: none;
-  border-radius: $radius;
-  background: $white;
-  box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
-  border: 1px solid $lightGrey;
-  padding: $doubleSpace;
+  .personal-informations {
+    max-width: 1090px;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+  }
   .item {
     width: 27%;
     margin-right: 1%;

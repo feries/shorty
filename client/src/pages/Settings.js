@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 
 import Logo from '../components/Logo'
 import BackToHome from '../components/BackToHome'
-import EditableLabel from '../components/EditableLabel'
+import ApiKeyList from '../components/ApiKeyList'
+import PersonalInformationsFrom from '../containers/PersonalInformationsForm'
 
 class Settings extends Component {
   render() {
@@ -13,36 +14,11 @@ class Settings extends Component {
             <Logo className="logosmall" />
             <BackToHome />
           </div>
-          <div className="settings m-top-x4">
-            <div className="PersonalInformations flex flex-grow">
-              <div className="item">
-                <EditableLabel
-                  label="name"
-                  fieldValue="Gabriele"
-                  iconDefault={<i class="far fa-pencil-alt" />}
-                  iconSubmit={<i class="fas fa-check" />}
-                />
-              </div>
-              <div className="item">
-                <EditableLabel
-                  label="cognome"
-                  fieldValue="Pellegrini"
-                  iconDefault={<i class="far fa-pencil-alt" />}
-                  iconSubmit={<i class="fas fa-check" />}
-                />
-              </div>
-              <div className="item">
-                <EditableLabel
-                  label="email"
-                  fieldValue="gabriele.pellegrini@feries.it"
-                  iconDefault={<i class="far fa-pencil-alt" />}
-                  iconSubmit={<i class="fas fa-check" />}
-                />
-              </div>
-              <div className="item item-last">
-                <button className="editPassword">EDIT PASSWORD</button>
-              </div>
-            </div>
+          <div className="settings box flex m-top-x4">
+            <PersonalInformationsFrom />
+          </div>
+          <div className="box m-top-x6">
+            <ApiKeyList />
           </div>
         </div>
       </div>
