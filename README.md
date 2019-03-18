@@ -41,7 +41,7 @@ and all configurable parameters are defined into `.env` file.
 
 
 # Thanks
-[@Feries](http://www.feries.com)
+[@Feries](https://www.feries.it)
 
 # License
 The MIT License (MIT)
