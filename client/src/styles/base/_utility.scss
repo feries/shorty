@@ -114,6 +114,18 @@
     &-x5 {
       margin-top: $space * 5 !important;
     }
+    &-x6 {
+      margin-top: $space * 6 !important;
+    }
+    &-x7 {
+      margin-top: $space * 7 !important;
+    }
+    &-x8 {
+      margin-top: $space * 8 !important;
+    }
+    &-x9 {
+      margin-top: $space * 9 !important;
+    }
     &-x10 {
       margin-top: $space * 10 !important;
     }
@@ -216,6 +228,27 @@
 .w {
   &-100 {
     width: 100%;
+  }
+  &-5 {
+    width: 5%;
+  }
+  &-10 {
+    width: 10%;
+  }
+  &-15 {
+    width: 15%;
+  }
+  &-20 {
+    width: 20%;
+  }
+  &-30 {
+    width: 30%;
+  }
+  &-40 {
+    width: 40%;
+  }
+  &-50 {
+    width: 50%;
   }
 }
 
