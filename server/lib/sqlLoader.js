@@ -7,6 +7,9 @@ const path = require('path')
  * @returns {String} Read query
  */
 const sqlLoader = (file) =>
-  fs.readFileSync(path.join(__dirname, '..', '..', 'sql', file), 'utf8')
+  fs.readFileSync(
+    path.join(__dirname, '..', '..', 'sql', 'query', file),
+    'utf8'
+  )
 
 module.exports = sqlLoader
