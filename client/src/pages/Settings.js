@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import Logo from '../components/Logo'
 import BackToHome from '../components/BackToHome'
-import ApiKeyList from '../components/ApiKeyList'
+import ApiKeyList from '../containers/ApiKeyList'
 import Editor from '../components/Editor'
 import UserList from '../components/UserList'
 import PersonalInformationsFrom from '../containers/PersonalInformationsForm'

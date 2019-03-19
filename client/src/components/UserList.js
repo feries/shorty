@@ -27,7 +27,7 @@ class UserList extends Component {
             <li>claudio.quaglia@feries.it</li>
             <li>
               <button className="disable">
-                <i class="far fa-minus-circle" />
+                <i className="far fa-minus-circle" />
               </button>
             </li>
           </ul>
@@ -35,7 +35,7 @@ class UserList extends Component {
             <li>claudio.quaglia@feries.it</li>
             <li>
               <button className="disable">
-                <i class="far fa-minus-circle" />
+                <i className="far fa-minus-circle" />
               </button>
             </li>
           </ul>
@@ -47,7 +47,7 @@ class UserList extends Component {
             <li>claudio.quaglia@feries.it</li>
             <li>
               <button className="disable">
-                <i class="far fa-minus-circle" />
+                <i className="far fa-minus-circle" />
               </button>
             </li>
           </ul>

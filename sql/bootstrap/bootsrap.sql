@@ -156,6 +156,7 @@ DROP TABLE IF EXISTS `api_key`;
 CREATE TABLE `api_key`
 (
     id         INT          NOT NULL AUTO_INCREMENT,
+    external_id     VARCHAR(36)  NOT NULL UNIQUE,
     created_at DATETIME     NOT NULL DEFAULT NOW(),
     `issuer`   VARCHAR(255) NOT NULL UNIQUE,
     `key`      VARCHAR(255) NOT NULL UNIQUE,

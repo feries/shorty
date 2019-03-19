@@ -11,7 +11,15 @@ module.exports = async (req, res) => {
         : 0
 
     const sql = sqlLoader('getApiKeys.sql')
-    const query = await db.query(sql, [limit, skip])
+    const keys = await db.query(sql, [limit, skip])
+
+    const countSql = sqlLoader('countKeys.sql')
+    const countQuery = await db.query(countSql)
+
+    let count = null
+    if (countQuery.length === 1) count = countQuery[0].count
+
+    res.send({ keys, count })
   } catch (e) {
     res.status(500).send({ message: 'Something went wrong.' })
   }
