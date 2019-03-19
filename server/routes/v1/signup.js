@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
     return res.status(400).send({ message: 'Email is in use' })
 
   const hashedPassword = await SecurePassword.hash(Buffer.from(password))
-  const options = [uuidv4(), email, hashedPassword]
+  const options = [uuidv4(), email, hashedPassword.toString('base64')]
 
   const insertNewUser = sqlLoader('insertNewUser.sql')
   const { affectedRows } = await db.query(insertNewUser, options)

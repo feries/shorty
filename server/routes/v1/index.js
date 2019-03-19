@@ -27,7 +27,9 @@ routerV1.use(
   jwt({
     secret: process.env.JWT_SECRET,
     issuer: process.env.JWT_ISSUER
-  }).unless({ path: ['/api/v1/login', '/api/v1/refresh-token'] })
+  }).unless({
+    path: ['/api/v1/login', '/api/v1/refresh-token']
+  })
 )
 
 // AUTH

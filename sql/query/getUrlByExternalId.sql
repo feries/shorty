@@ -5,10 +5,10 @@ SELECT
   url.created_at AS "createdAt",
   `user`.external_id AS "authorExternalId",
   `user`.email AS "authorEmail",
-  (SELECT COUNT(id) FROM stat WHERE stats.url_id = urls.id) AS "urlClick",
+  (SELECT COUNT(id) FROM stat WHERE stat.url_id = urls.id) AS "urlClick",
   host.short_url AS "shortHost"
 FROM url
-	LEFT JOIN `user` ON users.id = urls.author_id
-	LEFT JOIN `stat` ON stats.url_id = urls.id
-	LEFT JOIN `host` ON hosts.id = urls.host_id
+	LEFT JOIN `user` ON `user`.id = url.author_id
+	LEFT JOIN `stat` ON stat.url_id = url.id
+	LEFT JOIN `host` ON host.id = url.host_id
 WHERE url.external_id = ?

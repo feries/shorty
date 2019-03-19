@@ -20,7 +20,11 @@ module.exports = async (req, res) => {
     return res.status(401).send({ message: 'Invalid credentials' })
 
   const row = rows[0]
-  const match = await SecurePassword.verify(Buffer.from(password), row.password)
+
+  const match = await SecurePassword.verify(
+    Buffer.from(password),
+    Buffer.from(row.password, 'base64')
+  )
 
   if (match === securePassword.INVALID_UNRECOGNIZED_HASH)
     return res.status(401).send({ message: 'Invalid credentials' })
