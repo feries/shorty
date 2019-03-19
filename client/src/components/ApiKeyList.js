@@ -32,11 +32,7 @@ class ApiKeyList extends Component {
             <li className="w-20">claudio.quaglia@feries.it</li>
             <li className="w-15">agriturismo.it</li>
             <li className="w-10">14.03.2019</li>
-            <li className="w-5 t-right">
-              <button className="disable">
-                <i class="far fa-minus-circle" />
-              </button>
-            </li>
+            <li className="w-5 t-right" />
           </ul>
           <ul className="itemList flex flex-space normal">
             <li className="w-50">
