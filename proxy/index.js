@@ -10,7 +10,7 @@ const Sentry = require('@sentry/node')
 
 const hintTarget = require('./routes/hintTarget')
 
-const HOST = process.env.HOST
+const HOST = process.env.PROXY_HOST
 const PORT = process.env.PROXY_PORT
 const STATIC_PATH = process.env.STATIC_PATH
 

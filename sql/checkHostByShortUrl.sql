@@ -1,3 +1,3 @@
 SELECT *
-FROM hosts
+FROM host
 WHERE short_url LIKE ?;

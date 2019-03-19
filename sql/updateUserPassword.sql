@@ -1,1 +1,1 @@
-UPDATE users SET password=? WHERE id=?;
+UPDATE `user` SET password=? WHERE id=?;

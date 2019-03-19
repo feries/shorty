@@ -5,7 +5,7 @@ MAINTAINER  (Claudio Quaglia) <claudio.quaglia@feries.it>
 WORKDIR /app
 ADD . /app
 
-EXPOSE CLIENT_PORT
+EXPOSE ${CLIENT_PORT}
 
 # Install globals
 RUN yarn global add create-react-app

@@ -1,1 +1,1 @@
-SELECT COUNT(id) AS "count" FROM urls WHERE active = 1;
+SELECT COUNT(id) AS "count" FROM url WHERE active = 1;

@@ -1,3 +1,3 @@
 SELECT *
-FROM hosts
+FROM host
 WHERE full_url LIKE ?;

@@ -1,4 +1,4 @@
 SELECT * 
-FROM users
+FROM `user`
 WHERE 
 	email = ?;

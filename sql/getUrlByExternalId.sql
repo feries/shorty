@@ -1,14 +1,14 @@
 SELECT
-  urls.external_id AS "externalId",
-  urls.source_url AS "shortedUrl",
-  urls.target_url AS "targetUrl",
-  urls.created_at AS "createdAt",
-  users.external_id AS "authorExternalId",
-  users.email AS "authorEmail",
-  (SELECT COUNT(id) FROM stats WHERE stats.url_id = urls.id) AS "urlClick",
-  hosts.short_url AS "shortHost"
-FROM urls
-	LEFT JOIN users ON users.id = urls.author_id
-	LEFT JOIN stats ON stats.url_id = urls.id
-	LEFT JOIN hosts ON hosts.id = urls.host_id
-WHERE urls.external_id = ?
+  url.external_id AS "externalId",
+  url.source_url AS "shortedUrl",
+  url.target_url AS "targetUrl",
+  url.created_at AS "createdAt",
+  `user`.external_id AS "authorExternalId",
+  `user`.email AS "authorEmail",
+  (SELECT COUNT(id) FROM stat WHERE stats.url_id = urls.id) AS "urlClick",
+  host.short_url AS "shortHost"
+FROM url
+	LEFT JOIN `user` ON users.id = urls.author_id
+	LEFT JOIN `stat` ON stats.url_id = urls.id
+	LEFT JOIN `host` ON hosts.id = urls.host_id
+WHERE url.external_id = ?

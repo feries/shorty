@@ -5,6 +5,6 @@ MAINTAINER  (Claudio Quaglia) <claudio.quaglia@feries.it>
 WORKDIR /app
 ADD . /app
 
-EXPOSE PROXY_PORT
+EXPOSE ${PROXY_PORT}
 
-CMD yarn && yarn start
+CMD yarn && yarn dev

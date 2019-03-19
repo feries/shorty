@@ -1,1 +1,1 @@
-INSERT stats (url_id, source_url, target_url, author_id) VALUES (?, ?, ?, (SELECT id FROM users WHERE external_id = ?));
+INSERT stat (url_id, source_url, target_url, author_id) VALUES (?, ?, ?, (SELECT id FROM `user` WHERE external_id = ?));

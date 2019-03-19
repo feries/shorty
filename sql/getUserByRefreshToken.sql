@@ -1,1 +1,1 @@
-SELECT * FROM users WHERE refresh_token = ?;
+SELECT * FROM `user` WHERE refresh_token = ?;

@@ -1,21 +1,29 @@
 version: "3"
 services:
   db:
-    image: mysql:latest
+    build: ./sql
+    hostname: 'mysql'
     restart: always
-    ports: [DB_PORT:DB_PORT]
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - ./sql:/app:delegated
     environment:
+      - MYSQL_ROOT_PASSWORD=${DB_NAME}
+      - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
   api:
     build: ./server
+    hostname: 'api'
     restart: always
-    depends_on:
+    links:
       - db
-    ports: [SERVER_PORT:SERVER_PORT]
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
     volumes:
-      - ./server:/app:delegated
+      - ./server:/opt/app:delegated
     environment:
       - NODE_ENV=${NODE_ENV}
       - SERVER_HOST=${SERVER_HOST}
@@ -35,17 +43,18 @@ services:
       - RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
   proxy:
     build: ./proxy
+    hostname: 'proxy'
     restart: always
     depends_on:
       - db
-      - api
     volumes:
       - ./proxy:/app:delegated
-    ports: [PROXY_PORT:PROXY_PORT]
+    ports:
+      - ${PROXY_PORT}:${PROXY_PORT}
     environment:
       - NODE_ENV=${NODE_ENV}
-      - PROXY_HOST=${SERVER_HOST}
-      - PROXY_PORT=${SERVER_PORT}
+      - PROXY_HOST=${PROXY_HOST}
+      - PROXY_PORT=${PROXY_PORT}
       - DOMAIN=${DOMAIN}
       - SENTRY_URL_SHORTENER_PROXY_DNS=${SENTRY_URL_SHORTENER_PROXY_DNS}
       - DB_URL=${DB_URL}
@@ -56,10 +65,13 @@ services:
       - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
   client:
     build: ./client
+    hostname: 'webapp'
     restart: always
     depends_on:
       - proxy
-    ports: [CLIENT_PORT:CLIENT_PORT]
+      - api
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
     volumes:
       - ./client:/app:delegated
     environment:

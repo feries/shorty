@@ -1,1 +1,1 @@
-UPDATE urls SET active=0 WHERE external_id=?;
+UPDATE url SET active=0 WHERE external_id=?;

@@ -17,6 +17,9 @@ const deleteUrl = require('./deleteUrl')
 const apiKey = require('./generateApiKey')
 const getUrlDetail = require('./getUrlDetail')
 const refreshToken = require('./refreshToken')
+const updateContact = require('./updateContact')
+const deleteApiKey = require('./deleteApiKey')
+const getAllApiKeys = require('./getAllApiKeys')
 
 // Authentication middleware
 routerV1.use(unless(authHeader, '/login', '/api/v1/refresh-token'))
@@ -27,6 +30,7 @@ routerV1.use(
   }).unless({ path: ['/api/v1/login', '/api/v1/refresh-token'] })
 )
 
+// AUTH
 // Handle user login
 routerV1.post('/login', login)
 
@@ -35,10 +39,9 @@ routerV1.post('/signup', signup)
 
 // Refresh JWT
 routerV1.post('/refresh-token', refreshToken)
+// END AUTH
 
-// Generate new API-KEY
-routerV1.post('/api-key', apiKey)
-
+// URLS
 // Get all shorted urls
 routerV1.get('/urls', getAllUrls)
 
@@ -56,5 +59,22 @@ routerV1.get('/urls/:id/:range?', getUrlDetail)
 
 // Delete url
 routerV1.delete('/urls/:id', deleteUrl)
+// END URLS
+
+// SETTINGS
+// Update user contact
+routerV1.post('/settings/user-info', updateContact)
+// END SETTINGS
+
+// API-KEY
+// Get all API-KEY
+routerV1.get('/api-key', getAllApiKeys)
+
+// Generate new API-KEY
+routerV1.post('/api-key', apiKey)
+
+// Deactivate API-KEY
+routerV1.delete('/api-key/:id', deleteApiKey)
+// END API-KEY
 
 module.exports = routerV1

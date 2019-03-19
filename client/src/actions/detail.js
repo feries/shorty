@@ -9,6 +9,7 @@ import { API_V1_ENDPOINT, URL_DETAIL } from '../constants/endpoint'
 import { setGlobalToast } from './dashboard'
 
 import Auth from '../lib/Authentication'
+import { refreshToken } from './token'
 
 export const startFetchData = (externalId, hasRange, range) => async (
   dispatch
@@ -37,6 +38,9 @@ export const startFetchData = (externalId, hasRange, range) => async (
 
     dispatch(fetchSuccess(data))
   } catch (e) {
+    if (e.response.status === 401) {
+      return refreshToken(dispatch, startFetchData, externalId, hasRange, range)
+    }
     return window.location.assign('/500')
   }
 }

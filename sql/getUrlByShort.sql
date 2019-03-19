@@ -1,6 +1,6 @@
 SELECT
 	id,
 	target_url AS "targetUrl"
-FROM urls
+FROM url
 WHERE source_url = ?
   AND active = 1;

@@ -7,7 +7,9 @@ const {
   getDomainFromUrl,
   removeInitialSlash,
   trailingSlash,
-  generateTokens
+  generateTokens,
+  getToken,
+  decodeJwt
 } = require('./common')
 
 module.exports = {
@@ -18,5 +20,7 @@ module.exports = {
   getDomainFromUrl,
   removeInitialSlash,
   trailingSlash,
-  generateTokens
+  generateTokens,
+  getToken,
+  decodeJwt
 }

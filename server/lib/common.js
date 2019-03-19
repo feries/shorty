@@ -61,11 +61,68 @@ const generateTokens = (user) => {
   return { token, refreshToken }
 }
 
+/**
+ * @private
+ * @name _validateFormat
+ * @description Validate Authorization header format, if it's composed like `Bearer <TOKEN>`.
+ *              It return `false` if the provided input has wrong format, instead it return an
+ *              array with in first position the `Bearer` key and the give token in second.
+ * @param {String} authHeader - The request authorization header
+ * @returns {String[]}
+ */
+const _validateFormat = (authHeader) => {
+  const parts = authHeader.split(' ')
+  if (!parts || parts.length !== 2)
+    throw new Error('Authorization header has a wrong format')
+
+  return parts
+}
+
+/**
+ * @private
+ * @name _validateScheme
+ * @description Validate the Authorization header composition given from @see{validateFormat} function.
+ *              It expext an array as input with `Bearer` at first position and the issued token at second.
+ * @param {String[]} schemeAndToken
+ * @returns {String} Json Web Token
+ */
+const _validateScheme = (schemeAndToken) => {
+  const authScheme = schemeAndToken[0]
+  if (authScheme !== 'Bearer')
+    throw new Error('Authorization header has a wrong scheme')
+
+  return schemeAndToken[1]
+}
+
+/**
+ * @name getToken
+ * @description Simple wrapper function to process Authorization header from a given request,
+ *              for simple check to match format and schema. `Micro` errors are thrown in each
+ *              invalid case. If everithing goes right the encoded token are returned.
+ * @param {String} authHeader - request authorization header
+ */
+const getToken = (authHeader) => {
+  if (!authHeader) throw new Error('Missing authorization header')
+  return _validateScheme(_validateFormat(authHeader))
+}
+
+const decodeJwt = (token) => {
+  if (!token) throw new Error('Missing token.')
+  try {
+    const verified = jwt.verify(token, process.env.JWT_SECRET)
+    return verified.sub
+  } catch (e) {
+    throw new Error('Invalid token provided')
+  }
+}
+
 module.exports = {
   isExpired,
   isValidUrl,
   getDomainFromUrl,
   removeInitialSlash,
   trailingSlash,
-  generateTokens
+  generateTokens,
+  getToken,
+  decodeJwt
 }

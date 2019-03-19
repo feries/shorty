@@ -19,7 +19,6 @@ import {
 } from '../constants/actions'
 
 import filter from '../selectors/filter'
-import incrementClickCounter from '../selectors/increment'
 
 const initialState = {
   loading: false,
@@ -98,7 +97,7 @@ export default (state = initialState, action) => {
     case SHORT_LINK_CLICK:
       return {
         ...state,
-        results: incrementClickCounter(state.results, action.data)
+        results: state.results
       }
 
     case SUBMIT_LINK_ERROR_HOST:

@@ -1,5 +1,5 @@
-INSERT INTO oss (external_id, name)
+INSERT INTO os (external_id, name)
 SELECT * FROM (SELECT ?, ?) AS tmp
 WHERE NOT EXISTS (
-    SELECT name FROM oss WHERE name = ?
+    SELECT name FROM os WHERE name = ?
 ) LIMIT 1;

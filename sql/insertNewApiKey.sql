@@ -1,1 +1,1 @@
-INSERT INTO `keys` (`issuer`, `key`) VALUES (?, ?);
+INSERT INTO `api_key` (`issuer`, `key`) VALUES (?, ?);
