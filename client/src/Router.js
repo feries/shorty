@@ -5,6 +5,7 @@ const DashboardPage = lazy(() => import('./pages/Dashboard'))
 const DetailPage = lazy(() => import('./pages/Detail'))
 const Page500 = lazy(() => import('./pages/500'))
 const Page404 = lazy(() => import('./pages/404'))
+const SettingsPage = lazy(() => import('./pages/Settings'))
 
 export default [
   {
@@ -32,5 +33,10 @@ export default [
     path: '/404',
     auth: false,
     component: (props) => <Page404 {...props} />
+  },
+  {
+    path: '/settings',
+    auth: true,
+    component: (props) => <SettingsPage {...props} />
   }
 ]

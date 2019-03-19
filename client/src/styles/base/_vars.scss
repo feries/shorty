@@ -19,7 +19,9 @@ $hoverSecondary: #ff994b;
 $hoverRed: #8b000c;
 
 /* FONT */
-$family: 'Fira Sans Condensed,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Droid Sans,Helvetica Neue,Arial,sans-serif';
+$family: 'Fira Sans Condensed', system-ui, -apple-system, 'BlinkMacSystemFont',
+  'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Droid Sans',
+  'Helvetica Neue', 'Arial', sans-serif;
 $regular: 400;
 $light: 300;
 $bold: 700;
