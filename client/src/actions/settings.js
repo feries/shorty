@@ -1,4 +1,4 @@
-import axios from 'axios'
+import ky from 'ky'
 
 import Auth from '../lib/Authentication'
 import {
@@ -22,26 +22,30 @@ import {
 import { setGlobalToast } from './dashboard'
 import { refreshToken } from './token'
 
+const api = ky.extend({
+  prefixUrl: API_V1_ENDPOINT,
+  hooks: {
+    beforeRequest: [
+      (options) =>
+        (options.headers.authorization = Auth.getAuthenticationHeader())
+    ]
+  }
+})
+
 export const startFetchUserInfo = () => async (dispatch) => {
   try {
     dispatch({ type: USER_INFO_START })
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-    const { data, status } = await axios.get(
-      `${API_V1_ENDPOINT}${SETTINGS_USER_INFO}`
-    )
+
+    const { data, status } = await api.get(SETTINGS_USER_INFO)
 
     if (status !== 200) return new Error('Failed to fetch user data.')
 
     dispatch(userInfoSuccess(data))
   } catch (error) {
-    if (error.response.status === 401) {
+    if (error.status === 401) {
       return refreshToken(dispatch, startFetchUserInfo)
     }
-    dispatch(
-      setGlobalToast({ type: 'error', message: error.response.data.message })
-    )
+    dispatch(setGlobalToast({ type: 'error', message: error.message }))
     dispatch(userInfoError())
   }
 }
@@ -58,23 +62,17 @@ export const userInfoSuccess = (data) => ({
 export const startFetchApiKeys = () => async (dispatch) => {
   try {
     dispatch({ type: API_KEY_START })
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-    const { data, status } = await axios.get(
-      `${API_V1_ENDPOINT}${SETTINGS_API_KEYS}`
-    )
+
+    const { data, status } = await api.get(SETTINGS_API_KEYS)
 
     if (status !== 200) return new Error('Failed to fetch Api Keys.')
 
     dispatch(apiKeysFetchSuccess(data))
   } catch (error) {
-    if (error.response.status === 401) {
+    if (error.status === 401) {
       return refreshToken(dispatch, startFetchUserInfo)
     }
-    dispatch(
-      setGlobalToast({ type: 'error', message: error.response.data.message })
-    )
+    dispatch(setGlobalToast({ type: 'error', message: error.message }))
     dispatch(apiKeysFetchError())
   }
 }
@@ -91,16 +89,20 @@ export const apiKeysFetchSuccess = (data) => ({
 export const startDeactivateKey = (externalId) => async (dispatch) => {
   try {
     dispatch({ type: REMOVE_API_KEY_START })
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-    const { data, status } = await axios.delete(
-      `${API_V1_ENDPOINT}${SETTINGS_API_KEYS}/${externalId}`
+
+    const { data, status } = await api.delete(
+      `${SETTINGS_API_KEYS}/${externalId}`
     )
 
-    if (status !== 200) return new Error('Failed to fetch Api Keys.')
+    if (status !== 200) throw new Error('Failed to deactivate Api Keys.')
 
-    dispatch(deactivateKeySuccess(data))
+    dispatch(
+      setGlobalToast({
+        type: 'success',
+        message: 'API-Key successfully deactivated'
+      })
+    )
+    dispatch(deactivateKeySuccess({ data: externalId }))
   } catch (error) {
     if (error.response.status === 401) {
       return refreshToken(dispatch, startDeactivateKey, externalId)

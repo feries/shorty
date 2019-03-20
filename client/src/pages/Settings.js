@@ -5,22 +5,43 @@ import BackToHome from '../components/BackToHome'
 import ApiKeyList from '../containers/ApiKeyList'
 import Editor from '../components/Editor'
 import UserList from '../components/UserList'
-import PersonalInformationsFrom from '../containers/PersonalInformationsForm'
+import PersonalInformationFrom from '../containers/PersonalInformationsForm'
+import DeleteApiKeyWithConfirm from '../containers/DeleteApiKeyWithConfirm'
+import Toast from '../containers/Toast'
 
 class Settings extends Component {
+  state = { apiKey: null, apiKeyIssuer: '' }
+
+  deleteApiKey = (externalId, issuer) => {
+    if (!externalId || !issuer) return
+    this.setState({ apiKey: externalId })
+  }
+
   render() {
+    const { apiKey, apiKeyIssuer } = this.state
+
     return (
       <div className="container">
+        <Toast />
+        <DeleteApiKeyWithConfirm
+          value={apiKey}
+          issuer={apiKeyIssuer}
+          onDismiss={() => this.deleteApiKey(null, '')}
+        />
         <div id="content" className="content m-top-x4">
           <div className="flex flex-space">
             <Logo className="logosmall" />
             <BackToHome />
           </div>
           <div className="settings box flex m-top-x4">
-            <PersonalInformationsFrom />
+            <PersonalInformationFrom />
           </div>
           <div className="box m-top-x6">
-            <ApiKeyList />
+            <ApiKeyList
+              deactivateKey={(externalId, issuer) =>
+                this.deleteApiKey(externalId, issuer)
+              }
+            />
           </div>
           <div className="box m-top-x6">
             <Editor

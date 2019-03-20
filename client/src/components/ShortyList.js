@@ -150,7 +150,7 @@ class ShortyList extends Component {
                   onClick={() =>
                     this.props.handleButtonClick(
                       QR_CODE,
-                      `${process.env.DOMAIN}/${item.shortedUrl}`
+                      `${item.shortHost}/${item.shortedUrl}`
                     )
                   }
                 >
@@ -158,13 +158,14 @@ class ShortyList extends Component {
                 </button>
                 <button
                   className="delete"
-                  onClick={() =>
+                  onClick={() => {
+                    console.log('+++', process.env.REACT_APP_DOMAIN)
                     this.props.handleButtonClick(
                       TRASH,
-                      `${process.env.DOMAIN}/${item.shortedUrl}`,
+                      `${item.shortHost}/${item.shortedUrl}`,
                       item.externalId
                     )
-                  }
+                  }}
                 >
                   <i className="far fa-trash-alt" />
                 </button>

@@ -209,6 +209,7 @@ export const startAddHost = (shortUrl, fullUrl) => async (
     ] = Auth.getAuthenticationHeader()
 
     await axios.post(`${API_V1_ENDPOINT}${HOSTS}`, { shortUrl, fullUrl })
+
     dispatch(
       setGlobalToast({
         type: 'success',
@@ -217,6 +218,7 @@ export const startAddHost = (shortUrl, fullUrl) => async (
     )
 
     const state = getState()
+    debugger
     dispatch(
       startSubmitLink(
         state.dashboard.host.targetUrl,

@@ -4,8 +4,13 @@ import {
   USER_INFO_ERROR,
   API_KEY_START,
   API_KEY_SUCCESS,
-  API_KEY_ERROR
+  API_KEY_ERROR,
+  REMOVE_API_KEY_START,
+  REMOVE_API_KEY_SUCCESS,
+  REMOVE_API_KEY_ERROR
 } from '../constants/actions'
+
+import deactivateKey from '../selectors/deactivateKey'
 
 const initialState = {
   loading: false,
@@ -84,6 +89,28 @@ export default (state = initialState, action) => {
         keys: {
           error: false,
           data: action.data
+        }
+      }
+
+    case REMOVE_API_KEY_START:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case REMOVE_API_KEY_ERROR:
+      return {
+        ...state,
+        loading: false
+      }
+
+    case REMOVE_API_KEY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        keys: {
+          ...state.keys,
+          data: deactivateKey(state.keys.data, action.data.externalId)
         }
       }
 

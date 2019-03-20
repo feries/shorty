@@ -1,42 +1,50 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
 
-import { startDelete } from '../actions/dashboard'
-
-const withConfirm = (ComposedComponent) => {
+const withConfirm = (ComposedComponent) =>
   class modalWithConfirm extends Component {
+    static defaultProps = {
+      dismissible: true,
+      dismissLabel: 'Dismiss',
+      confirmLabel: 'Confirm'
+    }
+
     render() {
       const {
         open,
         value,
-        action,
+        message,
         dismissible,
-        onClose,
-        onConfirm
+        onConfirm,
+        onDismiss,
+        dismissLabel,
+        confirmLabel
       } = this.props
       return (
         <ComposedComponent
           open={open}
           dismissible={dismissible}
-          onClose={onClose}
+          onClose={onDismiss}
         >
           <p>
-            Are you sure you want to delete this short link? Once deleted it
-            will no longer be reachable by users.
-            <br />
-            <br />
-            <b>{value}</b>
+            {message && message}
+            {value && (
+              <Fragment>
+                <br />
+                <br />
+                <b>{value}</b>
+              </Fragment>
+            )}
           </p>
           <div className="modal--confirm modal--confirm-wrapper">
-            <button onClick={onClose} className="dismiss">
-              Dismiss
+            <button onClick={onDismiss} className="dismiss">
+              {dismissLabel}
             </button>
             <button
-              onClick={() => onConfirm(action).then(() => onClose())}
+              onClick={() => onConfirm().then(() => onDismiss())}
               className="confirm"
             >
-              Confirm
+              {confirmLabel}
             </button>
           </div>
         </ComposedComponent>
@@ -44,24 +52,15 @@ const withConfirm = (ComposedComponent) => {
     }
   }
 
-  const mapDispatchToProps = (dispatch) => ({
-    onConfirm: (externalId) => dispatch(startDelete(externalId))
-  })
-
-  return connect(
-    null,
-    mapDispatchToProps
-  )(modalWithConfirm)
-}
-
 withConfirm.propTypes = {
+  message: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  action: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
-  dismissible: PropTypes.bool,
-  onClose: PropTypes.func,
   onConfirm: PropTypes.func.isRequired,
-  onDismiss: PropTypes.func.isRequired
+  onDismiss: PropTypes.func.isRequired,
+  dismissible: PropTypes.bool,
+  dismissLabel: PropTypes.string,
+  confirmLabel: PropTypes.string
 }
 
 export default withConfirm

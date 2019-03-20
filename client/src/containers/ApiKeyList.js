@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-import ApiKeyListElement from '../components/ApiKeyListElement'
 import { startDeactivateKey, startFetchApiKeys } from '../actions/settings'
+import ApiKeyListElement from '../components/ApiKeyListElement'
 import Loader from '../components/Loader'
 
 class ApiKeyList extends Component {
@@ -30,10 +30,15 @@ class ApiKeyList extends Component {
     this.props.fetchApiList()
   }
 
-  handleDeactivateApiKey = (externalId) => {
-    if (!externalId) return
+  handleDeactivateApiKey = (externalId, issuer) => {
+    if (!externalId || !issuer) return
 
-    this.props.deactivateKey(externalId)
+    this.props.deactivateKey(externalId, issuer).then(() =>
+      this.props.list.keys.forEach((el) => {
+        if (el.externalId === externalId) el.active = 0
+        return el
+      })
+    )
   }
 
   render() {
@@ -70,7 +75,9 @@ class ApiKeyList extends Component {
                   author={el.author}
                   issuer={el.issuer}
                   createdAt={el.createdAt}
-                  action={() => this.handleDeactivateApiKey(el.externalId)}
+                  action={() =>
+                    this.handleDeactivateApiKey(el.externalId, el.issuer)
+                  }
                 />
               ))}
             </div>

@@ -105,7 +105,7 @@ export default (state = initialState, action) => {
         ...state,
         host: {
           isValid: false,
-          targetUrl: action.data.getUrlDetail,
+          targetUrl: action.data.url,
           short: action.data.short
         }
       }
