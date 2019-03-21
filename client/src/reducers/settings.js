@@ -10,7 +10,13 @@ import {
   REMOVE_API_KEY_ERROR,
   CUSTOM_MD_FETCH_START,
   CUSTOM_MD_FETCH_SUCCESS,
-  CUSTOM_MD_FETCH_ERROR
+  CUSTOM_MD_FETCH_ERROR,
+  USERS_FETCH_START,
+  USERS_FETCH_ERROR,
+  USERS_FETCH_SUCCESS,
+  USERS_DEACTIVATE_START,
+  USERS_DEACTIVATE_ERROR,
+  USERS_DEACTIVATE_SUCCESS
 } from '../constants/actions'
 
 import deactivateKey from '../selectors/deactivateKey'
@@ -37,7 +43,8 @@ const initialState = {
   },
   users: {
     error: false,
-    data: null
+    data: [],
+    count: 0
   }
 }
 
@@ -155,6 +162,57 @@ export default (state = initialState, action) => {
             data: action.data.content.data,
             error: false
           }
+        }
+      }
+
+    case USERS_FETCH_START:
+    case USERS_DEACTIVATE_START:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case USERS_FETCH_ERROR:
+      return {
+        ...state,
+        loading: false,
+        users: {
+          error: true,
+          data: [],
+          count: 0
+        }
+      }
+
+    case USERS_FETCH_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: {
+          error: false,
+          data: [...state.users.data, ...action.data.users],
+          count: action.data.count
+        }
+      }
+
+    case USERS_DEACTIVATE_ERROR:
+      return {
+        ...state,
+        loading: false,
+        users: {
+          ...state.users,
+          error: true
+        }
+      }
+
+    case USERS_DEACTIVATE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        users: {
+          ...state.users,
+          error: false,
+          data: deactivateKey(state.users.data, action.data),
+          count: state.users.data.length
         }
       }
 

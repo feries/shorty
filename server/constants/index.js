@@ -4,6 +4,7 @@ exports.authHeaderKey = 'x-auth-key'
 
 // Default value for limit paginated query
 exports.queryLimit = 10
+exports.usersQueryLimit = 6
 
 // Map of allowed url filter keys
 const keys = new Map()

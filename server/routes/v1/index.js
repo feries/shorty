@@ -23,6 +23,8 @@ const getAllApiKeys = require('./getAllApiKeys')
 const getUserInfo = require('./getUserInfo')
 const saveCustomTemplate = require('./saveCustomTemplate')
 const fetchCustomPage = require('./fetchCustomPage')
+const fetchUsers = require('./fetchUsers')
+const deactivateUser = require('./deactivateUser')
 
 // Authentication middleware
 routerV1.use(unless(authHeader, '/login', '/api/v1/refresh-token'))
@@ -72,7 +74,6 @@ routerV1.get('/settings/user-info', getUserInfo)
 
 // Update user contact
 routerV1.post('/settings/user-info', updateContact)
-// END SETTINGS
 
 // API-KEY
 // Get all API-KEY
@@ -92,5 +93,13 @@ routerV1.get('/settings/error-page/:page', fetchCustomPage)
 // Save new tempalte
 routerV1.post('/settings/error-page', saveCustomTemplate)
 // END CUSTOM TEMPLATES
+
+// USERS
+// Get paginated users
+routerV1.get('/settings/users', fetchUsers)
+// Deactivate user
+routerV1.delete('/settings/users/:id', deactivateUser)
+// END USERS
+// END SETTINGS
 
 module.exports = routerV1

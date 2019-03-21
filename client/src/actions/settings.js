@@ -1,7 +1,8 @@
 import {
   SETTINGS_USER_INFO,
   SETTINGS_API_KEYS,
-  SETTINGS_CUSTOM_ERROR_PAGE
+  SETTINGS_CUSTOM_ERROR_PAGE,
+  SETTINGS_USERS
 } from '../constants/endpoint'
 
 import {
@@ -19,13 +20,20 @@ import {
   CUSTOM_MD_FETCH_ERROR,
   CUSTOM_MD_SAVE_START,
   CUSTOM_MD_SAVE_ERROR,
-  CUSTOM_MD_SAVE_SUCCESS
+  CUSTOM_MD_SAVE_SUCCESS,
+  USERS_FETCH_START,
+  USERS_FETCH_SUCCESS,
+  USERS_FETCH_ERROR,
+  USERS_DEACTIVATE_START,
+  USERS_DEACTIVATE_SUCCESS,
+  USERS_DEACTIVATE_ERROR
 } from '../constants/actions'
 
 import { setGlobalToast } from './dashboard'
 import { refreshToken } from './token'
 
 import { api } from '../lib/helpers'
+import { USER_PER_PAGE } from '../constants/common'
 
 export const startFetchUserInfo = () => async (dispatch) => {
   try {
@@ -163,4 +171,64 @@ export const saveCustomMdError = () => ({
 export const saveCustomMdSuccess = (md, page) => ({
   type: CUSTOM_MD_SAVE_SUCCESS,
   data: { md, page }
+})
+
+export const startFetchUsers = (limit = USER_PER_PAGE, skip = 0) => async (
+  dispatch
+) => {
+  try {
+    dispatch({ type: USERS_FETCH_START })
+
+    const data = await api
+      .get(SETTINGS_USERS, { searchParams: { limit, skip } })
+      .json()
+
+    dispatch(fetchUsersSuccess(data))
+  } catch (error) {
+    if (error.response.status === 401) {
+      return refreshToken(dispatch, startFetchUsers, limit, skip)
+    }
+    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    dispatch(fetchUserError())
+  }
+}
+
+export const fetchUserError = () => ({
+  type: USERS_FETCH_ERROR
+})
+
+export const fetchUsersSuccess = (data) => ({
+  type: USERS_FETCH_SUCCESS,
+  data
+})
+
+export const startDeactivateUser = (externalId) => async (dispatch) => {
+  try {
+    dispatch({ type: USERS_DEACTIVATE_START })
+
+    await api.delete(`${SETTINGS_USERS}/${externalId}`)
+
+    dispatch(
+      setGlobalToast({
+        type: 'success',
+        message: 'User successfully deactivated.'
+      })
+    )
+    dispatch(deactivateUsersSuccess(externalId))
+  } catch (error) {
+    if (error.response.status === 401) {
+      return refreshToken(dispatch, startDeactivateUser, externalId)
+    }
+    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    dispatch(deactivateUserError())
+  }
+}
+
+export const deactivateUserError = () => ({
+  type: USERS_DEACTIVATE_ERROR
+})
+
+export const deactivateUsersSuccess = (data) => ({
+  type: USERS_DEACTIVATE_SUCCESS,
+  data
 })

@@ -4,10 +4,14 @@ import Logo from '../components/Logo'
 import BackToHome from '../components/BackToHome'
 import ApiKeyList from '../containers/ApiKeyList'
 import ErrorEditor from '../containers/ErrorEditor'
-import UserList from '../components/UserList'
+import UserList from '../containers/UserList'
 import PersonalInformationFrom from '../containers/PersonalInformationsForm'
 import DeleteApiKeyWithConfirm from '../containers/DeleteApiKeyWithConfirm'
 import Toast from '../containers/Toast'
+
+import withTitleAndDescription from '../hocs/withTitleAndDescription'
+
+const EnhancedUserList = withTitleAndDescription(UserList)
 
 class Settings extends Component {
   state = { apiKey: null, apiKeyIssuer: '' }
@@ -60,9 +64,9 @@ class Settings extends Component {
             />
           </div>
           <div className="box m-top-x6">
-            <UserList
+            <EnhancedUserList
               title="Users"
-              description="Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum."
+              description="Here you can handle active user, and disable not active more users."
               cta="CREATE NEW USER"
             />
           </div>

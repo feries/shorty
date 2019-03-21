@@ -3,6 +3,7 @@ export const SHORT_URL_LENGTH = 15
 
 // Query option
 export const PER_PAGE = 10
+export const USER_PER_PAGE = 6
 
 // Security
 export const JWT_STORAGE_KEY = '__tkn'
