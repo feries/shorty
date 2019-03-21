@@ -35,4 +35,19 @@
       }
     }
   }
+  button {
+    text-align: right;
+    padding: 0;
+    font-size: $normal;
+    &.cta {
+      text-align: center;
+      padding: $space;
+      font-weight: $bold;
+      border-radius: $radiusSmall;
+      background: $primary !important;
+      color: $white !important;
+      padding: $space $doubleSpace $space $doubleSpace;
+      border: none;
+    }
+  }
 }

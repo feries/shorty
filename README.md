@@ -1,4 +1,4 @@
-![alt text](./client/public/img/logo.svg)
+![Shorty Logo](./client/public/img/logo.svg)
 
 Short is beautiful! Save the world by making it shorter!
 
@@ -28,11 +28,18 @@ and all configurable parameters are defined into `.env` file.
 
 # To Do
 - [ ] 🐳 Dockerize. - [WIP]
+  - [X] Dockerfiles
+  - [X] docker-compose
 - [ ] Migrate to [ky](https://github.com/sindresorhus/ky) - [WIP]
-- [ ] ⚠️ Test.
+  - [ ] Login
+  - [ ] Dashboard
+  - [ ] Detail
+  - [X] Settings
+- [ ] ⚠️ Test with [AVA](https://github.com/avajs/ava) for backend and [Jest](https://github.com/facebook/jest) for frontend. 
 - [ ] 🚨 Enhance user handling and roles.
 - [ ] 🚀 CI/CD Set up
 - [ ] 🤖 Add Google Tag Manager
+- [ ] Switch to an ORM like [TypeORM]()
 
 # Credit
 

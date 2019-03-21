@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import Logo from '../components/Logo'
 import BackToHome from '../components/BackToHome'
 import ApiKeyList from '../containers/ApiKeyList'
-import Editor from '../components/Editor'
+import ErrorEditor from '../containers/ErrorEditor'
 import UserList from '../components/UserList'
 import PersonalInformationFrom from '../containers/PersonalInformationsForm'
 import DeleteApiKeyWithConfirm from '../containers/DeleteApiKeyWithConfirm'
@@ -44,16 +44,18 @@ class Settings extends Component {
             />
           </div>
           <div className="box m-top-x6">
-            <Editor
+            <ErrorEditor
+              pageType="404"
               title="Error 404"
-              description="Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum."
+              description="Here you can create the extra markup that will be added in the custom box of your 404 Page. It can be useful if you wanna link your users to a dedicated page or define custom behaviours."
               cta="SAVE PAGE 404"
             />
           </div>
           <div className="box m-top-x6">
-            <Editor
+            <ErrorEditor
+              pageType="500"
               title="Error 500"
-              description="Lorem Ipsum è un testo segnaposto utilizzato nel settore della tipografia e della stampa. Lorem Ipsum è considerato il testo segnaposto standard sin dal sedicesimo secolo, quando un anonimo tipografo prese una cassetta di caratteri e li assemblò per preparare un testo campione. È sopravvissuto non solo a più di cinque secoli, ma anche al passaggio alla videoimpaginazione, pervenendoci sostanzialmente inalterato. Fu reso popolare, negli anni ’60, con la diffusione dei fogli di caratteri trasferibili “Letraset”, che contenevano passaggi del Lorem Ipsum, e più recentemente da software di impaginazione come Aldus PageMaker, che includeva versioni del Lorem Ipsum."
+              description="Here you can create the extra markup that will be added in the custom box of your 500 Page. It can be useful if you wanna link your users to a dedicated page or define custom behaviours."
               cta="SAVE PAGE 500"
             />
           </div>

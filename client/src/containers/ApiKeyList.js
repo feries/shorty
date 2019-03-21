@@ -77,6 +77,9 @@ class ApiKeyList extends Component {
                   />
                 ))}
             </div>
+            <div className="m-top-x2 t-center">
+              <button className="cta">ADD NEW API-KEY</button>
+            </div>
           </Fragment>
         )}
       </div>

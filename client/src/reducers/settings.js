@@ -7,7 +7,10 @@ import {
   API_KEY_ERROR,
   REMOVE_API_KEY_START,
   REMOVE_API_KEY_SUCCESS,
-  REMOVE_API_KEY_ERROR
+  REMOVE_API_KEY_ERROR,
+  CUSTOM_MD_FETCH_START,
+  CUSTOM_MD_FETCH_SUCCESS,
+  CUSTOM_MD_FETCH_ERROR
 } from '../constants/actions'
 
 import deactivateKey from '../selectors/deactivateKey'
@@ -23,8 +26,14 @@ const initialState = {
     data: null
   },
   pages: {
-    404: '',
-    500: ''
+    404: {
+      data: '',
+      error: false
+    },
+    500: {
+      data: '',
+      error: false
+    }
   },
   users: {
     error: false,
@@ -113,6 +122,38 @@ export default (state = initialState, action) => {
           data: {
             ...state.keys.data,
             keys: deactivateKey(state.keys.data.keys, action.data.data)
+          }
+        }
+      }
+
+    case CUSTOM_MD_FETCH_START:
+      return {
+        ...state,
+        loading: true
+      }
+
+    case CUSTOM_MD_FETCH_ERROR:
+      return {
+        ...state,
+        loading: false,
+        pages: {
+          ...state.pages,
+          [action.data.page]: {
+            data: '',
+            error: true
+          }
+        }
+      }
+
+    case CUSTOM_MD_FETCH_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        pages: {
+          ...state.pages,
+          [action.data.page]: {
+            data: action.data.content.data,
+            error: false
           }
         }
       }

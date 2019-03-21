@@ -29,3 +29,10 @@ exports.RANGE_MONTH = RANGE_MONTH
 exports.RANGE_WEEK = RANGE_WEEK
 exports.RANGE_DAY = RANGE_DAY
 exports.queryRange = TIME_RANGE
+
+// Directory names for custom pages
+const CUSTOM_PAGES = new Map()
+CUSTOM_PAGES.set('404', 'page404')
+CUSTOM_PAGES.set('500', 'page500')
+
+exports.customPages = CUSTOM_PAGES

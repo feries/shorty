@@ -21,6 +21,8 @@ const updateContact = require('./updateContact')
 const deleteApiKey = require('./deleteApiKey')
 const getAllApiKeys = require('./getAllApiKeys')
 const getUserInfo = require('./getUserInfo')
+const saveCustomTemplate = require('./saveCustomTemplate')
+const fetchCustomPage = require('./fetchCustomPage')
 
 // Authentication middleware
 routerV1.use(unless(authHeader, '/login', '/api/v1/refresh-token'))
@@ -82,5 +84,13 @@ routerV1.post('/settings/api-key', apiKey)
 // Deactivate API-KEY
 routerV1.delete('/settings/api-key/:id', deleteApiKey)
 // END API-KEY
+
+// CUSTOM TEMPLATES
+// Read Page tempalte if exist
+routerV1.get('/settings/error-page/:page', fetchCustomPage)
+
+// Save new tempalte
+routerV1.post('/settings/error-page', saveCustomTemplate)
+// END CUSTOM TEMPLATES
 
 module.exports = routerV1
