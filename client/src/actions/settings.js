@@ -1,11 +1,4 @@
-import ky from 'ky'
-
-import Auth from '../lib/Authentication'
-import {
-  API_V1_ENDPOINT,
-  SETTINGS_USER_INFO,
-  SETTINGS_API_KEYS
-} from '../constants/endpoint'
+import { SETTINGS_USER_INFO, SETTINGS_API_KEYS } from '../constants/endpoint'
 
 import {
   USER_INFO_START,
@@ -22,27 +15,16 @@ import {
 import { setGlobalToast } from './dashboard'
 import { refreshToken } from './token'
 
-const api = ky.extend({
-  prefixUrl: API_V1_ENDPOINT,
-  hooks: {
-    beforeRequest: [
-      (options) =>
-        (options.headers.authorization = Auth.getAuthenticationHeader())
-    ]
-  }
-})
+import { api } from '../lib/helpers'
 
 export const startFetchUserInfo = () => async (dispatch) => {
   try {
     dispatch({ type: USER_INFO_START })
-
-    const { data, status } = await api.get(SETTINGS_USER_INFO)
-
-    if (status !== 200) return new Error('Failed to fetch user data.')
-
+    const data = await api.get(SETTINGS_USER_INFO).json()
     dispatch(userInfoSuccess(data))
   } catch (error) {
-    if (error.status === 401) {
+    console.log('ERROR', error, error.response.status)
+    if (error.response.status === 401) {
       return refreshToken(dispatch, startFetchUserInfo)
     }
     dispatch(setGlobalToast({ type: 'error', message: error.message }))
@@ -62,14 +44,10 @@ export const userInfoSuccess = (data) => ({
 export const startFetchApiKeys = () => async (dispatch) => {
   try {
     dispatch({ type: API_KEY_START })
-
-    const { data, status } = await api.get(SETTINGS_API_KEYS)
-
-    if (status !== 200) return new Error('Failed to fetch Api Keys.')
-
+    const data = await api.get(SETTINGS_API_KEYS).json()
     dispatch(apiKeysFetchSuccess(data))
   } catch (error) {
-    if (error.status === 401) {
+    if (error.response.status === 401) {
       return refreshToken(dispatch, startFetchUserInfo)
     }
     dispatch(setGlobalToast({ type: 'error', message: error.message }))
@@ -90,11 +68,7 @@ export const startDeactivateKey = (externalId) => async (dispatch) => {
   try {
     dispatch({ type: REMOVE_API_KEY_START })
 
-    const { data, status } = await api.delete(
-      `${SETTINGS_API_KEYS}/${externalId}`
-    )
-
-    if (status !== 200) throw new Error('Failed to deactivate Api Keys.')
+    await api.delete(`${SETTINGS_API_KEYS}/${externalId}`)
 
     dispatch(
       setGlobalToast({
@@ -107,9 +81,7 @@ export const startDeactivateKey = (externalId) => async (dispatch) => {
     if (error.response.status === 401) {
       return refreshToken(dispatch, startDeactivateKey, externalId)
     }
-    dispatch(
-      setGlobalToast({ type: 'error', message: error.response.data.message })
-    )
+    dispatch(setGlobalToast({ type: 'error', message: error.message }))
     dispatch(deactivateKeyError())
   }
 }

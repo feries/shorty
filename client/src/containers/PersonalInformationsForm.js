@@ -7,7 +7,7 @@ import EditableLabel from '../components/EditableLabel'
 import { startFetchUserInfo } from '../actions/settings'
 import Loader from '../components/Loader'
 
-class PersonalInformationsForm extends Component {
+class PersonalInformationForm extends Component {
   static propTypes = {
     fetchUserData: PropTypes.func.isRequired,
     user: PropTypes.shape({
@@ -71,4 +71,4 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PersonalInformationsForm)
+)(PersonalInformationForm)

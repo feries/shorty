@@ -33,12 +33,7 @@ class ApiKeyList extends Component {
   handleDeactivateApiKey = (externalId, issuer) => {
     if (!externalId || !issuer) return
 
-    this.props.deactivateKey(externalId, issuer).then(() =>
-      this.props.list.keys.forEach((el) => {
-        if (el.externalId === externalId) el.active = 0
-        return el
-      })
-    )
+    this.props.deactivateKey(externalId, issuer)
   }
 
   render() {
@@ -67,19 +62,20 @@ class ApiKeyList extends Component {
               <li className="item w-5" />
             </ul>
             <div className={wrapperClasses}>
-              {list.keys.map((el) => (
-                <ApiKeyListElement
-                  key={el.key}
-                  apiKey={el.key}
-                  active={el.active}
-                  author={el.author}
-                  issuer={el.issuer}
-                  createdAt={el.createdAt}
-                  action={() =>
-                    this.handleDeactivateApiKey(el.externalId, el.issuer)
-                  }
-                />
-              ))}
+              {list.keys &&
+                list.keys.map((el) => (
+                  <ApiKeyListElement
+                    key={el.key}
+                    apiKey={el.key}
+                    active={el.active}
+                    author={el.author}
+                    issuer={el.issuer}
+                    createdAt={el.createdAt}
+                    action={() =>
+                      this.handleDeactivateApiKey(el.externalId, el.issuer)
+                    }
+                  />
+                ))}
             </div>
           </Fragment>
         )}

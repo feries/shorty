@@ -27,7 +27,8 @@ and all configurable parameters are defined into `.env` file.
 4. 
 
 # To Do
-- [ ] 🐳 Dockerize.
+- [ ] 🐳 Dockerize. - [WIP]
+- [ ] Migrate to [ky](https://github.com/sindresorhus/ky) - [WIP]
 - [ ] ⚠️ Test.
 - [ ] 🚨 Enhance user handling and roles.
 - [ ] 🚀 CI/CD Set up

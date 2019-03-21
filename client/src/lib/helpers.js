@@ -2,6 +2,10 @@
 // be triggered. The function will be called after it stops being called for
 // N milliseconds. If `immediate` is passed, trigger the function on the
 // leading edge, instead of the trailing.
+import ky from 'ky'
+import { API_V1_ENDPOINT } from '../constants/endpoint'
+import Auth from './Authentication'
+
 export const debounce = (func, wait, immediate) => {
   let timeout
 
@@ -81,3 +85,18 @@ export const clearUrl = (url) => {
  */
 export const removeInitialSlash = (path) =>
   path.indexOf('/') === 0 ? path.substr(1) : path
+
+/**
+ *
+ * @type {Ky}
+ */
+export const api = ky.extend({
+  prefixUrl: API_V1_ENDPOINT,
+  hooks: {
+    beforeRequest: [
+      (options) => {
+        options.headers.append('Authorization', Auth.getAuthenticationHeader())
+      }
+    ]
+  }
+})

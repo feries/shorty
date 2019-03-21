@@ -110,7 +110,10 @@ export default (state = initialState, action) => {
         loading: false,
         keys: {
           ...state.keys,
-          data: deactivateKey(state.keys.data, action.data.externalId)
+          data: {
+            ...state.keys.data,
+            keys: deactivateKey(state.keys.data.keys, action.data.data)
+          }
         }
       }
 
