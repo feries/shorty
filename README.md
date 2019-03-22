@@ -40,6 +40,7 @@ and all configurable parameters are defined into `.env` file.
 - [ ] 🚀 CI/CD Set up
 - [ ] 🤖 Add Google Tag Manager
 - [ ] Switch to an ORM like [TypeORM]()
+- [ ] Activate account via `activation-token` to be sent via email after user registration.
 
 # Credit
 

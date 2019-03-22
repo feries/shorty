@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { compose } from 'redux'
 
 import Logo from '../components/Logo'
 import BackToHome from '../components/BackToHome'
@@ -7,22 +8,31 @@ import ErrorEditor from '../containers/ErrorEditor'
 import UserList from '../containers/UserList'
 import PersonalInformationFrom from '../containers/PersonalInformationsForm'
 import DeleteApiKeyWithConfirm from '../containers/DeleteApiKeyWithConfirm'
+import AddUser from '../containers/AddUser'
 import Toast from '../containers/Toast'
 
 import withTitleAndDescription from '../hocs/withTitleAndDescription'
+import withCta from '../hocs/withCta'
 
-const EnhancedUserList = withTitleAndDescription(UserList)
+const EnhancedUserList = compose(
+  withTitleAndDescription,
+  withCta
+)(UserList)
+
+const EnhancedEditor = withTitleAndDescription(ErrorEditor)
 
 class Settings extends Component {
-  state = { apiKey: null, apiKeyIssuer: '' }
+  state = { apiKey: null, apiKeyIssuer: '', showAddUser: false }
 
   deleteApiKey = (externalId, issuer) => {
     if (!externalId || !issuer) return
     this.setState({ apiKey: externalId })
   }
 
+  toggleState = (what, value) => this.setState({ [what]: value })
+
   render() {
-    const { apiKey, apiKeyIssuer } = this.state
+    const { apiKey, apiKeyIssuer, showAddUser } = this.state
 
     return (
       <div className="container">
@@ -32,6 +42,7 @@ class Settings extends Component {
           issuer={apiKeyIssuer}
           onDismiss={() => this.deleteApiKey(null, '')}
         />
+        <AddUser open={showAddUser} />
         <div id="content" className="content m-top-x4">
           <div className="flex flex-space">
             <Logo className="logosmall" />
@@ -48,27 +59,34 @@ class Settings extends Component {
             />
           </div>
           <div className="box m-top-x6">
-            <ErrorEditor
-              pageType="404"
-              title="Error 404"
-              description="Here you can create the extra markup that will be added in the custom box of your 404 Page. It can be useful if you wanna link your users to a dedicated page or define custom behaviours."
-              cta="SAVE PAGE 404"
-            />
+            <div className="userList">
+              <EnhancedEditor
+                pageType="404"
+                title="Error 404"
+                description="Here you can create the extra markup that will be added in the custom box of your 404 Page. It can be useful if you wanna link your users to a dedicated page or define custom behaviours."
+                cta="SAVE PAGE 404"
+              />
+            </div>
           </div>
           <div className="box m-top-x6">
-            <ErrorEditor
-              pageType="500"
-              title="Error 500"
-              description="Here you can create the extra markup that will be added in the custom box of your 500 Page. It can be useful if you wanna link your users to a dedicated page or define custom behaviours."
-              cta="SAVE PAGE 500"
-            />
+            <div className="userList">
+              <EnhancedEditor
+                pageType="500"
+                title="Error 500"
+                description="Here you can create the extra markup that will be added in the custom box of your 500 Page. It can be useful if you wanna link your users to a dedicated page or define custom behaviours."
+                cta="SAVE PAGE 500"
+              />
+            </div>
           </div>
           <div className="box m-top-x6">
-            <EnhancedUserList
-              title="Users"
-              description="Here you can handle active user, and disable not active more users."
-              cta="CREATE NEW USER"
-            />
+            <div className="userList">
+              <EnhancedUserList
+                title="Users"
+                description="Here you can handle active user, and disable not active more users."
+                cta="CREATE NEW USER"
+                action={() => this.toggleState('showAddUser', true)}
+              />
+            </div>
           </div>
         </div>
       </div>

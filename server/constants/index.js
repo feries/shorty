@@ -37,3 +37,5 @@ CUSTOM_PAGES.set('404', 'page404')
 CUSTOM_PAGES.set('500', 'page500')
 
 exports.customPages = CUSTOM_PAGES
+
+exports.registration = 'registration'

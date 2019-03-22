@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import ReactMde from 'react-mde'
 import * as Showdown from 'showdown'
@@ -12,8 +12,6 @@ class Editor extends Component {
 
   static propTypes = {
     pageType: PropTypes.oneOf(['404', '500']).isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
     cta: PropTypes.string,
     page404: PropTypes.shape({
       data: PropTypes.string,
@@ -84,15 +82,11 @@ class Editor extends Component {
   }
 
   render() {
-    const { title, description, cta } = this.props
+    const { cta } = this.props
     const { value, tab } = this.state
 
     return (
-      <div className="editors">
-        <div className="title big light">{title}</div>
-        <div className="description light tiny m-top-x2 m-bottom-x2">
-          {description && description}
-        </div>
+      <Fragment>
         <ReactMde
           onChange={(value) => this.handleStateChange('value', value)}
           onTabChange={(tab) => this.handleStateChange('tab', tab)}
@@ -105,7 +99,7 @@ class Editor extends Component {
         <div className="m-top-x2 t-center" onClick={this.handleSave}>
           <button className="cta">{cta}</button>
         </div>
-      </div>
+      </Fragment>
     )
   }
 }

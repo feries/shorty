@@ -27,7 +27,7 @@ class LoginBox extends Component {
     this.setState({
       isSubmitDisabled: usernameInvalid || passwordInvalid
     })
-  }, 250)
+  }, 100)
 
   handleSubmit = (e) => {
     e.preventDefault()

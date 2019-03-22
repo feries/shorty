@@ -26,7 +26,10 @@ import {
   USERS_FETCH_ERROR,
   USERS_DEACTIVATE_START,
   USERS_DEACTIVATE_SUCCESS,
-  USERS_DEACTIVATE_ERROR
+  USERS_DEACTIVATE_ERROR,
+  USERS_ADD_ERROR,
+  USERS_ADD_SUCCESS,
+  USERS_ADD_START
 } from '../constants/actions'
 
 import { setGlobalToast } from './dashboard'
@@ -230,5 +233,36 @@ export const deactivateUserError = () => ({
 
 export const deactivateUsersSuccess = (data) => ({
   type: USERS_DEACTIVATE_SUCCESS,
+  data
+})
+
+export const startAddNewUser = (name, surname, email) => async (dispatch) => {
+  try {
+    dispatch({ type: USERS_ADD_START })
+    const json = { name, surname, email }
+    await api.post(SETTINGS_USERS, { json }).json()
+
+    dispatch(
+      setGlobalToast({
+        type: 'success',
+        message: 'User successfully added.'
+      })
+    )
+    dispatch(addNewUserSuccess(json))
+  } catch (error) {
+    if (error.response.status === 401) {
+      return refreshToken(dispatch, startAddNewUser, name, surname, email)
+    }
+    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    dispatch(addNewUserError())
+  }
+}
+
+export const addNewUserError = () => ({
+  type: USERS_ADD_ERROR
+})
+
+export const addNewUserSuccess = (data) => ({
+  type: USERS_ADD_SUCCESS,
   data
 })

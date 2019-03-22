@@ -1,7 +1,9 @@
 const sqlLoader = require('./sqlLoader')
 const unless = require('./middlewareSkipper')
+const { Nodemailer } = require('./mailer')
 
 const {
+  isEmail,
   isExpired,
   isValidUrl,
   getDomainFromUrl,
@@ -9,10 +11,12 @@ const {
   trailingSlash,
   generateTokens,
   getToken,
-  decodeJwt
+  decodeJwt,
+  generateUuid4
 } = require('./common')
 
 module.exports = {
+  isEmail,
   sqlLoader,
   unless,
   isExpired,
@@ -22,5 +26,7 @@ module.exports = {
   trailingSlash,
   generateTokens,
   getToken,
-  decodeJwt
+  decodeJwt,
+  generateUuid4,
+  Nodemailer
 }

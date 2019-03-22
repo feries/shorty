@@ -44,26 +44,24 @@ class UserList extends Component {
     })
 
     return (
-      <div className="userList">
-        <div className={wrapperClasses}>
-          {!users && !error ? (
-            <Loader />
-          ) : !users && error ? (
-            'ERRORE!!'
-          ) : users.length > 0 ? (
-            users.map((el, i) => (
-              <UserListTile
-                key={i}
-                onRemove={this.handleOnRemove}
-                externalId={el.externalId}
-                active={el.active}
-                email={el.email}
-              />
-            ))
-          ) : (
-            'No Users'
-          )}
-        </div>
+      <div className={wrapperClasses}>
+        {!users && !error ? (
+          <Loader />
+        ) : !users && error ? (
+          'ERRORE!!'
+        ) : users.length > 0 ? (
+          users.map((el, i) => (
+            <UserListTile
+              key={i}
+              onRemove={this.handleOnRemove}
+              externalId={el.externalId}
+              active={el.active}
+              email={el.email}
+            />
+          ))
+        ) : (
+          'No Users'
+        )}
       </div>
     )
   }

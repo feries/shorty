@@ -1,32 +1,28 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 
 const withTitleAndDescription = (ComposedComponent) =>
   class WithTitleAndDescription extends Component {
     render() {
-      const { title, description, cta, ...rest } = this.props
+      const { title, description, ...rest } = this.props
 
       return (
-        <div className="userList">
+        <Fragment>
           <div className="header">
-            <div className="title big light">{title}</div>
+            {title && <div className="title big light">{title}</div>}
             <div className="description light tiny m-top-x2 m-bottom-x2">
-              {description}
+              {description && description}
             </div>
           </div>
           <ComposedComponent {...rest} />
-          <div className="m-top-x2 t-center">
-            <button className="cta">{cta}</button>
-          </div>
-        </div>
+        </Fragment>
       )
     }
   }
 
 withTitleAndDescription.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  cta: PropTypes.string.isRequired
+  title: PropTypes.string,
+  description: PropTypes.string
 }
 
 export default withTitleAndDescription

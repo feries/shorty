@@ -18,6 +18,10 @@ const isValidUrl = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,
 
 const getDomainFromUrl = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/
 
+const isEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val)
+
+const generateUuid4 = () => uuidv4()
+
 /**
  * @name removeInitialSlash
  * @description Remove initial slash from path
@@ -117,7 +121,9 @@ const decodeJwt = (token) => {
 }
 
 module.exports = {
+  isEmail,
   isExpired,
+  generateUuid4,
   isValidUrl,
   getDomainFromUrl,
   removeInitialSlash,

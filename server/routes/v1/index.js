@@ -8,7 +8,7 @@ const { authHeader } = require('../../middleware')
 
 // Route controllers
 const login = require('./login')
-const signup = require('./signup')
+
 const getAllUrls = require('./getAllUrls')
 const getAllUrlsFiltered = require('./getAllUrlsFiltered')
 const insertNewUrl = require('./insertNewUrl')
@@ -25,6 +25,7 @@ const saveCustomTemplate = require('./saveCustomTemplate')
 const fetchCustomPage = require('./fetchCustomPage')
 const fetchUsers = require('./fetchUsers')
 const deactivateUser = require('./deactivateUser')
+const insertNewUser = require('./insertNewUser')
 
 // Authentication middleware
 routerV1.use(unless(authHeader, '/login', '/api/v1/refresh-token'))
@@ -40,9 +41,6 @@ routerV1.use(
 // AUTH
 // Handle user login
 routerV1.post('/login', login)
-
-// Handle user signup
-routerV1.post('/signup', signup)
 
 // Refresh JWT
 routerV1.post('/refresh-token', refreshToken)
@@ -99,6 +97,8 @@ routerV1.post('/settings/error-page', saveCustomTemplate)
 routerV1.get('/settings/users', fetchUsers)
 // Deactivate user
 routerV1.delete('/settings/users/:id', deactivateUser)
+// Add new user
+routerV1.post('/settings/users', insertNewUser)
 // END USERS
 // END SETTINGS
 

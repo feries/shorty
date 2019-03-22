@@ -1,1 +1,2 @@
-INSERT INTO `user` (external_id, email, PASSWORD) VALUES (?, ?, ?);
+INSERT INTO `user` (external_id, email, `password`) VALUES(?, ?, ?);
+
