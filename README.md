@@ -31,9 +31,9 @@ and all configurable parameters are defined into `.env` file.
   - [X] Dockerfiles
   - [X] docker-compose
 - [ ] Migrate to [ky](https://github.com/sindresorhus/ky) - [WIP]
-  - [ ] Login
-  - [ ] Dashboard
-  - [ ] Detail
+  - [X] Login
+  - [X] Dashboard
+  - [X] Detail
   - [X] Settings
 - [ ] ⚠️ Test with [AVA](https://github.com/avajs/ava) for backend and [Jest](https://github.com/facebook/jest) for frontend. 
 - [ ] 🚨 Enhance user handling and roles.

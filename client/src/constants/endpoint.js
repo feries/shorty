@@ -2,13 +2,13 @@
 export const API_V1_ENDPOINT = '/api/v1'
 
 // Access
-export const URL_LOGIN = '/login'
-export const REFRESH_TOKEN = '/refresh-token'
+export const URL_LOGIN = 'login'
+export const REFRESH_TOKEN = 'refresh-token'
 
 // Dashboard
-export const URL_LIST = '/urls'
-export const HOSTS = '/urls/host'
-export const FILTERED_URL_LIST = '/urls/filter'
+export const URL_LIST = 'urls'
+export const HOSTS = 'urls/host'
+export const FILTERED_URL_LIST = 'urls/filter'
 
 // Detail
 export const URL_DETAIL = '/urls/{id}/{range}'

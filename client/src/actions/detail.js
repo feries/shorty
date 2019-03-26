@@ -1,15 +1,12 @@
-import axios from 'axios'
-
 import {
   DETAIL_FETCH_START,
   DETAIL_FETCH_SUCCESS,
   DETAIL_FETCH_ERROR
 } from '../constants/actions'
-import { API_V1_ENDPOINT, URL_DETAIL } from '../constants/endpoint'
+import { URL_DETAIL } from '../constants/endpoint'
 import { setGlobalToast } from './dashboard'
-
-import Auth from '../lib/Authentication'
 import { refreshToken } from './token'
+import { api } from '../lib/helpers'
 
 export const startFetchData = (externalId, hasRange, range) => async (
   dispatch
@@ -17,31 +14,27 @@ export const startFetchData = (externalId, hasRange, range) => async (
   try {
     dispatch({ type: DETAIL_FETCH_START })
 
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-
     const rangeFormatter = hasRange && range ? `/${range}` : ''
     const formatted = URL_DETAIL.replace('{id}', externalId).replace(
       '/{range}',
       rangeFormatter
     )
 
-    const { data, status, statusText } = await axios.get(
-      `${API_V1_ENDPOINT}${formatted}`
-    )
+    const response = await api.get(formatted)
+    const data = response.json()
 
-    if (status !== 200) {
-      dispatch(setGlobalToast(statusText))
+    if (response.status !== 200) {
+      dispatch(setGlobalToast('Something went wrong'))
       return dispatch(fetchError())
     }
 
     dispatch(fetchSuccess(data))
-  } catch (e) {
-    if (e.response.status === 401) {
+  } catch (exception) {
+    if (exception.response.status === 401) {
       return refreshToken(dispatch, startFetchData, externalId, hasRange, range)
     }
-    return window.location.assign('/500')
+
+    window.location.assign('/500')
   }
 }
 

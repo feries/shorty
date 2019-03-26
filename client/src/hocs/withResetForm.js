@@ -19,6 +19,7 @@ const withResetForm = (ComposedComponent) =>
             reset={true}
             cta="Update my password"
             showCtaIcon={false}
+            onClose={() => (onClose ? onClose() : nope())}
           />
         </ComposedComponent>
       )

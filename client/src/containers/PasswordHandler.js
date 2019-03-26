@@ -13,7 +13,8 @@ class PasswordHandlerContainer extends Component {
   static propTypes = {
     reset: PropTypes.bool,
     hash: PropTypes.string,
-    validateHash: PropTypes.func.isRequired
+    validateHash: PropTypes.func.isRequired,
+    onClose: PropTypes.func
   }
 
   static defaultProps = {

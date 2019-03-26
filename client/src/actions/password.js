@@ -23,7 +23,6 @@ import Auth from '../lib/Authentication'
 
 export const validateActivationHashStart = (hash) => async (dispatch) => {
   try {
-    console.log('Check')
     if (!hash) return window.location.assign('/500')
 
     dispatch({ type: VALIDATE_HASH_START })

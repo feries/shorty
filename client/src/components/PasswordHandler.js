@@ -15,6 +15,7 @@ class PasswordHandler extends Component {
     reset: PropTypes.bool.isRequired,
     onActivateAccount: PropTypes.func.isRequired,
     onPasswordChange: PropTypes.func.isRequired,
+    onClose: PropTypes.func,
     hash: PropTypes.string,
     cta: PropTypes.string.isRequired,
     showCtaIcon: PropTypes.bool,
@@ -64,8 +65,20 @@ class PasswordHandler extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     const { email, oldPassword, newPassword, rePassword } = this.state
-    const { hash, reset } = this.props
-    if (reset) this.props.onPasswordChange(oldPassword, newPassword, rePassword)
+    const { hash, reset, onClose } = this.props
+    if (reset)
+      this.props
+        .onPasswordChange(oldPassword, newPassword, rePassword)
+        .then(() => {
+          this.setState({
+            email: '',
+            oldPassword: '',
+            newPassword: '',
+            rePassword: '',
+            isSubmitDisabled: true
+          })
+          onClose && onClose()
+        })
     else
       this.props.onActivateAccount(
         reset,

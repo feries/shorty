@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 import {
   DASHBOARD_FETCH_START,
   DASHBOARD_FETCH_SUCCESS,
@@ -22,19 +20,9 @@ import {
   ADD_HOST_ERROR,
   SHORT_LINK_COPY
 } from '../constants/actions'
-
-import {
-  API_V1_ENDPOINT,
-  URL_LIST,
-  HOSTS,
-  FILTERED_URL_LIST
-} from '../constants/endpoint'
-
+import { URL_LIST, HOSTS, FILTERED_URL_LIST } from '../constants/endpoint'
 import { PER_PAGE } from '../constants/common'
-
-import { objectToQuery } from '../lib/helpers'
-import Auth from '../lib/Authentication'
-
+import { api } from '../lib/helpers'
 import { refreshToken } from './token'
 
 export const startFetchLinks = (
@@ -44,28 +32,18 @@ export const startFetchLinks = (
 ) => async (dispatch) => {
   try {
     dispatch({ type: DASHBOARD_FETCH_START })
-    const qp = objectToQuery({ limit, skip })
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-    const { data, status, statusText } = await axios.get(
-      `${API_V1_ENDPOINT}${URL_LIST}${qp}`
-    )
 
-    if (status !== 200) {
-      dispatch(setGlobalToast(statusText))
-      return dispatch(fetchError())
-    }
-
+    const data = await api
+      .get(URL_LIST, { searchParams: { limit, skip } })
+      .json()
     const _skip = skip === 0 ? 1 : skip
     const hasMore = data.count > limit * _skip
     dispatch(fetchSuccess({ ...data, hasMore, clearResults }))
-  } catch (error) {
-    dispatch(fetchError())
-
-    if (error.response.status === 401) {
+  } catch (exception) {
+    if (exception.response.status === 401) {
       return refreshToken(dispatch, startFetchLinks, limit, skip, clearResults)
     }
+    dispatch(fetchError())
 
     return window.location.assign('/500')
   }
@@ -83,32 +61,28 @@ export const fetchError = () => ({
 export const startSubmitLink = (url, short) => async (dispatch) => {
   try {
     dispatch({ type: SUBMIT_LINK_START })
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-    const { data, status, statusText } = await axios.post(
-      `${API_V1_ENDPOINT}${URL_LIST}`,
-      { url, short }
-    )
+    const json = { url, short }
+    const response = await api.post(URL_LIST, { json })
+    const data = response.json()
 
-    if (status === 200) {
+    if (response.status === 200) {
       dispatch(invalidHost({ url, short }))
       return dispatch(submitLinkError())
     }
 
-    if (status !== 201) {
-      dispatch(setGlobalToast(statusText))
+    if (response.status !== 201) {
+      dispatch(setGlobalToast({ message: 'Something went wrong.' }))
       return dispatch(submitLinkError())
     }
 
     return dispatch(submitLinkSuccess(data))
-  } catch (e) {
-    if (e.response.status === 400) {
+  } catch (exception) {
+    if (exception.response.status === 400) {
       dispatch(
-        setGlobalToast({ type: 'error', message: e.response.data.message })
+        setGlobalToast({ type: 'error', message: exception.response.message })
       )
       return dispatch(submitLinkError())
-    } else if (e.response.status === 401) {
+    } else if (exception.response.status === 401) {
       return refreshToken(dispatch, startSubmitLink, url, short)
     }
     window.location.assign('/500')
@@ -132,21 +106,18 @@ export const submitLinkError = () => ({
 export const startFilter = (key, value) => async (dispatch) => {
   try {
     dispatch({ type: FILTER_START })
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-    const qp = objectToQuery({ key, value })
-
-    const { data } = await axios.get(
-      `${API_V1_ENDPOINT}${FILTERED_URL_LIST}${qp}`
-    )
+    const data = await api
+      .get(FILTERED_URL_LIST, {
+        searchParams: { key, value }
+      })
+      .json()
 
     dispatch(startFilterSuccess({ ...data, hasMore: false }))
-  } catch (e) {
-    if (e.response.status === 400) {
-      dispatch(setGlobalToast(e.response.data.message))
+  } catch (exception) {
+    if (exception.response.status === 400) {
+      dispatch(setGlobalToast(exception.response.message))
       return dispatch(startFilterError())
-    } else if (e.response.status === 401) {
+    } else if (exception.response.status === 401) {
       return refreshToken(dispatch, startFilter, key, value)
     }
 
@@ -166,22 +137,18 @@ export const startFilterError = () => ({
 export const startDelete = (externalId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_URL_START })
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-
-    await axios.delete(`${API_V1_ENDPOINT}${URL_LIST}/${externalId}`)
+    await api.delete(`${URL_LIST}/${externalId}`)
     dispatch(
       setGlobalToast({ type: 'success', message: 'URL successfully deleted!' })
     )
     dispatch(deleteSuccess(externalId))
-  } catch (e) {
-    if (e.response.status === 400) {
+  } catch (exception) {
+    if (exception.response.status === 400) {
       dispatch(
-        setGlobalToast({ type: 'error', message: e.response.data.message })
+        setGlobalToast({ type: 'error', message: exception.response.message })
       )
       return dispatch(deleteError())
-    } else if (e.response.status === 401) {
+    } else if (exception.response.status === 401) {
       return refreshToken(dispatch, startDelete, externalId)
     }
 
@@ -204,11 +171,8 @@ export const startAddHost = (shortUrl, fullUrl) => async (
 ) => {
   try {
     dispatch({ type: ADD_HOST_START })
-    axios.defaults.headers.common[
-      'Authorization'
-    ] = Auth.getAuthenticationHeader()
-
-    await axios.post(`${API_V1_ENDPOINT}${HOSTS}`, { shortUrl, fullUrl })
+    const json = { shortUrl, fullUrl }
+    await api.post(HOSTS, { json }).json()
 
     dispatch(
       setGlobalToast({
@@ -218,7 +182,6 @@ export const startAddHost = (shortUrl, fullUrl) => async (
     )
 
     const state = getState()
-    debugger
     dispatch(
       startSubmitLink(
         state.dashboard.host.targetUrl,
@@ -226,13 +189,13 @@ export const startAddHost = (shortUrl, fullUrl) => async (
       )
     )
     return dispatch(addHostSuccess())
-  } catch (e) {
-    if (e.response.status === 400) {
+  } catch (exception) {
+    if (exception.response.status === 400) {
       dispatch(
-        setGlobalToast({ type: 'error', message: e.response.data.message })
+        setGlobalToast({ type: 'error', message: exception.response.message })
       )
       return dispatch(addHostError())
-    } else if (e.response.status === 401) {
+    } else if (exception.response.status === 401) {
       return refreshToken(dispatch, startAddHost, shortUrl, fullUrl)
     }
     window.location.assign('/500')

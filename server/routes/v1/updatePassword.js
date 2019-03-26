@@ -8,6 +8,19 @@ module.exports = async (req, res) => {
     const token = getToken(req.get('Authorization'))
     const { external_id: userExternalId } = decodeJwt(token)
 
+    const hashedOldPassword = await SecurePassword.hash(
+      Buffer.from(oldPassword)
+    )
+    const oldPwd = hashedOldPassword.toString('base64')
+
+    const sqlOldPwd = sqlLoader('validateOldPassword.sql')
+    const queryOldPwd = await db.query(sqlOldPwd, [userExternalId, oldPwd])
+
+    if (queryOldPwd.length !== 1)
+      return res
+        .status(400)
+        .send({ message: "Your old password isn't correct." })
+
     if (!oldPassword || !newPassword || !confirmPassword)
       return res
         .status(400)
