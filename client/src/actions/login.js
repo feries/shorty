@@ -1,5 +1,5 @@
 import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR } from '../constants/actions'
-import { API_V1_ENDPOINT, URL_LOGIN } from '../constants/endpoint'
+import { URL_LOGIN } from '../constants/endpoint'
 
 import { api } from '../lib/helpers'
 import Auth from '../lib/Authentication'

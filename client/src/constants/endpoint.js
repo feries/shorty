@@ -11,7 +11,7 @@ export const HOSTS = 'urls/host'
 export const FILTERED_URL_LIST = 'urls/filter'
 
 // Detail
-export const URL_DETAIL = '/urls/{id}/{range}'
+export const URL_DETAIL = 'urls/{id}/{range}'
 
 // Settings
 export const SETTINGS_USER_INFO = 'settings/user-info'
