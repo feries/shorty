@@ -37,6 +37,7 @@ and all configurable parameters are defined into `.env` file.
   - [X] Settings
 - [ ] ⚠️ Test with [AVA](https://github.com/avajs/ava) for backend and [Jest](https://github.com/facebook/jest) for frontend. 
 - [ ] 🚨 Enhance user handling and roles.
+- [ ] 🌍 i18n
 - [ ] 🚀 CI/CD Set up
 - [ ] 🤖 Add Google Tag Manager
 - [ ] Switch to an ORM like [TypeORM]()

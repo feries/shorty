@@ -2,7 +2,7 @@ import { LOGIN_START, LOGIN_SUCCESS, LOGIN_ERROR } from '../constants/actions'
 
 const initialState = {
   loading: false,
-  data: {}
+  user: {}
 }
 
 export default (state = initialState, action) => {
@@ -14,16 +14,15 @@ export default (state = initialState, action) => {
       }
 
     case LOGIN_SUCCESS:
-      window.location.assign('/')
       return {
         loading: false,
-        data: action.data
+        user: action.data.user
       }
 
     case LOGIN_ERROR:
       return {
         loading: false,
-        data: {}
+        user: {}
       }
 
     default:

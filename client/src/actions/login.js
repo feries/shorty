@@ -22,6 +22,7 @@ export const loginStart = (email, password) => async (dispatch) => {
   const { token, refreshToken } = data
   Auth.authenticate(token, refreshToken)
   dispatch(loginSuccess(data))
+  window.location.assign('/')
 }
 
 export const loginSuccess = (data) => ({

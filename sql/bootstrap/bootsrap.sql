@@ -18,17 +18,24 @@ VALUES ('name'),
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
-    id              INT AUTO_INCREMENT,
-    external_id     VARCHAR(36)  NOT NULL UNIQUE,
-    email           VARCHAR(100) NOT NULL UNIQUE,
-    password        VARCHAR(255) NOT NULL,
-    created_at      DATETIME     NOT NULL DEFAULT NOW(),
-    last_login      DATETIME              DEFAULT NULL,
-    account_enabled TINYINT      NOT NULL DEFAULT FALSE,
-    refresh_token   TEXT,
-    PRIMARY KEY (id)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8;
+    id               INT AUTO_INCREMENT
+        PRIMARY KEY,
+    external_id      VARCHAR(36)                        NOT NULL,
+    email            VARCHAR(100)                       NOT NULL,
+    password         VARCHAR(255)                       NULL,
+    created_at       DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    last_login       DATETIME                           NULL,
+    account_enabled  TINYINT  DEFAULT 0                 NOT NULL,
+    refresh_token    TEXT                               NULL,
+    activation_token VARCHAR(100)                       NOT NULL,
+    CONSTRAINT email
+        UNIQUE (email),
+    CONSTRAINT external_id
+        UNIQUE (external_id),
+    CONSTRAINT user_activation_token_uindex
+        UNIQUE (activation_token)
+)  ENGINE = InnoDB
+    CHARSET = utf8;
 
 DROP TABLE IF EXISTS `user_contact`;
 CREATE TABLE `user_contact`

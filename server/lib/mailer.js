@@ -39,7 +39,8 @@ class Nodemailer {
         'url',
         'user',
         'email',
-        'password'
+        'password',
+        'activationToken'
       ])
 
       this.config()

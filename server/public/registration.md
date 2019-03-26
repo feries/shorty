@@ -4,14 +4,10 @@
 
 Hi {name},
 
-You have just been added on [Shorty]({url}) platform from {user}.
+You have just been added on [Shorty]({url}) platform from {user} with this email ({email}).
 
-Your login credential are:
-  - email: {email}
-  - password: {password}
-  
-*NB:* _Password are automatically generated from the system and are encrypted. 
-To improve security we suggest to update it in the settings area after your first login._ 
+To activate your account you should click [here]({url}/activate/{activationToken}), or copy an paste this link,
+{url}/activate/{activationToken} on your browser, to confirm your email and setup your password.  
 
 Se you on.
 

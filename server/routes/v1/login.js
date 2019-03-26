@@ -42,6 +42,7 @@ module.exports = async (req, res) => {
   delete row.id
   delete row.account_enabled
   delete row.refresh_token
+  delete row.activation_token
 
   const user = { ...row }
   const { token, refreshToken } = generateTokens(user)

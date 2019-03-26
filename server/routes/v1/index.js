@@ -26,15 +26,29 @@ const fetchCustomPage = require('./fetchCustomPage')
 const fetchUsers = require('./fetchUsers')
 const deactivateUser = require('./deactivateUser')
 const insertNewUser = require('./insertNewUser')
+const validateHash = require('./validateHash')
+const activateAccount = require('./activateAccount')
 
 // Authentication middleware
-routerV1.use(unless(authHeader, '/login', '/api/v1/refresh-token'))
+routerV1.use(
+  unless(
+    authHeader,
+    '/login',
+    '/refresh-token',
+    '/validate/:hash',
+    '/activate/:hash'
+  )
+)
 routerV1.use(
   jwt({
     secret: process.env.JWT_SECRET,
     issuer: process.env.JWT_ISSUER
   }).unless({
-    path: ['/api/v1/login', '/api/v1/refresh-token']
+    path: [
+      '/api/v1/login',
+      '/api/v1/refresh-token',
+      /^\/api\/v1\/(validate|activate)\/.*/
+    ]
   })
 )
 
@@ -101,5 +115,8 @@ routerV1.delete('/settings/users/:id', deactivateUser)
 routerV1.post('/settings/users', insertNewUser)
 // END USERS
 // END SETTINGS
+
+routerV1.get('/validate/:hash', validateHash)
+routerV1.post('/activate/:hash', activateAccount)
 
 module.exports = routerV1

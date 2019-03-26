@@ -11,3 +11,8 @@ export const SETTINGS_USER_INFO = 'settings/user-info'
 export const SETTINGS_API_KEYS = 'settings/api-key'
 export const SETTINGS_CUSTOM_ERROR_PAGE = 'settings/error-page'
 export const SETTINGS_USERS = 'settings/users'
+
+// Password
+export const VALIDATE_HASH = 'validate/{hash}'
+export const ACTIVATE_ACCOUNT = 'activate/{hash}'
+export const SET_PASSWORD = 'user/password'

@@ -21,14 +21,8 @@ module.exports = async (req, res) => {
     if (exist)
       return res.status(400).send({ message: 'User already registered.' })
 
-    const buffer = await crypto.randomBytes(8)
-    const password = buffer
-      .toString('base64')
-      .replace(/\//g, '_')
-      .replace(/\+/g, '-')
-
-    const hashedPassword = await SecurePassword.hash(Buffer.from(password))
-    const options = [uuidv4(), email, hashedPassword.toString('base64')]
+    const activationToken = await crypto.randomBytes(50).toString('base64')
+    const options = [uuidv4(), email, activationToken]
 
     const insertNewUser = sqlLoader('insertNewUser.sql')
     const row = await db.query(insertNewUser, options)
@@ -55,7 +49,8 @@ module.exports = async (req, res) => {
       url: process.env.DOMAIN,
       user: `${first.value} ${last.value}`,
       email,
-      password
+      password,
+      activationToken
     }
 
     const mailer = new Nodemailer()
