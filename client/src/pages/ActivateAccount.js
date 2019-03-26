@@ -7,7 +7,11 @@ export default (props) => (
   <div className="t-center lightDark">
     <Logo />
     <Toast />
-    <PasswordHandler reset={false} hash={props.match.params.id} />
+    <PasswordHandler
+      reset={false}
+      hash={props.match.params.id}
+      cta="Activate my account"
+    />
     <div className="m-top-x10">
       <a
         href="https://www.feries.it/"

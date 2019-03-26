@@ -34,6 +34,7 @@ export const validateActivationHashStart = (hash) => async (dispatch) => {
 
     dispatch({ type: VALIDATE_HASH_SUCCESS })
   } catch (error) {
+    dispatch({ type: VALIDATE_HASH_ERROR })
     return window.location.assign('/500')
   }
 }
@@ -68,8 +69,14 @@ export const setNewPasswordStart = (
   try {
     dispatch({ type: SET_PASSWORD_START })
     const json = { oldPassword, newPassword, confirmPassword }
-    const data = await api.post(SET_PASSWORD, { json }).json()
-    dispatch(setNewPasswordSuccess(data))
+    const { message } = await api.post(SET_PASSWORD, { json }).json()
+    dispatch({ type: SET_PASSWORD_SUCCESS })
+    dispatch(
+      setGlobalToast({
+        type: 'success',
+        message
+      })
+    )
   } catch (exception) {
     if (exception.response.status === 401) {
       return refreshToken(
@@ -81,15 +88,6 @@ export const setNewPasswordStart = (
       )
     }
     dispatch(setGlobalToast({ type: 'error', message: exception.message }))
-    dispatch(setNewPasswordError())
+    dispatch({ type: SET_PASSWORD_ERROR })
   }
 }
-
-export const setNewPasswordError = () => ({
-  type: SET_PASSWORD_ERROR
-})
-
-export const setNewPasswordSuccess = (data) => ({
-  type: SET_PASSWORD_SUCCESS,
-  data
-})

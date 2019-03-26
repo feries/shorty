@@ -28,6 +28,7 @@ const deactivateUser = require('./deactivateUser')
 const insertNewUser = require('./insertNewUser')
 const validateHash = require('./validateHash')
 const activateAccount = require('./activateAccount')
+const updatePassword = require('./updatePassword')
 
 // Authentication middleware
 routerV1.use(
@@ -113,10 +114,16 @@ routerV1.get('/settings/users', fetchUsers)
 routerV1.delete('/settings/users/:id', deactivateUser)
 // Add new user
 routerV1.post('/settings/users', insertNewUser)
+// Update Password
+routerV1.post('/settings/user/password', updatePassword)
 // END USERS
 // END SETTINGS
 
+// ACTIVATE ACCOUNT
+// Validate url hash
 routerV1.get('/validate/:hash', validateHash)
+// Activate account
 routerV1.post('/activate/:hash', activateAccount)
+// END ACTIVATE ACCOUNT
 
 module.exports = routerV1

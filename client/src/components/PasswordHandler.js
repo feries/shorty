@@ -13,8 +13,21 @@ class PasswordHandler extends Component {
 
   static propTypes = {
     reset: PropTypes.bool.isRequired,
+    onActivateAccount: PropTypes.func.isRequired,
     onPasswordChange: PropTypes.func.isRequired,
-    hash: PropTypes.string
+    hash: PropTypes.string,
+    cta: PropTypes.string.isRequired,
+    showCtaIcon: PropTypes.bool,
+    ctaIcon: PropTypes.node,
+    ctaClasses: PropTypes.string,
+    inputClasses: PropTypes.string
+  }
+
+  static defaultProps = {
+    showCtaIcon: true,
+    ctaIcon: <i className="far fa-sign-in-alt" />,
+    ctaClasses: '',
+    inputClasses: ''
   }
 
   componentDidMount() {
@@ -34,7 +47,11 @@ class PasswordHandler extends Component {
     let invalid = true
     if (reset)
       invalid =
-        oldPasswordInvalid || newPasswordInvalid || rePasswordInvalid || !match
+        oldPasswordInvalid ||
+        newPasswordInvalid ||
+        rePasswordInvalid ||
+        !match ||
+        oldPassword === newPassword
     else
       invalid =
         emailInvalid || newPasswordInvalid || rePasswordInvalid || !match
@@ -48,14 +65,16 @@ class PasswordHandler extends Component {
     e.preventDefault()
     const { email, oldPassword, newPassword, rePassword } = this.state
     const { hash, reset } = this.props
-    this.props.onPasswordChange(
-      reset,
-      hash,
-      email,
-      oldPassword,
-      newPassword,
-      rePassword
-    )
+    if (reset) this.props.onPasswordChange(oldPassword, newPassword, rePassword)
+    else
+      this.props.onActivateAccount(
+        reset,
+        hash,
+        email,
+        oldPassword,
+        newPassword,
+        rePassword
+      )
   }
 
   handleChange = (evt, what) => {
@@ -64,7 +83,14 @@ class PasswordHandler extends Component {
   }
 
   render() {
-    const { reset } = this.props
+    const {
+      reset,
+      cta,
+      showCtaIcon,
+      ctaIcon,
+      ctaClasses,
+      inputClasses
+    } = this.props
     const {
       email,
       oldPassword,
@@ -81,14 +107,16 @@ class PasswordHandler extends Component {
             <input
               type="password"
               value={oldPassword}
+              className={inputClasses}
               placeholder="insert your current password"
-              onChange={(e) => this.handleChange(e, 'password')}
+              onChange={(e) => this.handleChange(e, 'oldPassword')}
               autoFocus={true}
             />
           ) : (
             <input
               type="email"
               value={email}
+              className={inputClasses}
               placeholder="insert your registration email"
               onChange={(e) => this.handleChange(e, 'email')}
               autoFocus={true}
@@ -97,18 +125,24 @@ class PasswordHandler extends Component {
           <input
             type="password"
             value={newPassword}
+            className={inputClasses}
             placeholder="insert your new password"
             onChange={(e) => this.handleChange(e, 'newPassword')}
           />
           <input
             type="password"
             value={rePassword}
+            className={inputClasses}
             placeholder="confirm your new password"
             onChange={(e) => this.handleChange(e, 'rePassword')}
           />
-          <button disabled={isSubmitDisabled} onClick={this.handleSubmit}>
-            Activate my account &nbsp;
-            <i className="far fa-sign-in-alt" />
+          <button
+            className={ctaClasses}
+            disabled={isSubmitDisabled}
+            onClick={this.handleSubmit}
+          >
+            {cta} &nbsp;
+            {showCtaIcon && ctaIcon}
           </button>
         </form>
       </div>

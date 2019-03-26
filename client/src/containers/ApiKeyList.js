@@ -39,9 +39,6 @@ class ApiKeyList extends Component {
   render() {
     const { list, error } = this.props
 
-    if (!list && !error) return <Loader />
-    if (!list && error) return 'ERRORE!!!'
-
     const wrapperClasses = classnames('content m-top-x2', {
       't-center': (!list && !error) || (!list && error)
     })

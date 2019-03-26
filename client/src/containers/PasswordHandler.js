@@ -5,7 +5,8 @@ import PropTypes from 'prop-types'
 import PasswordHandler from '../components/PasswordHandler'
 import {
   validateActivationHashStart,
-  activateAccountStart
+  activateAccountStart,
+  setNewPasswordStart
 } from '../actions/password'
 
 class PasswordHandlerContainer extends Component {
@@ -32,11 +33,11 @@ class PasswordHandlerContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({})
-
 const mapDispatchToProps = (dispatch) => ({
   validateHash: (hash) => dispatch(validateActivationHashStart(hash)),
-  onPasswordChange: (
+  onPasswordChange: (oldPassword, newPassword, rePassword) =>
+    dispatch(setNewPasswordStart(oldPassword, newPassword, rePassword)),
+  onActivateAccount: (
     reset = true,
     hash,
     email,
@@ -57,6 +58,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(
-  mapStateToProps,
+  undefined,
   mapDispatchToProps
 )(PasswordHandlerContainer)

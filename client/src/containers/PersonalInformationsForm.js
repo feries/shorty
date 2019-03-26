@@ -4,10 +4,16 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 import EditableLabel from '../components/EditableLabel'
-import { startFetchUserInfo } from '../actions/settings'
 import Loader from '../components/Loader'
+import Modal from '../components/Modal'
+import withResetForm from '../hocs/withResetForm'
+import { startFetchUserInfo } from '../actions/settings'
+
+const ResetPasswordModal = withResetForm(Modal)
 
 class PersonalInformationForm extends Component {
+  state = { showModal: false }
+
   static propTypes = {
     fetchUserData: PropTypes.func.isRequired,
     user: PropTypes.shape({
@@ -21,11 +27,13 @@ class PersonalInformationForm extends Component {
     this.props.fetchUserData()
   }
 
+  handleModal = (showModal = true) => {
+    this.setState({ showModal })
+  }
+
   render() {
     const { user, error } = this.props
-
-    if (!user && !error) return <Loader />
-    if (!user && error) return 'ERRORE!!!'
+    const { showModal } = this.state
 
     const wrapperClasses = classnames('light big m-bottom-x2', {
       't-center': (!user && !error) || (!user && error)
@@ -33,11 +41,16 @@ class PersonalInformationForm extends Component {
 
     return (
       <div className="w-100">
-        <div className={wrapperClasses}>Personal Informations</div>
+        <ResetPasswordModal
+          open={showModal}
+          size="big"
+          onClose={() => this.handleModal(false)}
+        />
+        <div className={wrapperClasses}>Personal Information</div>
         {!user && !error ? (
           <Loader />
         ) : !user && error ? (
-          'ERRORE!!'
+          'ERRORE!!' // TODO: Replace with an error component
         ) : (
           <div className="personal-informations flex flex-grow">
             <div className="item">
@@ -50,7 +63,9 @@ class PersonalInformationForm extends Component {
               <EditableLabel label="email" fieldValue={user.email} />
             </div>
             <div className="item item-last">
-              <button className="editPassword">EDIT PASSWORD</button>
+              <button className="editPassword" onClick={this.handleModal}>
+                EDIT PASSWORD
+              </button>
             </div>
           </div>
         )}
