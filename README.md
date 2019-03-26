@@ -27,21 +27,16 @@ and all configurable parameters are defined into `.env` file.
 4. 
 
 # To Do
-- [ ] 🐳 Dockerize. - [WIP]
-  - [X] Dockerfiles
-  - [X] docker-compose
-- [ ] Migrate to [ky](https://github.com/sindresorhus/ky) - [WIP]
-  - [X] Login
-  - [X] Dashboard
-  - [X] Detail
-  - [X] Settings
-- [ ] ⚠️ Test with [AVA](https://github.com/avajs/ava) for backend and [Jest](https://github.com/facebook/jest) for frontend. 
+- [X] 🐳 Dockerize.
+- [X] Migrate to [ky](https://github.com/sindresorhus/ky)
+- [ ] 🚦️ Test with [AVA](https://github.com/avajs/ava) for backend and [Jest](https://github.com/facebook/jest) for frontend. 
 - [ ] 🚨 Enhance user handling and roles.
+- [ ] ⚠️ Enhance error handling for REST call. (Handle Toast with messages from BE.)
 - [ ] 🌍 i18n
 - [ ] 🚀 CI/CD Set up
 - [ ] 🤖 Add Google Tag Manager
 - [ ] Switch to an ORM like [TypeORM]()
-- [ ] Activate account via `activation-token` to be sent via email after user registration.
+- [X] Activate account via `activation-token` to be sent via email after user registration.
 
 # Credit
 
