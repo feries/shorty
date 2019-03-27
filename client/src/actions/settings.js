@@ -43,11 +43,13 @@ export const startFetchUserInfo = () => async (dispatch) => {
     dispatch({ type: USER_INFO_START })
     const data = await api.get(SETTINGS_USER_INFO).json()
     dispatch(userInfoSuccess(data))
-  } catch (error) {
-    if (error.response.status === 401) {
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startFetchUserInfo)
     }
-    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(userInfoError())
   }
 }
@@ -66,11 +68,13 @@ export const startFetchApiKeys = () => async (dispatch) => {
     dispatch({ type: API_KEY_START })
     const data = await api.get(SETTINGS_API_KEYS).json()
     dispatch(apiKeysFetchSuccess(data))
-  } catch (error) {
-    if (error.response.status === 401) {
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startFetchApiKeys)
     }
-    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(apiKeysFetchError())
   }
 }
@@ -97,11 +101,13 @@ export const startDeactivateKey = (externalId) => async (dispatch) => {
       })
     )
     dispatch(deactivateKeySuccess({ data: externalId }))
-  } catch (error) {
-    if (error.response.status === 401) {
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startDeactivateKey, externalId)
     }
-    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(deactivateKeyError())
   }
 }
@@ -122,11 +128,13 @@ export const startFetchCustomMds = (page) => async (dispatch) => {
       .get(`${SETTINGS_CUSTOM_ERROR_PAGE}/${page}`)
       .json()
     dispatch(fetchCustomMdSuccess({ content, page }))
-  } catch (error) {
-    if (error.response.status === 401) {
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startFetchCustomMds, page)
     }
-    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(fetchCustomMdError({ data: { page } }))
   }
 }
@@ -158,11 +166,13 @@ export const startSaveCustomMd = (md, page) => async (dispatch) => {
     )
 
     dispatch(saveCustomMdSuccess(md, page))
-  } catch (error) {
-    if (error.response.status === 401) {
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startSaveCustomMd, md, page)
     }
-    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(saveCustomMdError())
   }
 }
@@ -187,11 +197,13 @@ export const startFetchUsers = (limit = USER_PER_PAGE, skip = 0) => async (
       .json()
 
     dispatch(fetchUsersSuccess(data))
-  } catch (error) {
-    if (error.response.status === 401) {
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startFetchUsers, limit, skip)
     }
-    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(fetchUserError())
   }
 }
@@ -218,11 +230,13 @@ export const startDeactivateUser = (externalId) => async (dispatch) => {
       })
     )
     dispatch(deactivateUsersSuccess(externalId))
-  } catch (error) {
-    if (error.response.status === 401) {
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startDeactivateUser, externalId)
     }
-    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(deactivateUserError())
   }
 }
@@ -249,11 +263,13 @@ export const startAddNewUser = (name, surname, email) => async (dispatch) => {
       })
     )
     dispatch(addNewUserSuccess(json))
-  } catch (error) {
-    if (error.response.status === 401) {
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startAddNewUser, name, surname, email)
     }
-    dispatch(setGlobalToast({ type: 'error', message: error.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(addNewUserError())
   }
 }

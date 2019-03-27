@@ -20,20 +20,16 @@ export const startFetchData = (externalId, hasRange, range) => async (
       rangeFormatter
     )
 
-    const response = await api.get(formatted)
-    const data = response.json()
-
-    if (response.status !== 200) {
-      dispatch(setGlobalToast('Something went wrong'))
-      return dispatch(fetchError())
-    }
-
+    const data = await api.get(formatted).json()
     dispatch(fetchSuccess(data))
   } catch (exception) {
-    if (exception.response.status === 401) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startFetchData, externalId, hasRange, range)
     }
-
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
+    dispatch(fetchError())
     window.location.assign('/500')
   }
 }

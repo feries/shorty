@@ -31,7 +31,7 @@ and all configurable parameters are defined into `.env` file.
 - [X] Migrate to [ky](https://github.com/sindresorhus/ky)
 - [ ] 🚦️ Test with [AVA](https://github.com/avajs/ava) for backend and [Jest](https://github.com/facebook/jest) for frontend. 
 - [ ] 🚨 Enhance user handling and roles.
-- [ ] ⚠️ Enhance error handling for REST call. (Handle Toast with messages from BE.)
+- [X] ⚠️ Enhance error handling for REST call. (Handle Toast with messages from BE.)
 - [ ] 🌍 i18n
 - [ ] 🚀 CI/CD Set up
 - [ ] 🤖 Add Google Tag Manager

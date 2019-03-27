@@ -40,11 +40,13 @@ export const startFetchLinks = (
     const hasMore = data.count > limit * _skip
     dispatch(fetchSuccess({ ...data, hasMore, clearResults }))
   } catch (exception) {
-    if (exception.response.status === 401) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startFetchLinks, limit, skip, clearResults)
     }
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(fetchError())
-
     return window.location.assign('/500')
   }
 }
@@ -70,21 +72,18 @@ export const startSubmitLink = (url, short) => async (dispatch) => {
       return dispatch(submitLinkError())
     }
 
-    if (response.status !== 201) {
-      dispatch(setGlobalToast({ message: 'Something went wrong.' }))
-      return dispatch(submitLinkError())
-    }
-
     return dispatch(submitLinkSuccess(data))
   } catch (exception) {
-    if (exception.response.status === 400) {
-      dispatch(
-        setGlobalToast({ type: 'error', message: exception.response.message })
-      )
+    const { status } = await exception.response
+    const { message } = await exception.response.json()
+    if (status === 400) {
+      dispatch(setGlobalToast({ type: 'error', message }))
       return dispatch(submitLinkError())
-    } else if (exception.response.status === 401) {
+    } else if (status === 401) {
       return refreshToken(dispatch, startSubmitLink, url, short)
     }
+    dispatch(setGlobalToast({ type: 'error', message }))
+    dispatch(submitLinkError())
     window.location.assign('/500')
   }
 }
@@ -114,13 +113,14 @@ export const startFilter = (key, value) => async (dispatch) => {
 
     dispatch(startFilterSuccess({ ...data, hasMore: false }))
   } catch (exception) {
-    if (exception.response.status === 400) {
-      dispatch(setGlobalToast(exception.response.message))
-      return dispatch(startFilterError())
-    } else if (exception.response.status === 401) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startFilter, key, value)
     }
 
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
+    dispatch(startFilterError())
     window.location.assign('/500')
   }
 }
@@ -143,15 +143,13 @@ export const startDelete = (externalId) => async (dispatch) => {
     )
     dispatch(deleteSuccess(externalId))
   } catch (exception) {
-    if (exception.response.status === 400) {
-      dispatch(
-        setGlobalToast({ type: 'error', message: exception.response.message })
-      )
-      return dispatch(deleteError())
-    } else if (exception.response.status === 401) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startDelete, externalId)
     }
-
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
+    dispatch(deleteError())
     window.location.assign('/500')
   }
 }
@@ -190,14 +188,14 @@ export const startAddHost = (shortUrl, fullUrl) => async (
     )
     return dispatch(addHostSuccess())
   } catch (exception) {
-    if (exception.response.status === 400) {
-      dispatch(
-        setGlobalToast({ type: 'error', message: exception.response.message })
-      )
-      return dispatch(addHostError())
-    } else if (exception.response.status === 401) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(dispatch, startAddHost, shortUrl, fullUrl)
     }
+
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
+    dispatch(addHostError())
     window.location.assign('/500')
   }
 }

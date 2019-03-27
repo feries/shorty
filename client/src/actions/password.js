@@ -32,7 +32,7 @@ export const validateActivationHashStart = (hash) => async (dispatch) => {
     if (!data) return window.location.assign('/500')
 
     dispatch({ type: VALIDATE_HASH_SUCCESS })
-  } catch (error) {
+  } catch (exception) {
     dispatch({ type: VALIDATE_HASH_ERROR })
     return window.location.assign('/500')
   }
@@ -55,7 +55,8 @@ export const activateAccountStart = (
     dispatch({ type: ACTIVATE_ACCOUNT_SUCCESS })
     window.location.assign('/')
   } catch (exception) {
-    dispatch(setGlobalToast({ type: 'error', message: exception.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch({ type: ACTIVATE_ACCOUNT_ERROR })
   }
 }
@@ -77,7 +78,8 @@ export const setNewPasswordStart = (
       })
     )
   } catch (exception) {
-    if (exception.response.status === 401) {
+    const { status } = await exception.response
+    if (status === 401) {
       return refreshToken(
         dispatch,
         setNewPasswordStart,
@@ -86,7 +88,8 @@ export const setNewPasswordStart = (
         confirmPassword
       )
     }
-    dispatch(setGlobalToast({ type: 'error', message: exception.message }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch({ type: SET_PASSWORD_ERROR })
   }
 }

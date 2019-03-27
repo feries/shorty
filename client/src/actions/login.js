@@ -14,7 +14,8 @@ export const loginStart = (email, password) => async (dispatch) => {
     dispatch({ type: LOGIN_SUCCESS })
     window.location.assign('/')
   } catch (exception) {
-    dispatch(setGlobalToast({ type: 'error', message: 'Invalid credentials' }))
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
     dispatch({ type: LOGIN_ERROR })
   }
 }

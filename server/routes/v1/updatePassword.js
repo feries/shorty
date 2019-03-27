@@ -1,25 +1,14 @@
-const SecurePassword = require('secure-password')()
+const securePassword = require('secure-password')
 const { sqlLoader, getToken, decodeJwt } = require('../../lib')
 const { pool: db } = require('../../config')
+
+const SecurePassword = securePassword()
 
 module.exports = async (req, res) => {
   try {
     const { oldPassword, newPassword, confirmPassword } = req.body
     const token = getToken(req.get('Authorization'))
     const { external_id: userExternalId } = decodeJwt(token)
-
-    const hashedOldPassword = await SecurePassword.hash(
-      Buffer.from(oldPassword)
-    )
-    const oldPwd = hashedOldPassword.toString('base64')
-
-    const sqlOldPwd = sqlLoader('validateOldPassword.sql')
-    const queryOldPwd = await db.query(sqlOldPwd, [userExternalId, oldPwd])
-
-    if (queryOldPwd.length !== 1)
-      return res
-        .status(400)
-        .send({ message: "Your old password isn't correct." })
 
     if (!oldPassword || !newPassword || !confirmPassword)
       return res
@@ -35,6 +24,27 @@ module.exports = async (req, res) => {
       return res
         .status(400)
         .send({ message: "New password and confirm password doesn't  match" })
+
+    const oldPwdSql = sqlLoader('getPasswordHashFromUserExternalId.sql')
+    const [user] = await db.query(oldPwdSql, [userExternalId])
+
+    if (!user || !user.password)
+      return res.status(400).send({
+        message: "Old password isn't correct. Please verify it and try again."
+      })
+
+    const match = await SecurePassword.verify(
+      Buffer.from(oldPassword),
+      Buffer.from(user.password, 'base64')
+    )
+
+    if (match === securePassword.INVALID_UNRECOGNIZED_HASH)
+      return res.status(500).send({ message: 'Something went wrong.' })
+    else if (match === securePassword.INVALID)
+      return res.status(400).send({
+        message:
+          "Unable to update your password. Provided old password isn't correct. Please try again."
+      })
 
     const hashedPassword = await SecurePassword.hash(Buffer.from(newPassword))
     const pwd = hashedPassword.toString('base64')

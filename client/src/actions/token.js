@@ -20,12 +20,9 @@ export const refreshToken = async (dispatch, callback, ...params) => {
   try {
     dispatch({ type: REFRESH_TOKEN_START })
     const json = { rwt: Auth.getRwt() }
-    const response = await api.post(REFRESH_TOKEN, { json })
-
-    const { token, refreshToken } = response.json()
-
-    if (response.status !== 201) return new Error('Refresh token fail.')
-
+    const { token, refreshToken } = await api
+      .post(REFRESH_TOKEN, { json })
+      .json()
     dispatch({ type: REFRESH_TOKEN_SUCCESS })
     Auth.authenticate(token, refreshToken)
     callback && callback(...params)
