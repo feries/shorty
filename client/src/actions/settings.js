@@ -15,6 +15,9 @@ import {
   REMOVE_API_KEY_START,
   REMOVE_API_KEY_SUCCESS,
   REMOVE_API_KEY_ERROR,
+  ADD_API_KEY_START,
+  ADD_API_KEY_SUCCESS,
+  ADD_API_KEY_ERROR,
   CUSTOM_MD_FETCH_START,
   CUSTOM_MD_FETCH_SUCCESS,
   CUSTOM_MD_FETCH_ERROR,
@@ -37,6 +40,7 @@ import { refreshToken } from './token'
 
 import { api } from '../lib/helpers'
 import { USER_PER_PAGE } from '../constants/common'
+import { isUrl } from '../lib/validators'
 
 export const startFetchUserInfo = () => async (dispatch) => {
   try {
@@ -280,5 +284,46 @@ export const addNewUserError = () => ({
 
 export const addNewUserSuccess = (data) => ({
   type: USERS_ADD_SUCCESS,
+  data
+})
+
+export const startAddNewApiKey = (issuer) => async (dispatch) => {
+  try {
+    dispatch({ type: ADD_API_KEY_START })
+
+    if (!isUrl(issuer)) {
+      dispatch(
+        setGlobalToast({
+          type: 'error',
+          message: 'Issuer must be a valid HTTP address.'
+        })
+      )
+      return dispatch(addNewApiError())
+    }
+
+    const json = { issuer }
+    const data = await api.post(SETTINGS_API_KEYS, { json }).json()
+    dispatch(
+      setGlobalToast({
+        type: 'success',
+        message: 'API-KEY successfully added.'
+      })
+    )
+    dispatch(addNewApiSuccess(data))
+  } catch (exception) {
+    const { status } = await exception.response
+    if (status === 401) return refreshToken(dispatch, startAddNewApiKey, issuer)
+    const { message } = await exception.response.json()
+    dispatch(setGlobalToast({ type: 'error', message }))
+    dispatch(addNewApiError())
+  }
+}
+
+const addNewApiError = () => ({
+  type: ADD_API_KEY_ERROR
+})
+
+const addNewApiSuccess = (data) => ({
+  type: ADD_API_KEY_SUCCESS,
   data
 })

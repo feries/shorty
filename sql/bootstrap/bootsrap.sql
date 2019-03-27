@@ -167,7 +167,7 @@ CREATE TABLE `api_key`
     created_at DATETIME     NOT NULL DEFAULT NOW(),
     `issuer`   VARCHAR(255) NOT NULL UNIQUE,
     `key`      VARCHAR(255) NOT NULL UNIQUE,
-    active     TINYINT      NOT NULL DEFAULT FALSE,
+    active     TINYINT      NOT NULL DEFAULT TRUE,
     user_id    INT(11)      NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY fk_user (user_id)

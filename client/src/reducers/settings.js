@@ -8,6 +8,9 @@ import {
   REMOVE_API_KEY_START,
   REMOVE_API_KEY_SUCCESS,
   REMOVE_API_KEY_ERROR,
+  ADD_API_KEY_START,
+  ADD_API_KEY_SUCCESS,
+  ADD_API_KEY_ERROR,
   CUSTOM_MD_FETCH_START,
   CUSTOM_MD_FETCH_SUCCESS,
   CUSTOM_MD_FETCH_ERROR,
@@ -109,12 +112,14 @@ export default (state = initialState, action) => {
       }
 
     case REMOVE_API_KEY_START:
+    case ADD_API_KEY_START:
       return {
         ...state,
         loading: true
       }
 
     case REMOVE_API_KEY_ERROR:
+    case ADD_API_KEY_ERROR:
       return {
         ...state,
         loading: false
@@ -129,6 +134,19 @@ export default (state = initialState, action) => {
           data: {
             ...state.keys.data,
             keys: deactivateKey(state.keys.data.keys, action.data.data)
+          }
+        }
+      }
+
+    case ADD_API_KEY_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        keys: {
+          ...state.keys,
+          data: {
+            ...state.keys.data,
+            keys: [...action.data.key, ...state.keys.data.keys]
           }
         }
       }

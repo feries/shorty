@@ -3,14 +3,21 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
-import { startDeactivateKey, startFetchApiKeys } from '../actions/settings'
+import {
+  startAddNewApiKey,
+  startDeactivateKey,
+  startFetchApiKeys
+} from '../actions/settings'
 import ApiKeyListElement from '../components/ApiKeyListElement'
 import Loader from '../components/Loader'
+import Modal from '../components/Modal'
 
 class ApiKeyList extends Component {
+  state = { showAddKey: false, newApiKeyFor: '' }
   static propTypes = {
     fetchApiList: PropTypes.func.isRequired,
     deactivateKey: PropTypes.func.isRequired,
+    saveApiKey: PropTypes.func.isRequired,
     list: PropTypes.shape({
       keys: PropTypes.arrayOf(
         PropTypes.shape({
@@ -36,7 +43,24 @@ class ApiKeyList extends Component {
     this.props.deactivateKey(externalId, issuer)
   }
 
+  toggleState = (what, value) => {
+    const newValue = !value ? !this.state[what] : value
+    this.setState({ [what]: newValue })
+  }
+
+  handleAddApiKey = (e) => {
+    e.preventDefault()
+    const { newApiKeyFor } = this.state
+
+    if (!newApiKeyFor) return
+
+    this.props.saveApiKey(newApiKeyFor).then(() => {
+      this.setState({ newApiKeyFor: '', showAddKey: false })
+    })
+  }
+
   render() {
+    const { showAddKey, newApiKeyFor } = this.state
     const { list, error } = this.props
 
     const wrapperClasses = classnames('content m-top-x2', {
@@ -51,6 +75,31 @@ class ApiKeyList extends Component {
           'ERRORE!!'
         ) : (
           <Fragment>
+            <Modal open={showAddKey}>
+              <h1>Add new API-KEY</h1>
+              <p>
+                The added key will be able to perform all available operations
+                exposed via API from Shorty.
+              </p>
+              <form>
+                <input
+                  type="text"
+                  value={newApiKeyFor}
+                  placeholder="Insert here the new provider."
+                  onChange={(e) =>
+                    this.toggleState('newApiKeyFor', e.target.value)
+                  }
+                  autoFocus={true}
+                />
+                <button
+                  disabled={newApiKeyFor.length === 0}
+                  onClick={this.handleAddApiKey}
+                >
+                  Generate new API-KEY &nbsp;
+                  <i className="far fa-plus" />
+                </button>
+              </form>
+            </Modal>
             <ul className="header bold flex flex-space normal">
               <li className="item w-50">API Key</li>
               <li className="item w-20">Created by</li>
@@ -75,7 +124,12 @@ class ApiKeyList extends Component {
                 ))}
             </div>
             <div className="m-top-x2 t-center">
-              <button className="cta">ADD NEW API-KEY</button>
+              <button
+                className="cta"
+                onClick={() => this.toggleState('showAddKey')}
+              >
+                ADD NEW API-KEY
+              </button>
             </div>
           </Fragment>
         )}
@@ -91,7 +145,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetchApiList: () => dispatch(startFetchApiKeys()),
-  deactivateKey: (externalId) => dispatch(startDeactivateKey(externalId))
+  deactivateKey: (externalId) => dispatch(startDeactivateKey(externalId)),
+  saveApiKey: (issuer) => dispatch(startAddNewApiKey(issuer))
 })
 
 export default connect(
