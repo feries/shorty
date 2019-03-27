@@ -25,7 +25,8 @@ export const refreshToken = async (dispatch, callback, ...params) => {
       .json()
     dispatch({ type: REFRESH_TOKEN_SUCCESS })
     Auth.authenticate(token, refreshToken)
-    callback && callback(...params)
+    window.location.reload()
+    // callback && callback(...params)
   } catch (exception) {
     dispatch({ type: REFRESH_TOKEN_ERROR })
     Auth.deauthenticate()

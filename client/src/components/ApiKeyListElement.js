@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import dayjs from 'dayjs'
 import classnames from 'classnames'
 
+import { clearUrl } from '../lib/helpers'
+
 const ApiKeyListElement = ({
   apiKey,
   active,
@@ -23,7 +25,7 @@ const ApiKeyListElement = ({
     <ul className={rowClasses}>
       <li className="w-50">{apiKey}</li>
       <li className="w-20">{author}</li>
-      <li className="w-15">{issuer}</li>
+      <li className="w-15">{clearUrl(issuer)}</li>
       <li className="w-10">{dayjs(createdAt).format('DD.MM.YYYY')}</li>
       <li className="w-5 t-right">
         {active === 1 && (

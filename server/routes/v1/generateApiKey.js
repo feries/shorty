@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
       return res.status(500).send({ message: 'Something went terribly wrong' })
 
     const keySql = sqlLoader('getApiKeyByKey.sql')
-    const [key] = await db.query(keySql, [apiKey])
+    const key = await db.query(keySql, [apiKey])
 
     res.status(201).send({ key })
   } catch (error) {
