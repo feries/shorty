@@ -26,7 +26,7 @@ export const linearOptions = {
     type: 'datetime'
   },
   yaxis: {
-    forceNiceScale: true,
+    decimalsInFloat: 0,
     title: {
       text: 'Hint'
     }
