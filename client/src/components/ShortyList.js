@@ -159,7 +159,6 @@ class ShortyList extends Component {
                 <button
                   className="delete"
                   onClick={() => {
-                    console.log('+++', process.env.REACT_APP_DOMAIN)
                     this.props.handleButtonClick(
                       TRASH,
                       `${item.shortHost}/${item.shortedUrl}`,

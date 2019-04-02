@@ -2,11 +2,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
-import Modal from '../components/Modal'
-import withConfirm from '../hocs/withConfirm'
-import { startDeactivateKey } from '../actions/settings'
+import ModalWithConfirm from '../components/ModalWithConfirm'
 
-const ModalWithConfirm = withConfirm(Modal)
+import { startDeactivateKey } from '../actions/settings'
 
 const DeleteApiKeyWithConfirm = ({ value, issuer, onConfirm, onDismiss }) => (
   <ModalWithConfirm
@@ -28,6 +26,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(
-  null,
+  undefined,
   mapDispatchToProps
 )(DeleteApiKeyWithConfirm)

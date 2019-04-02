@@ -23,3 +23,6 @@ export const SET_PASSWORD = 'settings/user/password'
 // Account activation
 export const VALIDATE_HASH = 'validate/{hash}'
 export const ACTIVATE_ACCOUNT = 'activate/{hash}'
+
+// Error page
+export const ERROR_PAGE_CUSTOM = 'settings/error-page/{what}'

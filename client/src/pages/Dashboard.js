@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import Modal from 'react-responsive-modal'
+import Qrcode from 'qrcode.react'
 
 import Logo from '../components/Logo'
 import ProfileBox from '../components/ProfileBox'
@@ -6,15 +8,9 @@ import ShortyBar from '../containers/ShortyBar'
 import ShortyList from '../containers/ShortyList'
 import Toast from '../containers/Toast'
 import DeleteLinkWithConfirm from '../containers/DeleteLinkWithConfirm'
-
-import withQr from '../hocs/withQr'
-import withHostForm from '../hocs/withHostForm'
-import Modal from '../components/Modal'
+import AddHost from '../containers/AddHost'
 
 import { QR_CODE, TRASH } from '../constants/common'
-
-const ModalWithQr = withQr(Modal)
-const ModalWithForm = withHostForm(Modal)
 
 class Dashboard extends Component {
   state = {
@@ -65,18 +61,20 @@ class Dashboard extends Component {
           <ProfileBox />
           <Logo className="m-top-x10" />
           <div id="content" className="content m-top-x4">
-            <ModalWithForm />
+            <AddHost />
             <DeleteLinkWithConfirm
               confirmValue={confirmValue}
               confirmAction={confirmAction}
               confirmModal={confirmModal}
               onClose={() => this.confirmDelete(false)}
             />
-            <ModalWithQr
-              value={qrCodeValue}
+            <Modal
               open={qrCodeModal}
               onClose={() => this.handleQrCode(false)}
-            />
+              center
+            >
+              <Qrcode value={qrCodeValue} />
+            </Modal>
 
             <ShortyBar className="t-center m-bottom-x10" />
             <ShortyList

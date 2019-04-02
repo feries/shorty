@@ -2,14 +2,12 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Modal from 'react-responsive-modal'
 
 import EditableLabel from '../components/EditableLabel'
 import Loader from '../components/Loader'
-import Modal from '../components/Modal'
-import withResetForm from '../hocs/withResetForm'
+import PasswordHandler from '../containers/PasswordHandler'
 import { startFetchUserInfo } from '../actions/settings'
-
-const ResetPasswordModal = withResetForm(Modal)
 
 class PersonalInformationForm extends Component {
   state = { showModal: false }
@@ -27,8 +25,8 @@ class PersonalInformationForm extends Component {
     this.props.fetchUserData()
   }
 
-  handleModal = (showModal = true) => {
-    this.setState({ showModal })
+  handleModal = () => {
+    this.setState({ showModal: !this.state.showModal })
   }
 
   render() {
@@ -41,11 +39,13 @@ class PersonalInformationForm extends Component {
 
     return (
       <div className="w-100">
-        <ResetPasswordModal
-          open={showModal}
-          size="big"
-          onClose={() => this.handleModal(false)}
-        />
+        <Modal open={showModal} onClose={this.handleModal} center>
+          <PasswordHandler
+            reset={true}
+            cta="Update my password"
+            showCtaIcon={false}
+          />
+        </Modal>
         <div className={wrapperClasses}>Personal Information</div>
         {!user && !error ? (
           <Loader />

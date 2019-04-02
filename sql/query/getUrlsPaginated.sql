@@ -1,4 +1,4 @@
-SELECT
+SELECT DISTINCT
   url.external_id AS "externalId",
   url.source_url AS "shortedUrl",
   url.target_url AS "targetUrl",

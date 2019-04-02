@@ -1,11 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Modal from '../components/Modal'
-import withConfirm from '../hocs/withConfirm'
-import { startDelete } from '../actions/dashboard'
+import ModalWithConfirm from '../components/ModalWithConfirm'
 
-const ModalWithConfirm = withConfirm(Modal)
+import { startDelete } from '../actions/dashboard'
 
 const DeleteLinkWithConfirm = ({
   confirmValue,
@@ -29,6 +27,6 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 export default connect(
-  null,
+  undefined,
   mapDispatchToProps
 )(DeleteLinkWithConfirm)

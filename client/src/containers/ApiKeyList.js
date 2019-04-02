@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Modal from 'react-responsive-modal'
 
 import {
   startAddNewApiKey,
@@ -10,7 +11,6 @@ import {
 } from '../actions/settings'
 import ApiKeyListElement from '../components/ApiKeyListElement'
 import Loader from '../components/Loader'
-import Modal from '../components/Modal'
 
 class ApiKeyList extends Component {
   state = { showAddKey: false, newApiKeyFor: '' }
@@ -75,7 +75,11 @@ class ApiKeyList extends Component {
           'ERRORE!!'
         ) : (
           <Fragment>
-            <Modal open={showAddKey}>
+            <Modal
+              open={showAddKey}
+              onClose={() => this.toggleState('showAddKey')}
+              center
+            >
               <h1>Add new API-KEY</h1>
               <p>
                 The added key will be able to perform all available operations

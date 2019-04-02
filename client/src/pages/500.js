@@ -1,4 +1,5 @@
 import React from 'react'
+import CustomMarkup from '../containers/CustomMarkup'
 export default () => (
   <div className="t-center lightDark">
     <div className="m-top-x4">
@@ -30,6 +31,7 @@ export default () => (
         </a>
       </div>
     </div>
+    <CustomMarkup what="500" />
     <div className="m-top-x10">
       <a
         href="https://www.feries.it/"

@@ -37,7 +37,8 @@ routerV1.use(
     '/login',
     '/refresh-token',
     '/validate/:hash',
-    '/activate/:hash'
+    '/activate/:hash',
+    '/settings/error-page/:what'
   )
 )
 routerV1.use(
@@ -48,7 +49,8 @@ routerV1.use(
     path: [
       '/api/v1/login',
       '/api/v1/refresh-token',
-      /^\/api\/v1\/(validate|activate)\/.*/
+      /^\/api\/v1\/(validate|activate)\/.*/,
+      /^\/api\/v1\/settings\/error-page\/(404|500)/
     ]
   })
 )

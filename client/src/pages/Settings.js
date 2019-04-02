@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { compose } from 'redux'
 
 import Logo from '../components/Logo'
 import BackToHome from '../components/BackToHome'
@@ -8,31 +7,23 @@ import ErrorEditor from '../containers/ErrorEditor'
 import UserList from '../containers/UserList'
 import PersonalInformationFrom from '../containers/PersonalInformationsForm'
 import DeleteApiKeyWithConfirm from '../containers/DeleteApiKeyWithConfirm'
-import AddUser from '../containers/AddUser'
 import Toast from '../containers/Toast'
 
 import withTitleAndDescription from '../hocs/withTitleAndDescription'
-import withCta from '../hocs/withCta'
 
-const EnhancedUserList = compose(
-  withTitleAndDescription,
-  withCta
-)(UserList)
-
+const EnhancedUserList = withTitleAndDescription(UserList)
 const EnhancedEditor = withTitleAndDescription(ErrorEditor)
 
 class Settings extends Component {
-  state = { apiKey: null, apiKeyIssuer: '', showAddUser: false }
+  state = { apiKey: null, apiKeyIssuer: '' }
 
   deleteApiKey = (externalId, issuer) => {
     if (!externalId || !issuer) return
     this.setState({ apiKey: externalId })
   }
 
-  toggleState = (what, value) => this.setState({ [what]: value })
-
   render() {
-    const { apiKey, apiKeyIssuer, showAddUser } = this.state
+    const { apiKey, apiKeyIssuer } = this.state
 
     return (
       <div className="container">
@@ -42,7 +33,6 @@ class Settings extends Component {
           issuer={apiKeyIssuer}
           onDismiss={() => this.deleteApiKey(null, '')}
         />
-        <AddUser open={showAddUser} />
         <div id="content" className="content m-top-x4">
           <div className="flex flex-space">
             <Logo className="logosmall" />
@@ -83,8 +73,6 @@ class Settings extends Component {
               <EnhancedUserList
                 title="Users"
                 description="Here you can handle active user, and disable not active more users."
-                cta="CREATE NEW USER"
-                action={() => this.toggleState('showAddUser', true)}
               />
             </div>
           </div>
