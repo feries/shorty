@@ -170,7 +170,7 @@ export const startAddHost = (shortUrl, fullUrl) => async (
   try {
     dispatch({ type: ADD_HOST_START })
     const json = { shortUrl, fullUrl }
-    await api.post(HOSTS, { json }).json()
+    await api.post(HOSTS, { json })
 
     dispatch(
       setGlobalToast({
@@ -189,11 +189,12 @@ export const startAddHost = (shortUrl, fullUrl) => async (
     return dispatch(addHostSuccess())
   } catch (exception) {
     const { status } = await exception.response
+    const { message } = await exception.response.json()
+
     if (status === 401) {
       return refreshToken(dispatch, startAddHost, shortUrl, fullUrl)
     }
 
-    const { message } = await exception.response.json()
     dispatch(setGlobalToast({ type: 'error', message }))
     dispatch(addHostError())
     window.location.assign('/500')
