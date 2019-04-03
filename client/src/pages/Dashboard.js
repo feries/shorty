@@ -3,7 +3,7 @@ import Modal from 'react-responsive-modal'
 import Qrcode from 'qrcode.react'
 
 import Logo from '../components/Logo'
-import ProfileBox from '../components/ProfileBox'
+import ProfileBox from '../containers/ProfileBox'
 import ShortyBar from '../containers/ShortyBar'
 import ShortyList from '../containers/ShortyList'
 import Toast from '../containers/Toast'

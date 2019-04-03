@@ -52,11 +52,14 @@ module.exports = async (req, res) => {
       }
 
       // Build Browser Map
-      if (browserMap.hasOwnProperty(row.browser)) {
-        const tmp = browserMap[row.browser]
-        browserMap[row.browser] = tmp + 1
-      } else {
-        browserMap[row.browser] = 1
+      const dailyBrowsers = row.browser.split(',')
+      for (const browser of dailyBrowsers) {
+        if (browserMap.hasOwnProperty(browser)) {
+          const tmp = browserMap[browser]
+          browserMap[browser] = tmp + 1
+        } else {
+          browserMap[browser] = 1
+        }
       }
 
       // Build OS Map

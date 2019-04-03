@@ -1,4 +1,11 @@
+import dayjs from 'dayjs'
+
 export const linearOptions = {
+  grid: {
+    padding: {
+      right: 35
+    }
+  },
   stroke: {
     curve: 'smooth'
   },
@@ -23,7 +30,13 @@ export const linearOptions = {
     }
   },
   xaxis: {
-    type: 'datetime'
+    type: 'datetime',
+    labels: {
+      formatter: function(value) {
+        console.log('+', value)
+        return dayjs(value).format('DD/MM/YY')
+      }
+    }
   },
   yaxis: {
     decimalsInFloat: 0,
@@ -34,6 +47,23 @@ export const linearOptions = {
   tooltip: {
     x: {
       format: 'dd/MM/yy'
+    }
+  },
+  markers: {
+    size: 3,
+    colors: '#38b1c4',
+    strokeColor: '#e3f4f7',
+    strokeWidth: 1,
+    strokeOpacity: 0.9,
+    fillOpacity: 1,
+    discrete: [],
+    shape: 'circle',
+    radius: 2,
+    offsetX: 0,
+    offsetY: 0,
+    hover: {
+      size: 5,
+      sizeOffset: 3
     }
   }
 }

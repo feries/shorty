@@ -26,3 +26,6 @@ export const ACTIVATE_ACCOUNT = 'activate/{hash}'
 
 // Error page
 export const ERROR_PAGE_CUSTOM = 'settings/error-page/{what}'
+
+// User
+export const GET_ME = 'me'
