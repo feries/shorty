@@ -5,7 +5,7 @@ SELECT
   url.created_at AS "createdAt",
   `user`.external_id AS "authorExternalId",
   `user`.email AS "authorEmail",
-  (SELECT COUNT(id) FROM stat WHERE stat.url_id = urls.id) AS "urlClick",
+  (SELECT COUNT(id) FROM stat WHERE stat.url_id = url.id) AS "urlClick",
   host.short_url AS "shortHost"
 FROM url
 	LEFT JOIN `user` ON `user`.id = url.author_id

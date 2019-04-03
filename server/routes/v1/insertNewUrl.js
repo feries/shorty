@@ -26,22 +26,31 @@ module.exports = async ({ user, body }, res) => {
     if (domain.length === 0)
       return res.status(200).send({ status: true, host: false })
 
-    const hosts = await db.query(hostSql, [domain[0]])
+    const [host] = await db.query(hostSql, [domain[0]])
 
-    if (hosts.length === 0)
-      return res.status(200).send({ status: true, host: false })
-    else if (hosts.length > 1)
-      return res.status(500).send({ message: 'Something went wrong' })
+    if (!host) return res.status(200).send({ status: true, host: false })
 
     const hash = trailingSlash(removeInitialSlash(short)) || shortid.generate()
     const isCustomHash = Boolean(short)
+
+    if (isCustomHash) {
+      const checkSql = sqlLoader('checkHostWithCustomHashExist.sql')
+      const [check] = await db.query(checkSql, [host.id, hash])
+
+      if (check.exist === 1) {
+        return res.status(400).send({
+          message: `The hash ${hash} for the url ${url}, already exist. Please check it.`
+        })
+      }
+    }
+
     const uuid = uuidv4()
     const options = [
       uuid,
       hash,
       url,
       user.sub.external_id,
-      hosts[0].id,
+      host.id,
       isCustomHash
     ]
     const insertSql = sqlLoader('insertNewUrl.sql')

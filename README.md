@@ -27,10 +27,10 @@ and all configurable parameters are defined into `.env` file.
 4. 
 
 # To Do
-- [X] 🐳 Dockerize.
+- [X] 🐳 Dockerize
 - [X] Migrate to [ky](https://github.com/sindresorhus/ky)
-- [ ] 🚦️ Test with [AVA](https://github.com/avajs/ava) for backend and [Jest](https://github.com/facebook/jest) for frontend. 
-- [ ] 🚨 Enhance user handling and roles.
+- [ ] 🚦️ Test with [Jest](https://github.com/facebook/jest) 
+- [ ] 🚨 Enhance user handling and roles
 - [X] ⚠️ Enhance error handling for REST call. (Handle Toast with messages from BE.)
 - [ ] 🌍 i18n
 - [ ] 🚀 CI/CD Set up

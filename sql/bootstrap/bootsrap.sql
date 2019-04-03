@@ -74,7 +74,7 @@ CREATE TABLE `url`
     id          INT AUTO_INCREMENT,
     external_id VARCHAR(36)  NOT NULL,
     source_url  VARCHAR(255) NOT NULL,
-    target_url  VARCHAR(255) NOT NULL,
+    target_url  VARCHAR(255) NOT NULL UNIQUE,
     active      TINYINT      NOT NULL DEFAULT TRUE,
     custom_url  TINYINT      NOT NULL DEFAULT FALSE,
     created_at  DATETIME     NOT NULL DEFAULT NOW(),

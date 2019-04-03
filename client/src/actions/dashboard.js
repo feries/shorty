@@ -65,7 +65,7 @@ export const startSubmitLink = (url, short) => async (dispatch) => {
     dispatch({ type: SUBMIT_LINK_START })
     const json = { url, short }
     const response = await api.post(URL_LIST, { json })
-    const data = response.json()
+    const data = await response.json()
 
     if (response.status === 200) {
       dispatch(invalidHost({ url, short }))
