@@ -32,10 +32,7 @@ export const linearOptions = {
   xaxis: {
     type: 'datetime',
     labels: {
-      formatter: function(value) {
-        console.log('+', value)
-        return dayjs(value).format('DD/MM/YY')
-      }
+      formatter: (value) => dayjs(value).format('DD/MM/YY')
     }
   },
   yaxis: {

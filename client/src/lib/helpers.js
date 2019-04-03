@@ -43,7 +43,7 @@ export const objectToQuery = (object) =>
  * @param {String} key
  * @param {String} value
  */
-export const sessionStorage = (key, value) =>
+export const sessionStorage = (key, value = undefined) =>
   value !== undefined
     ? value !== null
       ? window.sessionStorage.setItem(key, value)
@@ -59,7 +59,7 @@ export const sessionStorage = (key, value) =>
  * @param {String} key
  * @param {String} value
  */
-export const localStorage = (key, value) =>
+export const localStorage = (key, value = undefined) =>
   value !== undefined
     ? value !== null
       ? window.localStorage.setItem(key, value)
