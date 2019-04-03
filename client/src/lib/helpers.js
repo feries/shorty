@@ -94,7 +94,11 @@ export const api = ky.extend({
   prefixUrl: API_V1_ENDPOINT,
   hooks: {
     beforeRequest: [
-      (options) => {
+      async (options) => {
+        if (Auth.isExpired()) {
+          //await Auth.refreshToken()
+        }
+
         options.headers.append('Authorization', Auth.getAuthenticationHeader())
       }
     ]

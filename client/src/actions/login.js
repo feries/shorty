@@ -9,8 +9,10 @@ export const loginStart = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN_START })
     const json = { email, password }
-    const { token, refreshToken } = await api.post(URL_LOGIN, { json }).json()
-    Auth.authenticate(token, refreshToken)
+    const { token, refreshToken, expireIn } = await api
+      .post(URL_LOGIN, { json })
+      .json()
+    Auth.authenticate(token, refreshToken, expireIn)
     dispatch({ type: LOGIN_SUCCESS })
     window.location.assign('/')
   } catch (exception) {

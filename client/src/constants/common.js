@@ -8,6 +8,7 @@ export const USER_PER_PAGE = 6
 // Security
 export const JWT_STORAGE_KEY = '__tkn'
 export const RWT_STORAGE_KEY = '__rkn'
+export const JWT_EXPIRE_KEY = '__tknExpire'
 
 // Page Actions
 export const QR_CODE = 'QR_CODE'
