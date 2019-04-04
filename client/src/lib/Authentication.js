@@ -67,6 +67,7 @@ export default class Auth {
 
       Auth.authenticate(token, refreshToken, expiresIn)
       Auth.pendingRefresh(null)
+      window.location.reload()
     } catch (exception) {
       Auth.pendingRefresh(null)
       Auth.deauthenticate()

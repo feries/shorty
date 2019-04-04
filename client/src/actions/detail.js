@@ -20,12 +20,12 @@ export const startFetchData = (externalId, hasRange, range) => async (
     )
 
     const data = await api.get(formatted).json()
-    dispatch(fetchSuccess(data))
+    dispatch({ type: DETAIL_FETCH_SUCCESS, data })
   } catch (exception) {
     try {
       const { message } = await exception.response.json()
       dispatch(setGlobalToast({ type: 'error', message }))
-      dispatch(fetchError())
+      dispatch({ type: DETAIL_FETCH_ERROR })
     } catch (e) {
       const { status } = await e.response
 
@@ -33,13 +33,3 @@ export const startFetchData = (externalId, hasRange, range) => async (
     }
   }
 }
-
-export const fetchSuccess = (data) => ({
-  type: DETAIL_FETCH_SUCCESS,
-  data
-})
-
-export const fetchError = (error) => ({
-  type: DETAIL_FETCH_ERROR,
-  error
-})
