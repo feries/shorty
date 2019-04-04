@@ -95,8 +95,9 @@ export const api = ky.extend({
   hooks: {
     beforeRequest: [
       async (options) => {
-        if (Auth.isExpired()) {
-          //await Auth.refreshToken()
+        const isSecure = options.secure || true
+        if (isSecure && !Auth.isRefreshPending() && Auth.isExpired()) {
+          await Auth.refreshToken()
         }
 
         options.headers.append('Authorization', Auth.getAuthenticationHeader())

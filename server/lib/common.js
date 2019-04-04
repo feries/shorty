@@ -1,3 +1,4 @@
+const dayjs = require('dayjs')
 const ms = require('ms')
 const jwt = require('jsonwebtoken')
 const uuidv4 = require('uuid/v4')
@@ -43,6 +44,10 @@ const generateTokens = (user) => {
   const now = Math.floor(Date.now() / 1000)
   const iat = now - 10
   const jti = `SVC-AUTH/${user.external_id}/${uuidv4()}`
+  const expiresIn = dayjs()
+    .add(ms(process.env.JWT_EXPIRE_IN), 'millisecond')
+    .format('DD/MM/YYYY HH:mm:ss')
+
   const token = jwt.sign(
     {
       jti,
@@ -62,7 +67,7 @@ const generateTokens = (user) => {
     issuer: process.env.JWT_ISSUER
   })
 
-  return { token, refreshToken }
+  return { token, refreshToken, expiresIn }
 }
 
 /**

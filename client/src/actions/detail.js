@@ -5,7 +5,6 @@ import {
 } from '../constants/actions'
 import { URL_DETAIL } from '../constants/endpoint'
 import { setGlobalToast } from './dashboard'
-import { refreshToken } from './token'
 import { api } from '../lib/helpers'
 
 export const startFetchData = (externalId, hasRange, range) => async (
@@ -23,14 +22,15 @@ export const startFetchData = (externalId, hasRange, range) => async (
     const data = await api.get(formatted).json()
     dispatch(fetchSuccess(data))
   } catch (exception) {
-    const { status } = await exception.response
-    if (status === 401) {
-      return refreshToken(dispatch, startFetchData, externalId, hasRange, range)
+    try {
+      const { message } = await exception.response.json()
+      dispatch(setGlobalToast({ type: 'error', message }))
+      dispatch(fetchError())
+    } catch (e) {
+      const { status } = await e.response
+
+      if (status !== 401) return window.location.assign('/500')
     }
-    const { message } = await exception.response.json()
-    dispatch(setGlobalToast({ type: 'error', message }))
-    dispatch(fetchError())
-    window.location.assign('/500')
   }
 }
 

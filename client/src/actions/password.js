@@ -18,7 +18,6 @@ import {
 
 import { setGlobalToast } from './dashboard'
 import { api } from '../lib/helpers'
-import { refreshToken } from './token'
 import Auth from '../lib/Authentication'
 
 export const validateActivationHashStart = (hash) => async (dispatch) => {
@@ -55,9 +54,15 @@ export const activateAccountStart = (
     dispatch({ type: ACTIVATE_ACCOUNT_SUCCESS })
     window.location.assign('/')
   } catch (exception) {
-    const { message } = await exception.response.json()
-    dispatch(setGlobalToast({ type: 'error', message }))
-    dispatch({ type: ACTIVATE_ACCOUNT_ERROR })
+    try {
+      const { message } = await exception.response.json()
+      dispatch(setGlobalToast({ type: 'error', message }))
+      dispatch({ type: ACTIVATE_ACCOUNT_ERROR })
+    } catch (e) {
+      const { status } = await e.response
+
+      if (status !== 401) return window.location.assign('/500')
+    }
   }
 }
 
@@ -78,18 +83,14 @@ export const setNewPasswordStart = (
       })
     )
   } catch (exception) {
-    const { status } = await exception.response
-    if (status === 401) {
-      return refreshToken(
-        dispatch,
-        setNewPasswordStart,
-        oldPassword,
-        newPassword,
-        confirmPassword
-      )
+    try {
+      const { message } = await exception.response.json()
+      dispatch(setGlobalToast({ type: 'error', message }))
+      dispatch({ type: SET_PASSWORD_ERROR })
+    } catch (e) {
+      const { status } = await e.response
+
+      if (status !== 401) return window.location.assign('/500')
     }
-    const { message } = await exception.response.json()
-    dispatch(setGlobalToast({ type: 'error', message }))
-    dispatch({ type: SET_PASSWORD_ERROR })
   }
 }

@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
   delete row.activation_token
 
   const user = { ...row }
-  const { token, refreshToken } = generateTokens(user)
+  const { token, refreshToken, expiresIn } = generateTokens(user)
 
   const updateUserRefreshToken = sqlLoader('updateUserRefreshToken.sql')
   await db.query(updateUserRefreshToken, [refreshToken, userId])
@@ -53,5 +53,5 @@ module.exports = async (req, res) => {
   const updateUserLastLogin = sqlLoader('updateUserLastLogin.sql')
   await db.query(updateUserLastLogin, [userId])
 
-  res.send({ token, refreshToken, user })
+  res.send({ token, refreshToken, expiresIn, user })
 }

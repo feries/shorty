@@ -4,7 +4,8 @@ import { api, localStorage } from '../lib/helpers'
 import {
   JWT_STORAGE_KEY,
   RWT_STORAGE_KEY,
-  JWT_EXPIRE_KEY
+  JWT_EXPIRE_KEY,
+  JWT_REFRESH
 } from '../constants/common'
 import { REFRESH_TOKEN } from '../constants/endpoint'
 
@@ -33,9 +34,9 @@ export default class Auth {
     const expireIn = localStorage(JWT_EXPIRE_KEY)
     if (!expireIn) return null
 
-    const refreshThreshold = dayjs().add(1, 'minute')
+    const refreshThreshold = dayjs().add(5, 'minute')
 
-    return refreshThreshold > expireIn
+    return refreshThreshold.isAfter(dayjs(expireIn))
   }
 
   static getAuthenticationHeader() {
@@ -48,16 +49,28 @@ export default class Auth {
     return Auth.getJwt() !== null
   }
 
+  static pendingRefresh(status) {
+    localStorage(JWT_REFRESH, status)
+  }
+
+  static isRefreshPending() {
+    return localStorage(JWT_REFRESH) !== null
+  }
+
   static async refreshToken() {
     try {
+      Auth.pendingRefresh(true)
       const json = { rwt: Auth.getRwt() }
-      const { token, refreshToken } = await api
-        .post(REFRESH_TOKEN, { json })
+      const { token, refreshToken, expiresIn } = await api
+        .post(REFRESH_TOKEN, { json, secure: false })
         .json()
 
-      Auth.authenticate(token, refreshToken)
+      Auth.authenticate(token, refreshToken, expiresIn)
+      Auth.pendingRefresh(null)
     } catch (exception) {
+      Auth.pendingRefresh(null)
       Auth.deauthenticate()
+      window.location.assign('/500')
     }
   }
 }

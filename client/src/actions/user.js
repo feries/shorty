@@ -14,8 +14,14 @@ export const getMe = () => async (dispatch) => {
     const { user } = await api.get(GET_ME).json()
     dispatch({ type: GET_ME_SUCCESS, data: user.value })
   } catch (exception) {
-    const { message } = await exception.response.json()
-    dispatch(setGlobalToast({ type: 'error', message }))
-    dispatch({ type: GET_ME_ERROR })
+    try {
+      const { message } = await exception.response.json()
+      dispatch(setGlobalToast({ type: 'error', message }))
+      dispatch({ type: GET_ME_ERROR })
+    } catch (e) {
+      const { status } = await e.response
+
+      if (status !== 401) return window.location.assign('/500')
+    }
   }
 }

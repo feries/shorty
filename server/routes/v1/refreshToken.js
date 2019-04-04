@@ -19,22 +19,24 @@ module.exports = async (req, res) => {
         .status(401)
         .send({ type: 'error', message: 'Unauthorized user.' })
 
+    const userId = user.id
+
     delete user.password
     delete user.id
     delete user.account_enabled
     delete user.refresh_token
 
-    const { token, refreshToken } = generateTokens(user)
+    const { token, refreshToken, expiresIn } = generateTokens(user)
 
-    if (!token || !refreshToken)
+    if (!token || !refreshToken || !expiresIn)
       return res
         .status(500)
         .send({ type: 'error', message: 'Something went wrong.' })
 
     const updateUserRefreshToken = sqlLoader('updateUserRefreshToken.sql')
-    await db.query(updateUserRefreshToken, [refreshToken, user.id])
+    await db.query(updateUserRefreshToken, [refreshToken, userId])
 
-    res.status(201).send({ token, refreshToken })
+    res.status(201).send({ token, refreshToken, expiresIn })
   } catch (error) {
     res.status(500).send({ type: 'error', message: 'Something went wrong.' })
   }
