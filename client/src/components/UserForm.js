@@ -52,22 +52,29 @@ class UserForm extends Component {
           placeholder="Insert new user name"
           onChange={(e) => this.handleChange(e, 'name')}
           autoFocus={true}
+          className="w-100 m-top-x2"
         />
         <input
           type="text"
           value={surname}
           placeholder="Insert new user surname"
           onChange={(e) => this.handleChange(e, 'surname')}
+          className="w-100 m-top-x2"
         />
         <input
           type="email"
           value={email}
           placeholder="Insert new user email"
           onChange={(e) => this.handleChange(e, 'email')}
+          className="w-100 m-top-x2"
         />
-        <button disabled={isSubmitDisabled} onClick={this.handleSubmit}>
-          Register &nbsp;
+        <button
+          disabled={isSubmitDisabled}
+          onClick={this.handleSubmit}
+          className="button button-primary normal uppercase m-top-x3"
+        >
           <i className="far fa-user-plus " />
+          &nbsp; Register
         </button>
       </form>
     )

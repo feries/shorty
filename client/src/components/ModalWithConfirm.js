@@ -32,23 +32,24 @@ class ModalWithConfirm extends Component {
     } = this.props
     return (
       <Modal open={open} onClose={onDismiss} center>
-        <p>
+        <p className="tiny m-top-x5">
           {message && message}
           {value && (
             <Fragment>
-              <br />
-              <br />
-              <b>{value}</b>
+              <div className="bold">{value}</div>
             </Fragment>
           )}
         </p>
         <div className="modal--confirm modal--confirm-wrapper">
-          <button onClick={onDismiss} className="dismiss">
+          <button
+            onClick={onDismiss}
+            className="dismiss button button-ghost-red normal m-right-x3"
+          >
             {dismissLabel}
           </button>
           <button
             onClick={() => onConfirm().then(() => onDismiss())}
-            className="confirm"
+            className="confirm button button-primary normal"
           >
             {confirmLabel}
           </button>

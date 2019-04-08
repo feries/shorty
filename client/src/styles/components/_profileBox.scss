@@ -15,5 +15,17 @@
     top: 0;
     right: 0;
     font-size: $tiny;
+    a {
+      &:hover {
+        color: $primary;
+      }
+    }
+    button {
+      border: none;
+      padding: 0;
+      &:hover {
+        color: $primary;
+      }
+    }
   }
 }

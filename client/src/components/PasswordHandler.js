@@ -113,7 +113,7 @@ class PasswordHandler extends Component {
     } = this.state
 
     return (
-      <div id="loginBox">
+      <div id="loginBox" className="t-center">
         {!reset && <div className="invitation">Welcome.</div>}
         <form className="loginBox-form">
           {reset ? (

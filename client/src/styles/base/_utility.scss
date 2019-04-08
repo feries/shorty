@@ -258,3 +258,31 @@
   text-overflow: ellipsis;
   width: 90%;
 }
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* BUTTON */
+.button {
+  text-align: center;
+  padding: $space;
+  font-weight: $bold;
+  border-radius: $radiusSmall;
+  padding: $space $doubleSpace $space $doubleSpace;
+  border: none;
+  &-primary {
+    background: $primary !important;
+    color: $white !important;
+  }
+  &-red {
+    background: $red !important;
+    color: $white !important;
+  }
+  &-ghost {
+    &-red {
+      border: 1px solid $red;
+      color: $red;
+    }
+  }
+}

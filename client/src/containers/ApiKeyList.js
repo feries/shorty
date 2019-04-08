@@ -81,11 +81,11 @@ class ApiKeyList extends Component {
               center
             >
               <h1>Add new API-KEY</h1>
-              <p>
+              <p className="tiny">
                 The added key will be able to perform all available operations
                 exposed via API from Shorty.
               </p>
-              <form>
+              <form className="t-center">
                 <input
                   type="text"
                   value={newApiKeyFor}
@@ -94,13 +94,14 @@ class ApiKeyList extends Component {
                     this.toggleState('newApiKeyFor', e.target.value)
                   }
                   autoFocus={true}
+                  className="w-100"
                 />
                 <button
+                  className="button button-primary normal uppercase m-top-x2"
                   disabled={newApiKeyFor.length === 0}
                   onClick={this.handleAddApiKey}
                 >
-                  Generate new API-KEY &nbsp;
-                  <i className="far fa-plus" />
+                  Generate new API-KEY
                 </button>
               </form>
             </Modal>
