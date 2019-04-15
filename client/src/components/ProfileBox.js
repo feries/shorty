@@ -29,12 +29,12 @@ class ProfileBox extends Component {
       <div id="profileBox">
         <div className="profileItem m-top-x2">
           {loading ? '' : `Ciao ${user}`}&nbsp;
-          <span className="lightGrey">|</span>&nbsp;
-          <Link to="/settings" className="grey">
+          <span className="primary m-left m-right">|</span>
+          <Link to="/settings" className="dark normal">
             <i className="far fa-cogs" />
           </Link>
-          <span className="lightGrey">|</span>&nbsp;
-          <button className="grey" onClick={this.handleLogout}>
+          <span className="primary m-left m-right">|</span>
+          <button className="dark normal" onClick={this.handleLogout}>
             <i className="far fa-sign-out-alt" />
           </button>
         </div>

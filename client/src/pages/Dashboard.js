@@ -73,7 +73,7 @@ class Dashboard extends Component {
               onClose={() => this.handleQrCode(false)}
               center
             >
-              <Qrcode value={qrCodeValue} />
+              <Qrcode value={qrCodeValue} className="m-top-x4" />
             </Modal>
 
             <ShortyBar className="t-center m-bottom-x10" />

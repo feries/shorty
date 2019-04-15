@@ -57,7 +57,7 @@ class UserList extends Component {
       <Fragment>
         <Modal open={showModal} onClose={this.toggleModal} center>
           <h1>Add new user</h1>
-          <p>
+          <p className="tiny">
             Add new user able to access and create new short url. Each user be
             able to add new users.
           </p>

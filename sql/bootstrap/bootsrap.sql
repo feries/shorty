@@ -170,7 +170,7 @@ CREATE TABLE `api_key`
     active     TINYINT      NOT NULL DEFAULT TRUE,
     user_id    INT(11)      NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY fk_user (user_id)
+    FOREIGN KEY fk_creator (user_id)
         REFERENCES `user` (id)
         ON UPDATE NO ACTION
         ON DELETE NO ACTION

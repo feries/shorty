@@ -33,13 +33,13 @@ class AddHost extends Component {
 
     return (
       <Modal open={open} onClose={this.handleOnClose} center>
-        <div className="flex flex-wrap flex-center word-break">
-          <div className="m-top-x3 medium t-center alert">
+        <div>
+          <div className="m-top-x5 medium t-center alert">
             You're trying to add an URL we can't associate with a short version.{' '}
             <br />
             Enter the short version of the domain:{' '}
           </div>
-          <div className="dark m-top-x3 bold">{host}</div>
+          <div className="dark m-top-x3 t-center bold">{host}</div>
           <div className="flex flex-wrap flex-center m-top-x3">
             <input
               ref={this.input}
@@ -47,7 +47,7 @@ class AddHost extends Component {
               className="w-100 m-top-x2 m-bottom-x2"
             />
             <button
-              className="confirm"
+              className="confirm button button-primary normal"
               onClick={(e) => {
                 e.preventDefault()
                 const inputVal = this.input.current.value
