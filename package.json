@@ -16,6 +16,7 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
+    "cli/*",
     "server/*",
     "client/*",
     "proxy/*"

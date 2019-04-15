@@ -57,6 +57,10 @@ export default class Auth {
     return localStorage(JWT_REFRESH) !== null
   }
 
+  static startRefreshToken() {
+    if (!Auth.isRefreshPending()) return Auth.refreshToken()
+  }
+
   static async refreshToken() {
     try {
       Auth.pendingRefresh(true)

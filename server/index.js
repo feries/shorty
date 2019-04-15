@@ -42,6 +42,10 @@ app.disable('x-powered-by')
 // Map Routes
 app.use('/api/v1', routerV1)
 
+app.use('/ready', (req, res) => {
+  res.send('SERVER_IS_READY')
+})
+
 // Global Error handler
 isProd && app.use(Sentry.Handlers.errorHandler())
 app.use(function onError(err, req, res) {

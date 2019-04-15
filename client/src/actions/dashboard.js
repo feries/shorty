@@ -22,7 +22,7 @@ import {
 } from '../constants/actions'
 import { URL_LIST, HOSTS, FILTERED_URL_LIST } from '../constants/endpoint'
 import { PER_PAGE } from '../constants/common'
-import { api } from '../lib/helpers'
+import { api, exceptionHandler } from '../lib/helpers'
 
 export const startFetchLinks = (
   limit = PER_PAGE,
@@ -44,9 +44,7 @@ export const startFetchLinks = (
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch({ type: DASHBOARD_FETCH_ERROR })
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -82,9 +80,7 @@ export const startSubmitLink = (url, short) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(submitLinkError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -119,9 +115,7 @@ export const startFilter = (key, value) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(startFilterError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -149,9 +143,7 @@ export const startDelete = (externalId) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(deleteError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -195,9 +187,7 @@ export const startAddHost = (shortUrl, fullUrl) => async (
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(addHostError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }

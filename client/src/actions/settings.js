@@ -36,7 +36,7 @@ import {
 } from '../constants/actions'
 
 import { setGlobalToast } from './dashboard'
-import { api } from '../lib/helpers'
+import { api, exceptionHandler } from '../lib/helpers'
 import { USER_PER_PAGE } from '../constants/common'
 import { isUrl } from '../lib/validators'
 
@@ -51,9 +51,7 @@ export const startFetchUserInfo = () => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(userInfoError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -78,9 +76,7 @@ export const startFetchApiKeys = () => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(apiKeysFetchError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -113,9 +109,7 @@ export const startDeactivateKey = (externalId) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(deactivateKeyError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -142,9 +136,7 @@ export const startFetchCustomMds = (page) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(fetchCustomMdError({ data: { page } }))
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -182,9 +174,7 @@ export const startSaveCustomMd = (md, page) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(saveCustomMdError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -215,9 +205,7 @@ export const startFetchUsers = (limit = USER_PER_PAGE, skip = 0) => async (
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(fetchUserError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -250,9 +238,7 @@ export const startDeactivateUser = (externalId) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(deactivateUserError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -285,9 +271,7 @@ export const startAddNewUser = (name, surname, email) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(addNewUserError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -330,9 +314,7 @@ export const startAddNewApiKey = (issuer) => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch(addNewApiError())
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }

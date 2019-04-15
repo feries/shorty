@@ -5,7 +5,7 @@ import {
 } from '../constants/actions'
 import { URL_DETAIL } from '../constants/endpoint'
 import { setGlobalToast } from './dashboard'
-import { api } from '../lib/helpers'
+import { api, exceptionHandler } from '../lib/helpers'
 
 export const startFetchData = (externalId, hasRange, range) => async (
   dispatch
@@ -27,9 +27,7 @@ export const startFetchData = (externalId, hasRange, range) => async (
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch({ type: DETAIL_FETCH_ERROR })
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }

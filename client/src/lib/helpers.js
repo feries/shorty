@@ -105,3 +105,15 @@ export const api = ky.extend({
     ]
   }
 })
+
+export const exceptionHandler = async (exception) => {
+  try {
+    const { status } = await exception.response
+    if (status === 401) {
+      await Auth.startRefreshToken()
+    } else return window.location.assign('/500')
+  } catch (error) {
+    Auth.deauthenticate()
+    window.location.assign('/')
+  }
+}

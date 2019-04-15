@@ -17,7 +17,7 @@ import {
 } from '../constants/actions'
 
 import { setGlobalToast } from './dashboard'
-import { api } from '../lib/helpers'
+import { api, exceptionHandler } from '../lib/helpers'
 import Auth from '../lib/Authentication'
 
 export const validateActivationHashStart = (hash) => async (dispatch) => {
@@ -59,9 +59,7 @@ export const activateAccountStart = (
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch({ type: ACTIVATE_ACCOUNT_ERROR })
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
@@ -88,9 +86,7 @@ export const setNewPasswordStart = (
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch({ type: SET_PASSWORD_ERROR })
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }

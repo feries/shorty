@@ -5,7 +5,7 @@ import {
   GET_ME_ERROR
 } from '../constants/actions'
 
-import { api } from '../lib/helpers'
+import { api, exceptionHandler } from '../lib/helpers'
 import { setGlobalToast } from './dashboard'
 
 export const getMe = () => async (dispatch) => {
@@ -19,9 +19,7 @@ export const getMe = () => async (dispatch) => {
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch({ type: GET_ME_ERROR })
     } catch (e) {
-      const { status } = await e.response
-
-      if (status !== 401) return window.location.assign('/500')
+      await exceptionHandler()
     }
   }
 }
