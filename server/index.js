@@ -45,10 +45,14 @@ app.use('/api/v1', routerV1)
 // Global Error handler
 isProd && app.use(Sentry.Handlers.errorHandler())
 app.use(function onError(err, req, res) {
-  if (!isProd) return
+  if (err.constructor.name === 'UnauthorizedError') {
+    res.send(401, 'Unauthorized')
+  }
 
-  res.statusCode = 500
-  res.end(res.sentry + '\n')
+  if (isProd) {
+    res.statusCode = 500
+    res.end(res.sentry + '\n')
+  }
 })
 
 // Start server

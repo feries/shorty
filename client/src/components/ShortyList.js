@@ -141,15 +141,13 @@ class ShortyList extends Component {
                 {item.urlClick}
               </li>
               <li className="actions">
-                {item.urlClick > 0 ? (
-                  <Link to={`/detail/${item.externalId}`} className="stats">
-                    <i className="fas fa-chart-bar" />
-                    <span>stats</span>
-                  </Link>
-                ) : (
-                  ''
-                )}
-
+                <Link
+                  to={`/detail/${item.externalId}`}
+                  className={`stats ${item.urlClick === 0 ? 'disabled' : ''}`}
+                >
+                  <i className="fas fa-chart-bar" />
+                  <span>stats</span>
+                </Link>
                 <button
                   className="qr"
                   onClick={() =>

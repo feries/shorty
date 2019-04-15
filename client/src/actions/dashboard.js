@@ -44,7 +44,6 @@ export const startFetchLinks = (
       dispatch(setGlobalToast({ type: 'error', message }))
       dispatch({ type: DASHBOARD_FETCH_ERROR })
     } catch (e) {
-      console.log('e', e)
       const { status } = await e.response
 
       if (status !== 401) return window.location.assign('/500')

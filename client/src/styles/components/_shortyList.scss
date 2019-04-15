@@ -61,6 +61,11 @@
               background: $hoverPrimary !important;
               color: $white;
             }
+            &.disabled {
+              background-color: $lightGrey !important;
+              color: $grey !important;
+              pointer-events: none !important;
+            }
           }
         }
       }
