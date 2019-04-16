@@ -20,7 +20,7 @@ const isProd = NODE_ENV === 'production'
 const app = express()
 
 // Import router
-const { routerV1 } = require('./routes/index')
+const { routerV1, bootstrap } = require('./routes/index')
 
 // Sentry Initialization
 isProd &&
@@ -42,6 +42,8 @@ app.disable('x-powered-by')
 // Map Routes
 app.use('/api/v1', routerV1)
 
+// Global routes
+app.use('/bootstrap', bootstrap)
 app.use('/ready', (req, res) => {
   res.send('SERVER_IS_READY')
 })

@@ -10,6 +10,27 @@ class BootstrapCommand extends Command {
     this.exit(1)
   }
 
+  loadSecurityKey() {
+    cli.action.start('• Loading security keys')
+    const key =
+      process.env.CLI_SECURITY !== undefined &&
+      process.env.CLI_SECURITY !== null
+    const value =
+      process.env.SECURITY_KEY !== undefined &&
+      process.env.SECURITY_KEY !== null
+
+    const isValid = key && value
+    cli.action.stop(isValid ? chalk.green('done') : chalk.red('fail'))
+
+    if (!isValid)
+      this.throwError(
+        'You must setup a valid CLI_SECURITY and SECURITY_KEY keys into dotenv configuration.'
+      )
+
+    this.securityKey = process.env.CLI_SECURITY
+    this.securityKeyValue = process.env.SECURITY_KEY
+  }
+
   loadDotEnv() {
     cli.action.start('• Loading environment variables')
 
@@ -31,6 +52,8 @@ class BootstrapCommand extends Command {
       process.env.NODE_ENV !== 'production'
         ? `http://127.0.0.1:${process.env.SERVER_PORT}`
         : process.env.DOMAIN
+
+    this.loadSecurityKey()
   }
 
   async pingDomain() {
@@ -94,22 +117,56 @@ class BootstrapCommand extends Command {
     return email
   }
 
-  async userObject() {
-    let created = false
-    let name = await this.insertName()
-    let surname = await this.insertSurname()
-    let email = await this.insertEmail()
+  async insertUserData(name, surname, email) {
+    try {
+      cli.action.start('• Sending user data')
+      const body = { name, surname, email }
+      const headers = { [this.securityKey]: this.securityKeyValue }
+      const { statusCode } = await got.post(`${this.domain}/bootstrap`, {
+        json: true,
+        body,
+        headers,
+        responseType: 'json'
+      })
 
-    cli.action.stop(created ? chalk.green('done') : chalk.red('fail'))
+      const created = statusCode === 201
+      cli.action.stop(created ? chalk.green('done') : chalk.red('fail'))
+
+      if (!created) return this.throwError('Unexpected error.')
+
+      return true
+    } catch (exception) {
+      const message = exception.body.message || 'Unexpected error.'
+      cli.action.stop(chalk.red('fail'))
+      this.throwError(message)
+    }
+  }
+
+  async userObject() {
+    cli.log(chalk.blue('• Fill user information'))
+    const name = await this.insertName()
+    const surname = await this.insertSurname()
+    const email = await this.insertEmail()
+    await this.insertUserData(name, surname, email)
+
+    cli.log(
+      chalk.green(
+        '• User successfully created. An email for first access was sent to the user.'
+      )
+    )
+    this.exit(0)
   }
 
   async generateUser() {
-    cli.action.start('• Starting user generation.')
+    cli.log('• Starting user generation.')
     cli.wait(5000)
     await this.loadDotEnv()
+    cli.wait(5000)
     await this.pingDomain()
+    cli.wait(5000)
     await this.userObject()
-    cli.action.stop(chalk.green('done'))
+    cli.wait(5000)
+    cli.log(chalk.green('User successfully created'))
   }
 
   async run() {
