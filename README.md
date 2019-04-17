@@ -12,7 +12,7 @@ Short is beautiful! Save the world by making it shorter!
 - Sql (sql scripts used by server and proxy)
 
 # Install
-You can skip this block if you are going to use it in dockerized environment. Everithing is setted up in `docker-compose.yaml`, 
+You can skip this block if you are going to use it in dockerized environment. Everithing is setted up in `docker-compose.yml`, 
 and all configurable parameters are defined into `.env` file.
 
 ### Pre-requisite for non-docker environment 
@@ -24,7 +24,6 @@ and all configurable parameters are defined into `.env` file.
 1. Copy the `.env` file with `cp env.dist .env`
 2. Edit the `.env` with your data.
 3. Execute bootstrap script with `yarn bootstrap`
-4. 
 
 # To Do
 - [X] 🐳 Dockerize
