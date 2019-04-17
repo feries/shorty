@@ -123,20 +123,23 @@ class BootstrapCommand extends Command {
       const body = { name, surname, email }
       const headers = { [this.securityKey]: this.securityKeyValue }
       const { statusCode } = await got.post(`${this.domain}/bootstrap`, {
+        throwHttpErrors: false,
         json: true,
         body,
-        headers,
-        responseType: 'json'
+        headers
       })
 
       const created = statusCode === 201
       cli.action.stop(created ? chalk.green('done') : chalk.red('fail'))
 
       if (!created) return this.throwError('Unexpected error.')
-
-      return true
     } catch (exception) {
-      const message = exception.body.message || 'Unexpected error.'
+      if (exception.statusCode === 201) {
+        cli.action.stop(chalk.green('done'))
+        return
+      }
+
+      const message = exception.message || 'Unexpected error.'
       cli.action.stop(chalk.red('fail'))
       this.throwError(message)
     }

@@ -49,7 +49,6 @@ module.exports = async (req, res) => {
       url: process.env.DOMAIN,
       user: `${first.value} ${last.value}`,
       email,
-      password,
       activationToken
     }
 

@@ -39,7 +39,6 @@ class Nodemailer {
         'url',
         'user',
         'email',
-        'password',
         'activationToken'
       ])
 
@@ -81,7 +80,7 @@ class Nodemailer {
   prepare(template, params) {
     const validParams = this._matchParams(template, params)
 
-    if (!validParams) throw new Error('Provided param are invalid')
+    if (!validParams) throw new Error('Provided params are invalid')
 
     const templateString = this._getMarkdownFor(template)
     return this._parser(templateString, params)
