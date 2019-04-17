@@ -1,7 +1,3 @@
-CREATE DATABASE IF NOT EXISTS `shorty`;
-
-USE `shorty`;
-
 DROP TABLE IF EXISTS `contact_type`;
 CREATE TABLE `contact_type`
 (

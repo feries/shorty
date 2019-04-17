@@ -3,39 +3,45 @@
 Short is beautiful! Save the world by making it shorter!
 
 # General
+⚠️ This project is a work in progress
+
 ### Description
+TODO
 
 ### Project Structure
+- CLI (oclif based app)
 - Client (create-react-app based app)
 - Server (express server for app api)
 - Proxy (express server for hint route)
 - Sql (sql scripts used by server and proxy)
 
 # Install
-You can skip this block if you are going to use it in dockerized environment. Everithing is setted up in `docker-compose.yml`, 
-and all configurable parameters are defined into `.env` file.
+You can skip this block if you are going to use it in dockerized environment. Everything is setted up in `docker-compose.yml`, and all configurable parameters are defined into `.env` file.
 
 ### Pre-requisite for non-docker environment 
 - MySQL >= 5.5.40
 - Node.js >= 10.15.0
 - Yarn >= 1.10.1 *(optional)*
 
+### Mail Service
+Configure the mail service, if you are using a Gmail account, you can follow up [this](https://nodemailer.com/usage/using-gmail/) or [this](https://security.google.com/settings/security/apppasswords)
+
 ### Setup
-1. Copy the `.env` file with `cp env.dist .env`
-2. Edit the `.env` with your data.
-3. Execute bootstrap script with `yarn bootstrap`
+1. Create a database and create tables with `mysql -u username -p password database_name < ./sql/bootstrap/init.sql`
+2. Copy the `.env` file with `cp env.dist .env` and edit with your own data.
+3. Then you can start the app with `yarn dev` for development environment or `yarn prod` for production.
+4. Now it's time to create the first user via CLI app with `./cli/bin/run bootstrap --add-user`, and follow up the instruction on the screen.
+5. That's it. 🚀
 
 # To Do
-- [X] 🐳 Dockerize
-- [X] Migrate to [ky](https://github.com/sindresorhus/ky)
-- [ ] 🚦️ Test with [Jest](https://github.com/facebook/jest) 
-- [ ] 🚨 Enhance user handling and roles
-- [X] ⚠️ Enhance error handling for REST call. (Handle Toast with messages from BE.)
+- [X] 🐳 Dockerize **[WIP]**
+- [ ] 🚦️ Test with [Jest](https://github.com/facebook/jest) or [AVA](https://github.com/avajs/ava) for backend.
+- [ ] 🚨 Enhance user handling with roles.
 - [ ] 🌍 i18n
 - [ ] 🚀 CI/CD Set up
-- [ ] 🤖 Add Google Tag Manager
-- [ ] Switch to an ORM like [TypeORM]()
-- [X] Activate account via `activation-token` to be sent via email after user registration.
+- [ ] 🤖 Add Google Tag Manager for GA (Google Analytics)
+- [ ] 🤯 Migrate to Typescript
+- [ ] 🚨 Switch to an ORM like [TypeORM](http://typeorm.io)
 
 # Credit
 

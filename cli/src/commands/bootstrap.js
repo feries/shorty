@@ -180,14 +180,10 @@ class BootstrapCommand extends Command {
 
 BootstrapCommand.description = `This script is an helper for build initial configuration of Shorty 
 ...
-Extra documentation goes here
+Usage: './bin/run bootstrap --add-user'
 `
 
 BootstrapCommand.flags = {
-  bootstrap: flags.boolean({
-    char: 'b',
-    description: 'Generate full bootstrap.'
-  }),
   'add-user': flags.boolean({ char: 'u', description: 'Add an user' })
 }
 
