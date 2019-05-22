@@ -1,0 +1,88 @@
+.toast {
+  &.toast-wrapper {
+    display: none;
+    position: fixed;
+    bottom: 0px;
+    right: 2vw;
+    min-width: 250px;
+    max-width: 500px;
+    min-height: 50px;
+    color: black;
+    z-index: 1000;
+    font-size: $medium;
+    color: $white;
+    padding: $tripleSpace;
+    border-radius: $radius $radius 0px 0px;
+    background: $white;
+    border: 1px solid $lightGrey;
+    box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
+    &.animateToast {
+      display: block;
+      -webkit-animation: fadein 0.5s, fadeout 0.5s 5s;
+      animation: fadein 0.5s, fadeout 0.5s 5s;
+    }
+    .fa-times {
+      position: absolute;
+      right: $tripleSpace;
+    }
+    &.hidden {
+      display: none;
+    }
+    &.toast--info {
+      border-style: solid;
+      border-width: 1px 1px 0px 10px;
+      border-color: $primary;
+      color: $primary;
+    }
+    &.toast--success {
+      border: 1px solid $green;
+      border-left: 10px solid $green;
+      color: $green;
+    }
+    &.toast--warning {
+      border: 1px solid $secondary;
+      border-left: 10px solid $secondary;
+      color: $secondary;
+    }
+    &.toast--error {
+      border: 1px solid $red;
+      border-left: 10px solid $red;
+      color: $red;
+    }
+  }
+}
+@-webkit-keyframes fadein {
+  from {
+    bottom: -300px;
+  }
+  to {
+    bottom: 0px;
+  }
+}
+
+@keyframes fadein {
+  from {
+    bottom: -300px;
+  }
+  to {
+    bottom: 0px;
+  }
+}
+
+@-webkit-keyframes fadeout {
+  from {
+    bottom: 0px;
+  }
+  to {
+    bottom: -300px;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    bottom: 0px;
+  }
+  to {
+    bottom: -300px;
+  }
+}

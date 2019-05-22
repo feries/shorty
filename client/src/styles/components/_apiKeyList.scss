@@ -1,0 +1,53 @@
+.apiKeyList {
+  ul {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    font-size: $tiny;
+    margin: 0;
+    &.itemList {
+      .label {
+        display: none;
+      }
+      padding: $tripleSpace;
+      &:nth-child(even) {
+        background-color: $lightPrimary;
+      }
+      &.disabled {
+        background-color: $lightGrey;
+        color: $grey;
+      }
+      button {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: $tiny;
+        border-radius: $radiusSmall;
+        font-weight: $bold;
+        &.delete {
+          &:hover {
+            color: $red;
+          }
+        }
+      }
+    }
+  }
+  button {
+    text-align: right;
+    padding: 0;
+    font-size: $normal;
+    &.cta {
+      text-align: center;
+      padding: $space;
+      font-weight: $bold;
+      border-radius: $radiusSmall;
+      background: $primary !important;
+      color: $white !important;
+      padding: $space $doubleSpace $space $doubleSpace;
+      border: none;
+    }
+  }
+}

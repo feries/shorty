@@ -1,1 +1,0 @@
-SELECT * FROM urls LIMIT $1, $2

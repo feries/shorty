@@ -1,0 +1,47 @@
+/* COLORS */
+$primary: #38b1c4;
+$secondary: #ff6f00;
+$white: #fff;
+$dark: #3a3a3a;
+$grey: #cdcdcd;
+$blue: #0071ce;
+$red: #d60012;
+$green: #16af95;
+
+$lightPrimary: #e3f4f7;
+$lightSecondary: #ffebdb;
+$lightDark: #707070;
+$lightGrey: #ebebeb;
+$background: #fafafa;
+
+$hoverPrimary: #43c9de;
+$hoverSecondary: #ff994b;
+$hoverRed: #8b000c;
+
+/* FONT */
+$family: 'Fira Sans Condensed', system-ui, -apple-system, 'BlinkMacSystemFont',
+  'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Droid Sans',
+  'Helvetica Neue', 'Arial', sans-serif;
+$regular: 400;
+$light: 300;
+$bold: 700;
+
+$micro: 0.625rem;
+$mini: 0.75rem;
+$tiny: 0.875rem;
+$normal: 1rem;
+$medium: 1.125rem;
+$large: 1.25rem;
+$big: 1.375rem;
+
+/* SPACING */
+$space: 5px;
+$doubleSpace: $space * 2;
+$tripleSpace: $space * 3;
+
+$radius: 7px;
+$radiusSmall: 3px;
+
+/* ANIMATIONS */
+$duration: 0.5s;
+$durationSmall: 0.2s;

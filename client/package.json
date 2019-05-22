@@ -1,18 +1,47 @@
 {
   "name": "client",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "Shory client app",
+  "author": "Feries s.r.l <info@feries.it> (https://www.feries.it)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feries/shorty.git"
+  },
+  "bugs": "https://github.com/feries/shorty/issues",
+  "engines": {
+    "node": ">= 10.15.0",
+    "yarn": ">= 1.10.0"
+  },
+  "license": "MIT",
   "private": true,
   "dependencies": {
+    "apexcharts": "^3.6.5",
+    "classnames": "^2.2.6",
+    "copy-to-clipboard": "^3.0.8",
+    "dayjs": "^1.8.8",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
+    "ky": "^0.9.0",
+    "prop-types": "^15.7.2",
+    "qrcode.react": "^0.9.3",
     "react": "^16.8.3",
+    "react-apexcharts": "^1.3.0",
     "react-dom": "^16.8.3",
+    "react-mde": "^7.0.4",
+    "react-redux": "^6.0.1",
+    "react-responsive-modal": "^3.6.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5"
+    "react-scripts": "2.1.8",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "showdown": "^1.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prod": "yarn run build && NODE_ENV=production node server.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -25,5 +54,14 @@
   ],
   "devDependencies": {
     "node-sass": "^4.11.0"
-  }
+  },
+  "proxy": "http://127.0.0.1:3001",
+  "contributors": [
+    "Claudio Quaglia <claudio.quaglia@feries.it>",
+    "Gabriele Pellegrini <gabriele.pellegrini@feries.it>"
+  ],
+  "keywords": [
+    "url shortener",
+    "shortener"
+  ]
 }

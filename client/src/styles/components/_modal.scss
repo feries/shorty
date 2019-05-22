@@ -1,0 +1,122 @@
+.modal {
+  &.modal-backdrop {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    &.hidden {
+      display: none;
+    }
+    .modalCenter {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+    .modal-panel {
+      background: $white;
+      position: relative;
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: center;
+      justify-content: center;
+      padding: $tripleSpace;
+      border-radius: $radius;
+      word-break: break-all;
+      input {
+        height: 32px;
+        background: #fff;
+        border: 1px solid rgba(155, 155, 155, 0.2);
+        box-shadow: 0px 3px 7px rgba(0, 0, 0, 0.14);
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+      &.small {
+        width: 20vw;
+        min-height: 15vh;
+      }
+      &.normal {
+        width: 30vw;
+        min-height: 20vh;
+      }
+      &.big {
+        width: 50vw;
+        min-height: 30vh;
+      }
+
+      @media screen and (max-width: 1024px) {
+        &.small {
+          width: 50vw;
+        }
+        &.normal {
+          width: 60vw;
+        }
+        &.big {
+          width: 80vw;
+        }
+      }
+
+      @media screen and (max-width: 470px) {
+        &.small {
+          width: 90vw;
+        }
+        &.normal {
+          width: 90vw;
+        }
+        &.big {
+          width: 90vw;
+        }
+      }
+      .closeButton {
+        cursor: pointer;
+        font-size: $normal;
+        position: absolute;
+        right: $doubleSpace;
+        top: $doubleSpace;
+        color: $dark;
+        &:hover {
+          color: $lightDark;
+        }
+      }
+      .modal--confirm {
+        position: absolute;
+        bottom: 0;
+        padding: $doubleSpace;
+      }
+      button {
+        border-radius: $radiusSmall;
+        margin-left: $space;
+        margin-right: $space;
+        font-size: $normal;
+        font-weight: $bold;
+        border: none;
+        padding: $space;
+        padding-left: $doubleSpace;
+        padding-right: $doubleSpace;
+        text-transform: uppercase;
+        cursor: pointer;
+        &.confirm {
+          background-color: $primary;
+          color: $white;
+          &:hover {
+            background-color: $hoverPrimary;
+          }
+        }
+        &.dismiss {
+          border: 1px solid $red;
+          background-color: $white;
+          color: $red;
+          &:hover {
+            color: $hoverRed;
+            border: 1px solid $hoverRed;
+          }
+        }
+      }
+    }
+  }
+}

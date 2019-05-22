@@ -1,0 +1,288 @@
+/* COLORS */
+.primary {
+  color: $primary;
+}
+.secondary {
+  color: $secondary;
+}
+.white {
+  color: $white;
+}
+.dark {
+  color: $dark;
+}
+.grey {
+  color: $grey;
+}
+.alert {
+  color: $red;
+}
+
+.light {
+  &Primary {
+    color: $lightPrimary;
+  }
+  &Secondary {
+    color: $lightSecondary;
+  }
+  &Dark {
+    color: $lightDark;
+  }
+  &Grey {
+    color: $lightGrey;
+  }
+}
+
+/* Alignments */
+.t {
+  &-center {
+    text-align: center;
+  }
+  &-left {
+    text-align: left;
+  }
+  &-right {
+    text-align: right;
+  }
+}
+
+/* TEXT SIZE */
+/* 10px */
+.micro {
+  font-size: $micro;
+}
+/* 12px */
+.mini {
+  font-size: $mini;
+}
+/* 14px */
+.tiny {
+  font-size: $tiny;
+}
+/* 16px */
+.normal {
+  font-size: $normal;
+}
+/* 18px */
+.medium {
+  font-size: $medium;
+}
+/* 20px */
+.large {
+  font-size: $large;
+}
+/* 22px */
+.big {
+  font-size: $big;
+}
+/* 44px */
+.doubleBig {
+  font-size: $big * 2;
+}
+/* 220px */
+.extraBig {
+  font-size: $big * 10;
+}
+
+/* FONT WEIGHT */
+.regular {
+  font-weight: $regular;
+}
+.light {
+  font-weight: $light;
+}
+.bold {
+  font-weight: $bold;
+}
+.italic {
+  font-style: italic;
+}
+
+/* MARGIN */
+.m {
+  &-top {
+    margin-top: $space !important;
+    &-x2 {
+      margin-top: $space * 2 !important;
+    }
+    &-x3 {
+      margin-top: $space * 3 !important;
+    }
+    &-x4 {
+      margin-top: $space * 4 !important;
+    }
+    &-x5 {
+      margin-top: $space * 5 !important;
+    }
+    &-x6 {
+      margin-top: $space * 6 !important;
+    }
+    &-x7 {
+      margin-top: $space * 7 !important;
+    }
+    &-x8 {
+      margin-top: $space * 8 !important;
+    }
+    &-x9 {
+      margin-top: $space * 9 !important;
+    }
+    &-x10 {
+      margin-top: $space * 10 !important;
+    }
+  }
+  &-bottom {
+    margin-bottom: $space !important;
+    &-x2 {
+      margin-bottom: $space * 2 !important;
+    }
+    &-x3 {
+      margin-bottom: $space * 3 !important;
+    }
+    &-x4 {
+      margin-bottom: $space * 4 !important;
+    }
+    &-x5 {
+      margin-bottom: $space * 5 !important;
+    }
+    &-x6 {
+      margin-bottom: $space * 6 !important;
+    }
+    &-x7 {
+      margin-bottom: $space * 7 !important;
+    }
+    &-x8 {
+      margin-bottom: $space * 8 !important;
+    }
+    &-x9 {
+      margin-bottom: $space * 9 !important;
+    }
+    &-x10 {
+      margin-bottom: $space * 10 !important;
+    }
+  }
+  &-left {
+    margin-left: $space !important;
+    &-x2 {
+      margin-left: $space * 2 !important;
+    }
+    &-x3 {
+      margin-left: $space * 3 !important;
+    }
+    &-x4 {
+      margin-left: $space * 4 !important;
+    }
+  }
+  &-right {
+    margin-right: $space !important;
+    &-x2 {
+      margin-right: $space * 2 !important;
+    }
+    &-x3 {
+      margin-right: $space * 3 !important;
+    }
+    &-x4 {
+      margin-right: $space * 4 !important;
+    }
+  }
+}
+
+/* FLEX */
+.flex {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: flex-start;
+  &-space {
+    justify-content: space-between;
+  }
+  &-stretch {
+    align-items: stretch;
+  }
+  &-grow {
+    flex-grow: 1;
+  }
+  &-wrap {
+    flex-wrap: wrap;
+  }
+  &-center {
+    justify-content: center;
+  }
+}
+
+/* BOX */
+.box {
+  box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
+  border: 1px solid $lightGrey;
+  border-radius: $radius;
+  background: $white;
+  padding: $tripleSpace;
+  margin-top: $tripleSpace;
+}
+
+/* MODAL HELPER */
+.scroll-lock {
+  overflow: hidden;
+}
+
+/* WIDTH */
+.w {
+  &-100 {
+    width: 100%;
+  }
+  &-5 {
+    width: 5%;
+  }
+  &-10 {
+    width: 10%;
+  }
+  &-15 {
+    width: 15%;
+  }
+  &-20 {
+    width: 20%;
+  }
+  &-30 {
+    width: 30%;
+  }
+  &-40 {
+    width: 40%;
+  }
+  &-50 {
+    width: 50%;
+  }
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 90%;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+/* BUTTON */
+.button {
+  text-align: center;
+  padding: $space;
+  font-weight: $bold;
+  border-radius: $radiusSmall;
+  padding: $space $doubleSpace $space $doubleSpace;
+  border: none;
+  &-primary {
+    background: $primary !important;
+    color: $white !important;
+  }
+  &-red {
+    background: $red !important;
+    color: $white !important;
+  }
+  &-ghost {
+    &-red {
+      border: 1px solid $red;
+      color: $red;
+    }
+  }
+}

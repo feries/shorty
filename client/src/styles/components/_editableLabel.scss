@@ -1,0 +1,67 @@
+.editableLabel {
+  font-size: $normal;
+  color: $dark;
+  .separator {
+    width: 100%;
+    height: 3px;
+    background: $primary;
+  }
+  button {
+    border: none;
+    background: none;
+    color: $lightDark;
+    &.iconSubmit {
+      color: $grey;
+      font-size: $normal;
+    }
+    &.iconSubmit {
+      color: $green;
+      font-size: $normal;
+    }
+  }
+  label {
+    font-size: $mini;
+    font-weight: $bold;
+    color: $lightDark;
+    text-transform: lowercase;
+  }
+
+  .field-value {
+    flex-grow: 2;
+    padding-right: $tripleSpace;
+    line-height: 1.5;
+    input {
+      width: 100%;
+      font-size: $normal;
+      box-sizing: border-box;
+      border: none;
+      background: none;
+      font-family: $family !important;
+
+      &::-webkit-input-placeholder {
+        /* Chrome/Opera/Safari */
+        font-family: $family !important;
+      }
+      &::-moz-placeholder {
+        /* Firefox 19+ */
+        font-family: $family !important;
+      }
+      &:-ms-input-placeholder {
+        /* IE 10+ */
+        font-family: $family !important;
+      }
+      &:-moz-placeholder {
+        /* Firefox 18- */
+        font-family: $family !important;
+      }
+      &::placeholder {
+        font-size: $normal;
+        font-family: $family !important;
+      }
+      &:focus {
+        border: none !important;
+        background: none !important;
+      }
+    }
+  }
+}

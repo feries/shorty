@@ -1,0 +1,57 @@
+a {
+  color: $blue;
+  text-decoration: none;
+  -webkit-transition: all $duration; /* Safari */
+  transition: all $duration;
+}
+
+button {
+  cursor: pointer;
+  -webkit-transition: all $duration; /* Safari */
+  transition: all $duration;
+  &:focus {
+    outline: none !important;
+    border: none;
+  }
+}
+input {
+  padding: $tripleSpace;
+  border: 1px solid $grey;
+  font-size: $normal;
+  &:focus {
+    outline: none !important;
+    border: 1px solid $primary !important;
+    -webkit-transition: border $duration; /* Safari */
+    transition: border $duration;
+  }
+}
+.loader {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  &-wrapper {
+    background-color: rgba(255, 255, 255, 0.8);
+    width: 100vw;
+    height: 100vh;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+  }
+}

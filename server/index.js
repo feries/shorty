@@ -1,52 +1,67 @@
-require('dotenv').config();
+require('dotenv').config({
+  path: require('path').resolve(__dirname, '..', '.env')
+})
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const compression = require('compression');
-const helmet = require('helmet');
-const Sentry = require('@sentry/node');
+const express = require('express')
+const bodyParser = require('body-parser')
+const compression = require('compression')
+const helmet = require('helmet')
+const Sentry = require('@sentry/node')
 
-// Import Routes
-const { routerV1 } = require('./routes/index');
+const {
+  NODE_ENV,
+  SERVER_HOST,
+  SERVER_PORT,
+  SENTRY_URL_SHORTENER_SERVER_DNS
+} = process.env
 
-const HOST = process.env.HOST;
-const PORT = process.env.PORT;
-const STATIC_PATH = process.env.STATIC_PATH;
+const isProd = NODE_ENV === 'production'
 
-const isProd = process.env.NODE_ENV !== 'development';
-const app = express();
+const app = express()
+
+// Import router
+const { routerV1, bootstrap } = require('./routes/index')
 
 // Sentry Initialization
 isProd &&
   Sentry.init({
-    dsn: process.env.SENTRY_URL_SHORTNER_DNS,
+    dsn: SENTRY_URL_SHORTENER_SERVER_DNS,
     maxBreadcrumbs: 50
-  });
+  })
 
 // Middlewares
-isProd && app.use(Sentry.Handlers.requestHandler());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + STATIC_PATH));
-app.use(compression());
+isProd && app.use(Sentry.Handlers.requestHandler())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(compression())
 
 // Security settings
-app.use(helmet());
-app.disable('x-powered-by');
+app.use(helmet())
+app.disable('x-powered-by')
 
 // Map Routes
-app.use('/api/v1', routerV1);
+app.use('/api/v1', routerV1)
+
+// Global routes
+app.use('/bootstrap', bootstrap)
+app.use('/ready', (req, res) => {
+  res.send('SERVER_IS_READY')
+})
 
 // Global Error handler
-isProd && app.use(Sentry.Handlers.errorHandler());
+isProd && app.use(Sentry.Handlers.errorHandler())
 app.use(function onError(err, req, res) {
-  if (!isProd) return;
+  if (err.constructor.name === 'UnauthorizedError') {
+    res.send(401, 'Unauthorized')
+  }
 
-  res.statusCode = 500;
-  res.end(res.sentry + '\n');
-});
+  if (isProd) {
+    res.statusCode = 500
+    res.end(res.sentry + '\n')
+  }
+})
 
 // Start server
-app.listen(PORT, HOST, () => {
-  console.log(`Server is running on: http://${HOST}:${PORT}/`);
-});
+app.listen(SERVER_PORT, SERVER_HOST, () => {
+  console.log(`Server is running on: http://${SERVER_HOST}:${SERVER_PORT}/`)
+})

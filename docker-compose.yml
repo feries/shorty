@@ -1,0 +1,85 @@
+version: "3"
+services:
+  db:
+    build: ./sql
+    hostname: 'mysql'
+    container_name: shorty-db
+    restart: always
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - ./sql:/var/lib/mysql:delegated
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_NAME}
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+  api:
+    build: ./server
+    hostname: 'api'
+    container_name: shorty-api
+    restart: always
+    links:
+      - db
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    volumes:
+      - ./server:/opt/app:delegated
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - SERVER_HOST=${SERVER_HOST}
+      - SERVER_PORT=${SERVER_PORT}
+      - DOMAIN=${DOMAIN}
+      - SENTRY_URL_SHORTENER_SERVER_DNS=${SENTRY_URL_SHORTENER_SERVER_DNS}
+      - DB_URL=${DB_URL}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRE_IN=${JWT_EXPIRE_IN}
+      - JWT_ISSUER=${JWT_ISSUER}
+      - RWT_SECRET=${RWT_SECRET}
+      - RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
+  proxy:
+    build: ./proxy
+    hostname: 'proxy'
+    container_name: shorty-proxy
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - ./proxy:/app:delegated
+    ports:
+      - ${PROXY_PORT}:${PROXY_PORT}
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PROXY_HOST=${PROXY_HOST}
+      - PROXY_PORT=${PROXY_PORT}
+      - DOMAIN=${DOMAIN}
+      - SENTRY_URL_SHORTENER_PROXY_DNS=${SENTRY_URL_SHORTENER_PROXY_DNS}
+      - DB_URL=${DB_URL}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+  client:
+    build: ./client
+    hostname: 'client'
+    container_name: shorty-client
+    restart: always
+    depends_on:
+      - proxy
+      - api
+    ports:
+      - ${CLIENT_PORT}:${CLIENT_PORT}
+    volumes:
+      - ./client:/app:delegated
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - CLIENT_PORT=${CLIENT_PORT}
+      - DOMAIN=${DOMAIN}
+      - SENTRY_URL_SHORTENER_CLIENT_DNS=${SENTRY_URL_SHORTENER_CLIENT_DNS}

@@ -1,0 +1,44 @@
+{
+  "name": "proxy",
+  "version": "1.0.0",
+  "description": "Shory proxy",
+  "main": "index.js",
+  "author": "Feries s.r.l <info@feries.it> (https://www.feries.it)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feries/shorty.git"
+  },
+  "bugs": "https://github.com/feries/shorty/issues",
+  "engines": {
+    "node": ">= 10.15.0",
+    "yarn": ">= 1.10.0"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "node index.js",
+    "prod": "NODE_ENV=production node index.js"
+  },
+  "dependencies": {
+    "@sentry/node": "^4.6.3",
+    "body-parser": "^1.18.3",
+    "compression": "^1.7.3",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "express-useragent": "^1.0.12",
+    "helmet": "^3.15.1",
+    "jsonwebtoken": "^8.5.0",
+    "ms": "^2.1.1",
+    "mysql": "^2.16.0",
+    "uuid": "^3.3.2"
+  },
+  "contributors": [
+    "Claudio Quaglia <claudio.quaglia@feries.it>",
+    "Gabriele Pellegrini <gabriele.pellegrini@feries.it>"
+  ],
+  "keywords": [
+    "url shortener",
+    "shortener"
+  ]
+}

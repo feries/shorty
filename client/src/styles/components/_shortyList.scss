@@ -1,0 +1,251 @@
+#shortyList {
+  max-width: 1090px;
+  box-shadow: 0px 14px 21px rgba(0, 0, 0, 0.14);
+  border: 1px solid $lightGrey;
+  border-radius: $radius;
+  background: $white;
+  .loadMore {
+    font-weight: $bold;
+    font-size: $normal;
+    padding: $tripleSpace;
+    text-align: center;
+    button {
+      border: none;
+      background: none;
+      border: none;
+      color: $primary;
+      font-weight: $bold;
+      text-transform: uppercase;
+      &:hover {
+        color: $hoverPrimary;
+      }
+    }
+  }
+  ul {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
+    justify-content: space-between;
+    list-style: none;
+    padding: 0;
+    font-size: $tiny;
+    margin: 0;
+    &.head {
+      font-weight: $bold;
+      font-size: $normal;
+      padding-left: $tripleSpace;
+      padding-right: $tripleSpace;
+      height: 66px;
+    }
+    &.itemList {
+      .label {
+        display: none;
+      }
+      padding: $tripleSpace;
+      &:nth-child(even) {
+        background-color: $lightPrimary;
+      }
+      .actions {
+        text-align: right;
+        a {
+          &.stats {
+            border-radius: $radiusSmall;
+            background: $primary !important;
+            color: $white !important;
+            padding: $space $doubleSpace $space $doubleSpace;
+            margin-right: $doubleSpace;
+            span {
+              margin-left: $space;
+            }
+            &:hover {
+              background: $hoverPrimary !important;
+              color: $white;
+            }
+            &.disabled {
+              background-color: $lightGrey !important;
+              color: $grey !important;
+              pointer-events: none !important;
+            }
+          }
+        }
+      }
+      button {
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: $tiny;
+        border-radius: $radiusSmall;
+        font-weight: $bold;
+        &.qr {
+          &:hover {
+            color: $primary;
+          }
+        }
+        &.copy {
+          &:hover {
+            color: $primary;
+          }
+        }
+        &.delete {
+          &:hover {
+            color: $red;
+          }
+        }
+      }
+      .originalUrl {
+        color: $primary;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .created {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .shorUrl {
+        a {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    .originalUrl {
+      width: 44%;
+      margin-right: 1%;
+    }
+    .created {
+      width: 12%;
+      margin-right: 1%;
+    }
+    .shortUrl {
+      width: 20%;
+      margin-right: 1%;
+      .shortUrlLink {
+        font-weight: $regular;
+        color: $blue;
+      }
+    }
+    .clicks {
+      width: 7%;
+      margin-right: 1%;
+    }
+    .actions {
+      width: 13%;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  #shortyList {
+    ul {
+      .originalUrl {
+        width: 39%;
+        margin-right: 1%;
+      }
+      .created {
+        width: 14%;
+        margin-right: 1%;
+      }
+      .shortUrl {
+        width: 19%;
+        margin-right: 1%;
+      }
+      .clicks {
+        width: 9%;
+        margin-right: 1%;
+      }
+      .actions {
+        width: 15%;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 980px) {
+  #shortyList {
+    ul {
+      .actions {
+        .stats {
+          span {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #shortyList {
+    padding: $tripleSpace;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    ul {
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: $tripleSpace;
+      display: block !important;
+      &.head {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: stretch;
+        justify-content: space-between;
+        padding: 0;
+        .created,
+        .clicks,
+        .actions {
+          display: none !important;
+        }
+        .originalUrl,
+        .shortUrl {
+          width: 100%;
+          input {
+            width: 100%;
+            box-sizing: border-box;
+          }
+        }
+      }
+      &.itemList {
+        padding: $tripleSpace;
+        border: 1px solid $lightGrey;
+        border-radius: $radius;
+        &:nth-child(even) {
+          background-color: $white;
+        }
+        .label {
+          font-weight: $bold;
+          color: $dark;
+          display: inline-block;
+        }
+      }
+      li {
+        margin-bottom: $space;
+      }
+      .originalUrl {
+        width: 100%;
+      }
+      .created {
+        width: 100%;
+      }
+      .shortUrl {
+        width: 100%;
+      }
+      .clicks {
+        width: 100%;
+      }
+      .actions {
+        width: 100%;
+        .stats {
+          span {
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}
