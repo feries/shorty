@@ -33,7 +33,7 @@
     "prod": "yarn run prod:proxy && yarn run prod:server && yarn run prod:frontend"
   },
   "devDependencies": {
-    "prettier": "^1.16.4"
+    "prettier": "2.0.5"
   },
   "contributors": [
     "Claudio Quaglia <claudio.quaglia@feries.it>",

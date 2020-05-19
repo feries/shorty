@@ -1,12 +1,12 @@
 const shortid = require('shortid')
-const uuidv4 = require('uuid/v4')
 
+const { generateUuid4 } = require('../../lib')
 const {
   sqlLoader,
   isValidUrl,
   getDomainFromUrl,
   removeInitialSlash,
-  trailingSlash
+  trailingSlash,
 } = require('../../lib')
 const { pool: db } = require('../../config')
 
@@ -39,19 +39,19 @@ module.exports = async ({ user, body }, res) => {
 
       if (check.exist === 1) {
         return res.status(400).send({
-          message: `The hash ${hash} for the url ${url}, already exist. Please check it.`
+          message: `The hash ${hash} for the url ${url}, already exist. Please check it.`,
         })
       }
     }
 
-    const uuid = uuidv4()
+    const uuid = generateUuid4()
     const options = [
       uuid,
       hash,
       url,
       user.sub.external_id,
       host.id,
-      isCustomHash
+      isCustomHash,
     ]
     const insertSql = sqlLoader('insertNewUrl.sql')
     const { affectedRows } = await db.query(insertSql, options)

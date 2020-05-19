@@ -1,5 +1,4 @@
 FROM node:lts
-MAINTAINER  (Claudio Quaglia) <claudio.quaglia@feries.it>
 
 # install our dependencies
 RUN  apt-get update && apt-get install python make g++ gcc libtool

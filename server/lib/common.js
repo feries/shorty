@@ -1,7 +1,7 @@
 const dayjs = require('dayjs')
 const ms = require('ms')
 const jwt = require('jsonwebtoken')
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 
 /**
  * @name isExpired
@@ -53,18 +53,18 @@ const generateTokens = (user) => {
       jti,
       iat,
       sub: user,
-      nbf: 3000
+      nbf: 3000,
     },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRE_IN,
-      issuer: process.env.JWT_ISSUER
+      issuer: process.env.JWT_ISSUER,
     }
   )
 
   const refreshToken = jwt.sign({ user }, process.env.RWT_SECRET, {
     expiresIn: process.env.RWT_EXPIRE_IN,
-    issuer: process.env.JWT_ISSUER
+    issuer: process.env.JWT_ISSUER,
   })
 
   return { token, refreshToken, expiresIn }
@@ -135,5 +135,5 @@ module.exports = {
   trailingSlash,
   generateTokens,
   getToken,
-  decodeJwt
+  decodeJwt,
 }

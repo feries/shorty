@@ -1,5 +1,4 @@
 FROM node:lts-alpine
-MAINTAINER  (Claudio Quaglia) <claudio.quaglia@feries.it>
 
 # Create api directory
 WORKDIR /app
@@ -9,5 +8,6 @@ EXPOSE ${CLIENT_PORT}
 
 # Install globals
 RUN yarn global add create-react-app
+RUN yarn install --force
 
 CMD yarn && yarn start

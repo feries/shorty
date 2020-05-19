@@ -1,6 +1,5 @@
 const crypto = require('crypto')
-const uuidv4 = require('uuid/v4')
-const { sqlLoader, getToken, decodeJwt } = require('../../lib')
+const { sqlLoader, getToken, decodeJwt, generateUuid4 } = require('../../lib')
 const { pool: db } = require('../../config')
 
 module.exports = async (req, res) => {
@@ -11,7 +10,7 @@ module.exports = async (req, res) => {
 
     if (!issuer)
       return res.status(400).send({
-        message: 'You must provide a valid Issuer for.'
+        message: 'You must provide a valid Issuer for.',
       })
 
     const existSql = sqlLoader('checkApiKeyExistence.sql')
@@ -19,22 +18,22 @@ module.exports = async (req, res) => {
 
     if (rows.length > 0)
       return res.status(417).send({
-        message: 'An URL like that already exist on Shorty. Please check it.'
+        message: 'An URL like that already exist on Shorty. Please check it.',
       })
 
     const apiKey = crypto
       .createHash('sha256')
-      .update(uuidv4())
+      .update(generateUuid4())
       .update(issuer)
       .digest('hex')
       .toString()
 
     const sql = sqlLoader('insertNewApiKey.sql')
     const { affectedRows } = await db.query(sql, [
-      uuidv4(),
+      generateUuid4(),
       issuer,
       apiKey,
-      userExternalId
+      userExternalId,
     ])
 
     if (affectedRows !== 1)

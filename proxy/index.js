@@ -1,5 +1,5 @@
 require('dotenv').config({
-  path: require('path').resolve(__dirname, '..', '.env')
+  path: require('path').resolve(__dirname, '..', '.env'),
 })
 
 const express = require('express')
@@ -9,19 +9,15 @@ const helmet = require('helmet')
 const Sentry = require('@sentry/node')
 
 const hintTarget = require('./routes/hintTarget')
-
-const HOST = process.env.PROXY_HOST
-const PORT = process.env.PROXY_PORT
-const STATIC_PATH = process.env.STATIC_PATH
-
-const isProd = process.env.NODE_ENV !== 'development'
+const { HOST, PORT, STATIC_PATH, NODE_ENV } = process.env.PROXY_HOST
+const isProd = NODE_ENV !== 'development'
 const app = express()
 
 // Sentry Initialization
 isProd &&
   Sentry.init({
     dsn: process.env.SENTRY_URL_SHORTNER_DNS,
-    maxBreadcrumbs: 50
+    maxBreadcrumbs: 50,
   })
 
 // Middlewares
@@ -39,7 +35,7 @@ app.disable('x-powered-by')
 app.get('/:shortid', hintTarget)
 
 // Default case for unmatched routes
-app.use((req, res) => {
+app.use((_, res) => {
   // Invalid request
   if (!isProd) return res.redirect('http://localhost:3000/404')
   res.redirect(`${process.env.DOMAIN}/404`)
@@ -47,7 +43,7 @@ app.use((req, res) => {
 
 // Global Error handler
 isProd && app.use(Sentry.Handlers.errorHandler())
-app.use(function onError(err, req, res) {
+app.use(function onError(_, _, res) {
   if (!isProd) return
 
   res.statusCode = 500

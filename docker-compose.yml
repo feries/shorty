@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 services:
   db:
     build: ./sql
@@ -8,13 +8,12 @@ services:
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
-      - ./sql:/var/lib/mysql:delegated
+      - ./sql/data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_NAME}
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
   api:
     build: ./server
     hostname: 'api'

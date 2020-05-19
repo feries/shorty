@@ -1,6 +1,9 @@
-const uuidv4 = require('uuid/v4')
-
-const { sqlLoader, isValidUrl, getDomainFromUrl } = require('../../lib')
+const {
+  sqlLoader,
+  isValidUrl,
+  getDomainFromUrl,
+  generateUuid4,
+} = require('../../lib')
 const { pool: db } = require('../../config')
 
 module.exports = async ({ body }, res) => {
@@ -25,7 +28,7 @@ module.exports = async ({ body }, res) => {
     if (hosts.length !== 0)
       return res.status(500).send({ message: 'This host URL already exists' })
 
-    const options = [uuidv4(), domain, shortUrl]
+    const options = [generateUuid4(), domain, shortUrl]
     const insertSql = sqlLoader('insertNewHost.sql')
     const { affectedRows } = await db.query(insertSql, options)
 
