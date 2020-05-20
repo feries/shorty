@@ -17,7 +17,7 @@
   "private": true,
   "scripts": {
     "bootstrap": "node bin/init.js",
-    "dev": "node index.js",
+    "start": "node index.js",
     "prod": "NODE_ENV=production node index.js"
   },
   "dependencies": {

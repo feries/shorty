@@ -15,11 +15,10 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "apexcharts": "^3.19.0",
+    "apexcharts": "^3.19.2",
     "classnames": "^2.2.6",
     "copy-to-clipboard": "^3.3.1",
     "dayjs": "^1.8.27",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "ky": "^0.20.0",
     "prop-types": "^15.7.2",
@@ -40,8 +39,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "prod": "yarn run build && NODE_ENV=production node server.js"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -53,9 +51,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "node-sass": "^4.11.0"
+    "dotenv": "^8.2.0",
+    "node-sass": "^4.14.1"
   },
-  "proxy": "http://127.0.0.1:3001",
   "contributors": [
     "Claudio Quaglia <claudio.quaglia@feries.it>",
     "Gabriele Pellegrini <gabriele.pellegrini@feries.it>"

@@ -38,8 +38,8 @@ module.exports = async (req, res) => {
   const osQuery = sqlLoader('insertOsIfNotExist.sql')
   const deviceQuery = sqlLoader('getDeviceTypeId.sql')
 
-  await db.query(browserQuery, [v4(), browser, browser])
-  await db.query(osQuery, [v4(), os, os])
+  db.query(browserQuery, [v4(), browser, browser])
+  db.query(osQuery, [v4(), os, os])
 
   const [device] = await db.query(deviceQuery, deviceType)
 
@@ -48,7 +48,7 @@ module.exports = async (req, res) => {
 
   const insert = sqlLoader('insertUrlHint.sql')
 
-  await db.query(insert, [id, browser, os, device.id, referer, geo])
+  db.query(insert, [id, browser, os, device.id, referer, geo])
 
   res.redirect(301, targetUrl)
 }

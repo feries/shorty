@@ -1,7 +1,3 @@
-require('dotenv').config({
-  path: require('path').resolve(__dirname, '..', '.env')
-})
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const compression = require('compression')
@@ -12,7 +8,7 @@ const {
   NODE_ENV,
   SERVER_HOST,
   SERVER_PORT,
-  SENTRY_URL_SHORTENER_SERVER_DNS
+  SENTRY_URL_SHORTENER_SERVER_DNS,
 } = process.env
 
 const isProd = NODE_ENV === 'production'
@@ -26,7 +22,7 @@ const { routerV1, bootstrap } = require('./routes/index')
 isProd &&
   Sentry.init({
     dsn: SENTRY_URL_SHORTENER_SERVER_DNS,
-    maxBreadcrumbs: 50
+    maxBreadcrumbs: 50,
   })
 
 // Middlewares

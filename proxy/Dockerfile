@@ -1,9 +1,45 @@
-FROM node:lts-alpine
+FROM node:10
 
-# Create api directory
-WORKDIR /app
-ADD . /app
+ARG NODE_ENV
+ARG PROXY_HOST
+ARG PROXY_PORT
+ARG DOMAIN
+ARG SENTRY_URL_SHORTENER_PROXY_DNS
+ARG DB_URL
+ARG DB_PORT
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB_NAME
+ARG DB_CONNECTION_LIMIT
 
-EXPOSE $PROXY_PORT
+ENV NODE_ENV=${NODE_ENV}
+ENV PROXY_HOST=${PROXY_HOST}
+ENV PROXY_PORT=${PROXY_PORT}
+ENV DOMAIN=${DOMAIN}
+ENV SENTRY_URL_SHORTENER_PROXY_DNS=${SENTRY_URL_SHORTENER_PROXY_DNS}
+ENV DB_URL=${DB_URL}
+ENV DB_PORT=${DB_PORT}
+ENV DB_USER=${DB_USER}
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_NAME=${DB_NAME}
+ENV DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
 
-CMD yarn && yarn dev
+# Create app directory
+WORKDIR /usr/src/app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# Install app dependencies
+COPY package*.json ./
+
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+EXPOSE ${PROXY_PORT}
+
+RUN echo "Exposing Proxy instance at port: ${PROXY_PORT}"
+
+CMD [ "npm", "start" ]

@@ -1,13 +1,35 @@
-FROM node:lts-alpine
+FROM node:10
 
-# Create api directory
-WORKDIR /app
-ADD . /app
+ARG NODE_ENV
+ARG CLIENT_PORT
+ARG DOMAIN
+ARG SENTRY_URL_SHORTENER_CLIENT_DNS
 
+ENV NODE_ENV=${NODE_ENV}
+ENV PORT=${CLIENT_PORT}
+ENV DOMAIN=${DOMAIN}
+ENV SENTRY_URL_SHORTENER_CLIENT_DNS=${SENTRY_URL_SHORTENER_CLIENT_DNS}
+
+# set working directory
+WORKDIR /usr/src/app
+
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
+
+# Copies package.json and package-lock.json to Docker environment
+COPY package*.json ./
+
+# Installs all node packages
+RUN npm install
+RUN npm rebuild node-sass
+
+# Copies everything over to Docker environment
+COPY . .
+
+# Uses port which is used by the actual application
 EXPOSE ${CLIENT_PORT}
 
-# Install globals
-RUN yarn global add create-react-app
-RUN yarn install --force
+RUN echo "Exposing Client instance at port: ${CLIENT_PORT}"
 
-CMD yarn && yarn start
+# Finally runs the application
+CMD [ "npm", "start" ]

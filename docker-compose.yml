@@ -1,84 +1,107 @@
-version: '3'
+version: '3.7'
 services:
   db:
     build: ./sql
     hostname: 'mysql'
     container_name: shorty-db
-    restart: always
+    restart: unless-stopped
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
-      - ./sql/data:/var/lib/mysql
+      - db-data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_NAME}
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
+    networks:
+      backend:
+        aliases:
+          - db
   api:
-    build: ./server
+    build:
+      context: ./server
+      args:
+        - NODE_ENV=${NODE_ENV}
+        - SERVER_HOST=${SERVER_HOST}
+        - SERVER_PORT=${SERVER_PORT}
+        - DOMAIN=${DOMAIN}
+        - SENTRY_URL_SHORTENER_SERVER_DNS=${SENTRY_URL_SHORTENER_SERVER_DNS}
+        - DB_URL=${DB_URL}
+        - DB_PORT=${DB_PORT}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_NAME=${DB_NAME}
+        - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+        - JWT_SECRET=${JWT_SECRET}
+        - JWT_EXPIRE_IN=${JWT_EXPIRE_IN}
+        - JWT_ISSUER=${JWT_ISSUER}
+        - RWT_SECRET=${RWT_SECRET}
+        - RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
     hostname: 'api'
     container_name: shorty-api
-    restart: always
+    restart: unless-stopped
     links:
       - db
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     volumes:
       - ./server:/opt/app:delegated
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - SERVER_HOST=${SERVER_HOST}
-      - SERVER_PORT=${SERVER_PORT}
-      - DOMAIN=${DOMAIN}
-      - SENTRY_URL_SHORTENER_SERVER_DNS=${SENTRY_URL_SHORTENER_SERVER_DNS}
-      - DB_URL=${DB_URL}
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
-      - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRE_IN=${JWT_EXPIRE_IN}
-      - JWT_ISSUER=${JWT_ISSUER}
-      - RWT_SECRET=${RWT_SECRET}
-      - RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
+    networks:
+      backend:
+        aliases:
+          - api
   proxy:
-    build: ./proxy
+    build:
+      context: ./proxy
+      args:
+        - NODE_ENV=${NODE_ENV}
+        - PROXY_HOST=${PROXY_HOST}
+        - PROXY_PORT=${PROXY_PORT}
+        - DOMAIN=${DOMAIN}
+        - SENTRY_URL_SHORTENER_PROXY_DNS=${SENTRY_URL_SHORTENER_PROXY_DNS}
+        - DB_URL=${DB_URL}
+        - DB_PORT=${DB_PORT}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_NAME=${DB_NAME}
+        - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
     hostname: 'proxy'
     container_name: shorty-proxy
-    restart: always
+    restart: unless-stopped
     depends_on:
       - db
     volumes:
       - ./proxy:/app:delegated
     ports:
       - ${PROXY_PORT}:${PROXY_PORT}
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - PROXY_HOST=${PROXY_HOST}
-      - PROXY_PORT=${PROXY_PORT}
-      - DOMAIN=${DOMAIN}
-      - SENTRY_URL_SHORTENER_PROXY_DNS=${SENTRY_URL_SHORTENER_PROXY_DNS}
-      - DB_URL=${DB_URL}
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+    networks:
+      backend:
+        aliases:
+          - proxy
   client:
-    build: ./client
+    build:
+      context: ./client
+      args:
+        - NODE_ENV=${NODE_ENV}
+        - CLIENT_PORT=${CLIENT_PORT}
+        - DOMAIN=${DOMAIN}
+        - SENTRY_URL_SHORTENER_CLIENT_DNS=${SENTRY_URL_SHORTENER_CLIENT_DNS}
     hostname: 'client'
     container_name: shorty-client
-    restart: always
+    restart: unless-stopped
     depends_on:
       - proxy
       - api
     ports:
       - ${CLIENT_PORT}:${CLIENT_PORT}
     volumes:
-      - ./client:/app:delegated
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - CLIENT_PORT=${CLIENT_PORT}
-      - DOMAIN=${DOMAIN}
-      - SENTRY_URL_SHORTENER_CLIENT_DNS=${SENTRY_URL_SHORTENER_CLIENT_DNS}
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+volumes:
+  db-data:
+    driver: local
+networks:
+  backend:
+    ipam:
+      driver: default

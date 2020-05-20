@@ -1,7 +1,3 @@
-require('dotenv').config({
-  path: require('path').resolve(__dirname, '..', '.env'),
-})
-
 const express = require('express')
 const bodyParser = require('body-parser')
 const compression = require('compression')
@@ -9,7 +5,8 @@ const helmet = require('helmet')
 const Sentry = require('@sentry/node')
 
 const hintTarget = require('./routes/hintTarget')
-const { HOST, PORT, STATIC_PATH, NODE_ENV } = process.env.PROXY_HOST
+const { PROXY_HOST, PROXY_PORT, NODE_ENV } = process.env
+
 const isProd = NODE_ENV !== 'development'
 const app = express()
 
@@ -24,7 +21,6 @@ isProd &&
 isProd && app.use(Sentry.Handlers.requestHandler())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(express.static(__dirname + STATIC_PATH))
 app.use(compression())
 
 // Security settings
@@ -51,6 +47,6 @@ app.use(function onError(_, _, res) {
 })
 
 // Start server
-app.listen(PORT, HOST, () => {
-  console.log(`Server is running on: http://${HOST}:${PORT}/`)
+app.listen(PROXY_PORT, PROXY_HOST, () => {
+  console.log(`Server is running on: http://${PROXY_HOST}:${PROXY_PORT}/`)
 })
