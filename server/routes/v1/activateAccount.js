@@ -1,4 +1,4 @@
-const SecurePassword = require('secure-password')()
+const bcrypt = require('bcryptjs')
 const crypto = require('crypto')
 const { sqlLoader, generateTokens } = require('../../lib')
 const { pool: db } = require('../../config')
@@ -11,22 +11,24 @@ module.exports = async (req, res) => {
     if (!reset) {
       if (!hash || !email || !newPassword || !confirmPassword)
         return res.status(400).send({
-          message: 'You must provide all required data for activate account.'
+          message: 'You must provide all required data for activate account.',
         })
     } else {
       if (!email || !newPassword || !oldPassword || !confirmPassword)
         return res.status(400).send({
-          message: 'You must provide all required data for activate account.'
+          message: 'You must provide all required data for activate account.',
         })
     }
 
     if (newPassword !== confirmPassword)
       return res.status(400).send({
-        message: 'Your password fields does not match.'
+        message: 'Your password fields does not match.',
       })
 
-    const sql = sqlLoader('getUserByActivationToken.sql')
-    const [user] = await db.query(sql, [hash, email])
+    const [user] = await db.query(sqlLoader('getUserByActivationToken.sql'), [
+      hash,
+      email,
+    ])
 
     if (!user && !user.id)
       return res
@@ -38,12 +40,11 @@ module.exports = async (req, res) => {
       .toString('base64')
       .replace(/\//g, '_')
       .replace(/\+/g, '-')
-    const hashedPassword = await SecurePassword.hash(Buffer.from(password))
+    const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 
-    const updateSql = sqlLoader('activateAccount.sql')
-    const query = await db.query(updateSql, [
-      hashedPassword.toString('base64'),
-      user.id
+    const query = await db.query(sqlLoader('activateAccount.sql'), [
+      hashedPassword,
+      user.id,
     ])
 
     if (query.affectedRows !== 1)
@@ -54,11 +55,8 @@ module.exports = async (req, res) => {
 
     const { token, refreshToken } = generateTokens(user)
 
-    const updateUserRefreshToken = sqlLoader('updateUserRefreshToken.sql')
-    await db.query(updateUserRefreshToken, [refreshToken, userId])
-
-    const updateUserLastLogin = sqlLoader('updateUserLastLogin.sql')
-    await db.query(updateUserLastLogin, [userId])
+    db.query(sqlLoader('updateUserRefreshToken.sql'), [refreshToken, userId])
+    db.query(sqlLoader('updateUserLastLogin.sql'), [userId])
 
     res.status(200).json({ token, refreshToken, user })
   } catch (exception) {

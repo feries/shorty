@@ -5,7 +5,7 @@ import {
   JWT_STORAGE_KEY,
   RWT_STORAGE_KEY,
   JWT_EXPIRE_KEY,
-  JWT_REFRESH
+  JWT_REFRESH,
 } from '../constants/common'
 import { REFRESH_TOKEN } from '../constants/endpoint'
 

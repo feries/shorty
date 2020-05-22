@@ -3,7 +3,7 @@ const { sqlLoader } = require('../lib')
 const { pool: db } = require('../config')
 
 module.exports = async (req, res, next) => {
-  const authHeader = req.get('authorization')
+  const authHeader = req.get('Authorization')
   const authKey = req.get(authHeaderKey)
   const { rwt } = req.body
 
@@ -13,9 +13,11 @@ module.exports = async (req, res, next) => {
 
   if (rwt) return next('route')
 
-  const sql = sqlLoader('checkAuthorizationKey.sql')
-  const query = await db.query(sql, [authHeader])
+  const query = await db.query(sqlLoader('checkAuthorizationKey.sql'), [
+    authHeader,
+  ])
 
   if (query.length === 0) return res.sendStatus(403)
+
   next('route')
 }

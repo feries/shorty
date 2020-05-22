@@ -48,6 +48,7 @@ services:
       - WAIT_HOST_CONNECT_TIMEOUT=30
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
+      - 9229:9229
     volumes:
       - ./server:/usr/src/server
       - ./sql:/usr/src/sql

@@ -115,10 +115,10 @@ const getToken = (authHeader) => {
   return _validateScheme(_validateFormat(authHeader))
 }
 
-const decodeJwt = (token) => {
+const decodeJwt = async (token) => {
   if (!token) throw new Error('Missing token.')
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET)
+    const verified = await jwt.verify(token, process.env.JWT_SECRET)
     return verified.sub
   } catch (e) {
     throw new Error('Invalid token provided')
