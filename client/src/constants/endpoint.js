@@ -1,5 +1,14 @@
 // Version
-export const API_V1_ENDPOINT = '/api/v1'
+const {
+  REACT_APP_HTTP_SCHEME,
+  REACT_APP_SERVER_HOST,
+  REACT_APP_SERVER_PORT,
+} = process.env
+
+export const HOST = `${REACT_APP_HTTP_SCHEME}://${REACT_APP_SERVER_HOST}:${REACT_APP_SERVER_PORT}`
+export const API_V1_ENDPOINT = `${HOST}/api/v1`
+
+console.log('+*+++', API_V1_ENDPOINT)
 
 // Access
 export const URL_LOGIN = 'login'

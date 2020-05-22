@@ -9,7 +9,7 @@ import Auth from './Authentication'
 export const debounce = (func, wait, immediate) => {
   let timeout
 
-  return function() {
+  return function () {
     const context = this
     const args = arguments
     const later = () => {
@@ -101,9 +101,9 @@ export const api = ky.extend({
         }
 
         options.headers.append('Authorization', Auth.getAuthenticationHeader())
-      }
-    ]
-  }
+      },
+    ],
+  },
 })
 
 export const exceptionHandler = async (exception) => {

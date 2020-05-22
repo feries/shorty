@@ -35,10 +35,10 @@ ENV RWT_SECRET=${RWT_SECRET}
 ENV RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/server
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# add `/server/node_modules/.bin` to $PATH
+ENV PATH /server/node_modules/.bin:$PATH
 
 # Install app dependencies
 COPY package*.json ./
@@ -52,4 +52,8 @@ EXPOSE ${SERVER_PORT}
 
 RUN echo "Exposing Server instance at port: ${SERVER_PORT}"
 
-CMD [ "npm", "start" ]
+## THE LIFE SAVER
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
+
+CMD /wait && npm start

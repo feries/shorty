@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 const helmet = require('helmet')
@@ -30,6 +31,7 @@ isProd && app.use(Sentry.Handlers.requestHandler())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(compression())
+app.use(cors())
 
 // Security settings
 app.use(helmet())

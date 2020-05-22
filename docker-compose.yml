@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  db:
+  mysql:
     build: ./sql
     hostname: 'mysql'
     container_name: shorty-db
@@ -14,10 +14,6 @@ services:
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-    networks:
-      backend:
-        aliases:
-          - db
   api:
     build:
       context: ./server
@@ -42,15 +38,20 @@ services:
     container_name: shorty-api
     restart: unless-stopped
     links:
-      - db
+      - mysql
+    depends_on:
+      - mysql
+    environment:
+      - WAIT_HOSTS=mysql:${DB_PORT}
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     volumes:
-      - ./server:/opt/app:delegated
-    networks:
-      backend:
-        aliases:
-          - api
+      - ./server:/usr/src/server
+      - ./sql:/usr/src/sql
+      - /usr/src/server/node_modules
   proxy:
     build:
       context: ./proxy
@@ -69,27 +70,39 @@ services:
     hostname: 'proxy'
     container_name: shorty-proxy
     restart: unless-stopped
+    links:
+      - mysql
     depends_on:
-      - db
+      - mysql
+    environment:
+      - WAIT_HOSTS=mysql:${DB_PORT}
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
     volumes:
-      - ./proxy:/app:delegated
+      - ./proxy:/usr/src/proxy
+      - ./sql:/usr/src/sql
+      - /usr/src/proxy/node_modules
     ports:
       - ${PROXY_PORT}:${PROXY_PORT}
-    networks:
-      backend:
-        aliases:
-          - proxy
   client:
+    tty: true
     build:
       context: ./client
       args:
         - NODE_ENV=${NODE_ENV}
         - CLIENT_PORT=${CLIENT_PORT}
+        - SERVER_HOST=${SERVER_HOST}
+        - SERVER_PORT=${SERVER_PORT}
+        - HTTP_SCHEME=${HTTP_SCHEME}
         - DOMAIN=${DOMAIN}
         - SENTRY_URL_SHORTENER_CLIENT_DNS=${SENTRY_URL_SHORTENER_CLIENT_DNS}
     hostname: 'client'
     container_name: shorty-client
     restart: unless-stopped
+    links:
+      - proxy
+      - api
     depends_on:
       - proxy
       - api
@@ -98,10 +111,17 @@ services:
     volumes:
       - ./client:/usr/src/app
       - /usr/src/app/node_modules
+  mailcatcher:
+    image: yappabe/mailcatcher
+    hostname: 'mailcatcher'
+    container_name: shorty-mailcatcher
+    restart: unless-stopped
+    ports:
+      - '1025:1025'
+      - '1080:1080'
 volumes:
   db-data:
     driver: local
 networks:
-  backend:
-    ipam:
-      driver: default
+  ipam:
+    driver: default

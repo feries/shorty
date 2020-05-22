@@ -25,10 +25,10 @@ ENV DB_NAME=${DB_NAME}
 ENV DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/proxy
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# add `/proxy/node_modules/.bin` to $PATH
+ENV PATH /proxy/node_modules/.bin:$PATH
 
 # Install app dependencies
 COPY package*.json ./
@@ -42,4 +42,8 @@ EXPOSE ${PROXY_PORT}
 
 RUN echo "Exposing Proxy instance at port: ${PROXY_PORT}"
 
-CMD [ "npm", "start" ]
+## THE LIFE SAVER
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
+
+CMD /wait && npm start
