@@ -1,4 +1,3 @@
-const SecurePassword = require('secure-password')()
 const crypto = require('crypto')
 const uuidv4 = require('uuid')
 const { sqlLoader, isEmail, Nodemailer } = require('../../lib')
@@ -10,46 +9,44 @@ module.exports = async (req, res) => {
     const { user, body } = req
     const { name, surname, email } = body
 
-    if (!name || !surname || (!email || !isEmail(email)))
+    if (!name || !surname || !email || !isEmail(email))
       return res
         .status(422)
         .send({ message: 'Missing parameter for create new user.' })
 
-    const selectUserByEmail = sqlLoader('selectUserByEmail.sql')
-    const [exist] = await db.query(selectUserByEmail, [email])
+    const [exist] = await db.query(sqlLoader('selectUserByEmail.sql'), [email])
 
     if (exist)
       return res.status(400).send({ message: 'User already registered.' })
 
     const activationToken = await crypto.randomBytes(50).toString('base64')
     const options = [uuidv4(), email, activationToken]
-
-    const insertNewUser = sqlLoader('insertNewUser.sql')
-    const row = await db.query(insertNewUser, options)
+    const row = await db.query(sqlLoader('insertNewUser.sql'), options)
 
     if (row.affectedRows !== 1)
       return res.status(500).send({ message: 'Something went wrong' })
 
-    const insertUserContacts = sqlLoader('insertUserContacts.sql')
-    const contacts = await db.query(insertUserContacts, [
+    const contacts = await db.query(sqlLoader('insertUserContacts.sql'), [
       email,
       name,
       email,
-      surname
+      surname,
     ])
 
     if (contacts.affectedRows !== 2)
       return res.status(500).send({ message: 'Something went wrong' })
 
-    const authorSql = sqlLoader('getUserDataByExternalId.sql')
-    const [first, last] = await db.query(authorSql, [user.sub.external_id])
+    const [first, last] = await db.query(
+      sqlLoader('getUserDataByExternalId.sql'),
+      [user.sub.external_id]
+    )
 
     const mailData = {
       name: `${name} ${surname}`,
       url: process.env.DOMAIN,
       user: `${first.value} ${last.value}`,
       email,
-      activationToken
+      activationToken,
     }
 
     const mailer = new Nodemailer()

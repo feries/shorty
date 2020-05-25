@@ -22,7 +22,7 @@ class ShortyList extends Component {
         shortedUrl: PropTypes.string.isRequired,
         targetUrl: PropTypes.string.isRequired,
         createdAt: PropTypes.string.isRequired,
-        urlClick: PropTypes.number.isRequired
+        urlClick: PropTypes.number.isRequired,
       })
     ).isRequired,
     hasMore: PropTypes.bool.isRequired,
@@ -32,14 +32,14 @@ class ShortyList extends Component {
     startFilter: PropTypes.func,
     handleButtonClick: PropTypes.func.isRequired,
     shortLinkClick: PropTypes.func.isRequired,
-    shortLinkCopy: PropTypes.func.isRequired
+    shortLinkCopy: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     className: '',
     items: [],
     loading: false,
-    startFilter: nope
+    startFilter: nope,
   }
 
   componentDidMount() {
@@ -60,7 +60,7 @@ class ShortyList extends Component {
 
   openShortLink = (shortedUrl, externalId) => {
     this.props.shortLinkClick(externalId)
-    window.open(`${process.env.DOMAIN}/${shortedUrl}`, '_blank')
+    window.open(`${process.env.REACT_APP_DOMAIN}/${shortedUrl}`, '_blank')
   }
 
   loadMore = () => {

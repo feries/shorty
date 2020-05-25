@@ -1,20 +1,61 @@
-FROM node:lts
-MAINTAINER  (Claudio Quaglia) <claudio.quaglia@feries.it>
+FROM node:10
 
-# install our dependencies
-RUN  apt-get update && apt-get install python make g++ gcc libtool
+ARG NODE_ENV
+ARG SERVER_HOST
+ARG SERVER_PORT
+ARG DOMAIN
+ARG SENTRY_URL_SHORTENER_SERVER_DNS
+ARG DB_URL
+ARG DB_PORT
+ARG DB_USER
+ARG DB_PASSWORD
+ARG DB_NAME
+ARG DB_CONNECTION_LIMIT
+ARG JWT_SECRET
+ARG JWT_EXPIRE_IN
+ARG JWT_ISSUER
+ARG RWT_SECRET
+ARG RWT_EXPIRE_IN
+ARG SERVER_PUBLIC_PATH
 
-# use changes to package.json to force Docker not to use the cache
-# when we change our application's nodejs dependencies:
-ADD package.json /tmp/package.json
-RUN cd /tmp && yarn
-RUN mkdir -p /opt/app && cp -a /tmp/node_modules /opt/app/
+ENV NODE_ENV=${NODE_ENV}
+ENV SERVER_HOST=${SERVER_HOST}
+ENV SERVER_PORT=${SERVER_PORT}
+ENV DOMAIN=${DOMAIN}
+ENV SENTRY_URL_SHORTENER_SERVER_DNS=${SENTRY_URL_SHORTENER_SERVER_DNS}
+ENV DB_URL=${DB_URL}
+ENV DB_PORT=${DB_PORT}
+ENV DB_USER=${DB_USER}
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_NAME=${DB_NAME}
+ENV DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+ENV JWT_SECRET=${JWT_SECRET}
+ENV JWT_EXPIRE_IN=${JWT_EXPIRE_IN}
+ENV JWT_ISSUER=${JWT_ISSUER}
+ENV RWT_SECRET=${RWT_SECRET}
+ENV RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
+ENV SERVER_PUBLIC_PATH=${SERVER_PUBLIC_PATH}
 
-# From here we load our application's code in, therefore the previous docker
-# "layer" thats been cached will be used if possible
-WORKDIR /opt/app
-ADD . /opt/app
+# Create app directory
+WORKDIR /usr/src/server
 
-EXPOSE $SERVER_PORT
+# add `/server/node_modules/.bin` to $PATH
+ENV PATH /server/node_modules/.bin:$PATH
 
-CMD yarn dev
+# Install app dependencies
+COPY package*.json ./
+
+RUN npm install
+
+# Bundle app source
+COPY . .
+
+EXPOSE ${SERVER_PORT}
+
+RUN echo "Exposing Server instance at port: ${SERVER_PORT}"
+
+## THE LIFE SAVER
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.7.3/wait /wait
+RUN chmod +x /wait
+
+CMD /wait && npm start

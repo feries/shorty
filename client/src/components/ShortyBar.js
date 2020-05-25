@@ -24,7 +24,9 @@ class ShortyBar extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
+    
     const { url, custom } = this.state
+
     if (!url) return
 
     if (custom && custom.length > SHORT_URL_LENGTH)

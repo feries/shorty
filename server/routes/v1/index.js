@@ -8,7 +8,6 @@ const { authHeader } = require('../../middleware')
 
 // Route controllers
 const login = require('./login')
-
 const getAllUrls = require('./getAllUrls')
 const getAllUrlsFiltered = require('./getAllUrlsFiltered')
 const insertNewUrl = require('./insertNewUrl')

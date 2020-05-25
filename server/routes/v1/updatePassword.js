@@ -1,8 +1,7 @@
-const securePassword = require('secure-password')
+const bcrypt = require('bcryptjs')
+
 const { sqlLoader, getToken, decodeJwt } = require('../../lib')
 const { pool: db } = require('../../config')
-
-const SecurePassword = securePassword()
 
 module.exports = async (req, res) => {
   try {
@@ -25,32 +24,29 @@ module.exports = async (req, res) => {
         .status(400)
         .send({ message: "New password and confirm password doesn't  match" })
 
-    const oldPwdSql = sqlLoader('getPasswordHashFromUserExternalId.sql')
-    const [user] = await db.query(oldPwdSql, [userExternalId])
+    const [user] = await db.query(
+      sqlLoader('getPasswordHashFromUserExternalId.sql'),
+      [userExternalId]
+    )
 
     if (!user || !user.password)
       return res.status(400).send({
-        message: "Old password isn't correct. Please verify it and try again."
+        message: "Old password isn't correct. Please verify it and try again.",
       })
 
-    const match = await SecurePassword.verify(
-      Buffer.from(oldPassword),
-      Buffer.from(user.password, 'base64')
-    )
+    const match = bcrypt.compareSync(oldPassword, user.password)
 
-    if (match === securePassword.INVALID_UNRECOGNIZED_HASH)
-      return res.status(500).send({ message: 'Something went wrong.' })
-    else if (match === securePassword.INVALID)
+    if (!match)
       return res.status(400).send({
         message:
-          "Unable to update your password. Provided old password isn't correct. Please try again."
+          "Unable to update your password. Provided old password isn't correct. Please try again.",
       })
 
-    const hashedPassword = await SecurePassword.hash(Buffer.from(newPassword))
-    const pwd = hashedPassword.toString('base64')
-
-    const sql = sqlLoader('updatePassword.sql')
-    const query = await db.query(sql, [pwd, userExternalId])
+    const hashedPassword = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10))
+    const query = await db.query(sqlLoader('updatePassword.sql'), [
+      hashedPassword,
+      userExternalId,
+    ])
 
     if (query.affectedRows !== 1)
       res.status(500).send({ message: 'Something went terribly wrong' })

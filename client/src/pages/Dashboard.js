@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import Modal from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 import Qrcode from 'qrcode.react'
 
+import { modalCustomStyle } from '../constants/style'
 import Logo from '../components/Logo'
 import ProfileBox from '../containers/ProfileBox'
 import ShortyBar from '../containers/ShortyBar'
@@ -18,7 +19,7 @@ class Dashboard extends Component {
     qrCodeValue: '',
     confirmModal: false,
     confirmValue: '',
-    confirmAction: ''
+    confirmAction: '',
   }
 
   handleButtonClick = (what, value, externalId = null) => {
@@ -30,7 +31,7 @@ class Dashboard extends Component {
     const newState = {
       confirmModal: isOpenAction,
       confirmValue: isOpenAction ? value : '',
-      confirmAction: isOpenAction ? externalId : ''
+      confirmAction: isOpenAction ? externalId : '',
     }
 
     this.setState(newState)
@@ -39,7 +40,7 @@ class Dashboard extends Component {
   handleQrCode = (isOpenAction = true, value = '') => {
     const newState = {
       qrCodeModal: isOpenAction,
-      qrCodeValue: isOpenAction ? value : ''
+      qrCodeValue: isOpenAction ? value : '',
     }
 
     this.setState(newState)
@@ -51,7 +52,7 @@ class Dashboard extends Component {
       qrCodeValue,
       confirmValue,
       confirmAction,
-      confirmModal
+      confirmModal,
     } = this.state
 
     return (
@@ -72,6 +73,7 @@ class Dashboard extends Component {
               open={qrCodeModal}
               onClose={() => this.handleQrCode(false)}
               center
+              classNames={modalCustomStyle}
             >
               <Qrcode value={qrCodeValue} className="m-top-x4" />
             </Modal>

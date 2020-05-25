@@ -1,7 +1,7 @@
 const dayjs = require('dayjs')
 const ms = require('ms')
 const jwt = require('jsonwebtoken')
-const uuidv4 = require('uuid/v4')
+const { v4: uuidv4 } = require('uuid')
 
 /**
  * @name isExpired
@@ -15,7 +15,7 @@ const uuidv4 = require('uuid/v4')
 const isExpired = (issuedAt, expireAt) =>
   issuedAt + ms(process.env.JWT_EXPIRE_IN) < expireAt
 
-const isValidUrl = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.​\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[​6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1​,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00​a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u​00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i
+const isValidUrl = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.​\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[​6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1​,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z00​a1-ffff0-9]+-?)*[a-z00a1-ffff0-9]+)(?:\.(?:[a-z00a1-ffff0-9]+-?)*[a-z​00a1-ffff0-9]+)*(?:\.(?:[a-z00a1-ffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i
 
 const getDomainFromUrl = /^(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/?\n]+)/
 
@@ -53,18 +53,17 @@ const generateTokens = (user) => {
       jti,
       iat,
       sub: user,
-      nbf: 3000
     },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRE_IN,
-      issuer: process.env.JWT_ISSUER
+      issuer: process.env.JWT_ISSUER,
     }
   )
 
   const refreshToken = jwt.sign({ user }, process.env.RWT_SECRET, {
     expiresIn: process.env.RWT_EXPIRE_IN,
-    issuer: process.env.JWT_ISSUER
+    issuer: process.env.JWT_ISSUER,
   })
 
   return { token, refreshToken, expiresIn }
@@ -106,7 +105,7 @@ const _validateScheme = (schemeAndToken) => {
 /**
  * @name getToken
  * @description Simple wrapper function to process Authorization header from a given request,
- *              for simple check to match format and schema. `Micro` errors are thrown in each
+ *              for simple check to match format and schema. Error are thrown in each
  *              invalid case. If everithing goes right the encoded token are returned.
  * @param {String} authHeader - request authorization header
  */
@@ -115,13 +114,15 @@ const getToken = (authHeader) => {
   return _validateScheme(_validateFormat(authHeader))
 }
 
-const decodeJwt = (token) => {
+const decodeJwt = async (token) => {
   if (!token) throw new Error('Missing token.')
   try {
-    const verified = jwt.verify(token, process.env.JWT_SECRET)
+    const verified = await jwt.verify(token, process.env.JWT_SECRET, {
+      issuer: process.env.JWT_ISSUER,
+    })
     return verified.sub
   } catch (e) {
-    throw new Error('Invalid token provided')
+    throw new Error('Invalid token provided', e)
   }
 }
 
@@ -135,5 +136,5 @@ module.exports = {
   trailingSlash,
   generateTokens,
   getToken,
-  decodeJwt
+  decodeJwt,
 }

@@ -1,8 +1,5 @@
-require('dotenv').config({
-  path: require('path').resolve(__dirname, '..', '.env')
-})
-
 const express = require('express')
+const cors = require('cors')
 const bodyParser = require('body-parser')
 const compression = require('compression')
 const helmet = require('helmet')
@@ -12,7 +9,7 @@ const {
   NODE_ENV,
   SERVER_HOST,
   SERVER_PORT,
-  SENTRY_URL_SHORTENER_SERVER_DNS
+  SENTRY_URL_SHORTENER_SERVER_DNS,
 } = process.env
 
 const isProd = NODE_ENV === 'production'
@@ -26,7 +23,7 @@ const { routerV1, bootstrap } = require('./routes/index')
 isProd &&
   Sentry.init({
     dsn: SENTRY_URL_SHORTENER_SERVER_DNS,
-    maxBreadcrumbs: 50
+    maxBreadcrumbs: 50,
   })
 
 // Middlewares
@@ -34,6 +31,7 @@ isProd && app.use(Sentry.Handlers.requestHandler())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(compression())
+app.use(cors())
 
 // Security settings
 app.use(helmet())

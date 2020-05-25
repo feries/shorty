@@ -23,8 +23,8 @@
   ],
   "scripts": {
     "bootstrap": "yarn --cwd server bootstrap",
-    "dev:proxy": "yarn --cwd proxy dev",
-    "dev:server": "yarn --cwd server dev",
+    "dev:proxy": "yarn --cwd proxy start",
+    "dev:server": "yarn --cwd server start",
     "dev:frontend": "yarn --cwd client start",
     "dev": "yarn run dev:server && yarn run dev:proxy && yarn run dev:frontend",
     "prod:proxy": "yarn --cwd proxy prod",
@@ -33,7 +33,7 @@
     "prod": "yarn run prod:proxy && yarn run prod:server && yarn run prod:frontend"
   },
   "devDependencies": {
-    "prettier": "^1.16.4"
+    "prettier": "2.0.5"
   },
   "contributors": [
     "Claudio Quaglia <claudio.quaglia@feries.it>",

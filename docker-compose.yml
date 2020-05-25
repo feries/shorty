@@ -1,85 +1,170 @@
-version: "3"
+version: '3.7'
 services:
-  db:
+  nginx:
+    build:
+      context: ./nginx
+    container_name: shorty-nginx
+    ports:
+      - 80:80
+    depends_on:
+      - api
+      - proxy
+      - client
+      - mailcatcher
+    networks:
+      shorty_net:
+        ipv4_address: 172.28.1.1
+  mysql:
     build: ./sql
     hostname: 'mysql'
     container_name: shorty-db
-    restart: always
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
     ports:
       - ${DB_PORT}:${DB_PORT}
     volumes:
-      - ./sql:/var/lib/mysql:delegated
+      - db-data:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_NAME}
       - MYSQL_DATABASE=${DB_NAME}
       - MYSQL_USER=${DB_USER}
       - MYSQL_PASSWORD=${DB_PASSWORD}
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      shorty_net:
+        ipv4_address: 172.28.1.2
   api:
-    build: ./server
+    build:
+      context: ./server
+      args:
+        - NODE_ENV=${NODE_ENV}
+        - SERVER_HOST=${SERVER_HOST}
+        - SERVER_PORT=${SERVER_PORT}
+        - DOMAIN=${DOMAIN}
+        - SENTRY_URL_SHORTENER_SERVER_DNS=${SENTRY_URL_SHORTENER_SERVER_DNS}
+        - DB_URL=${DB_URL}
+        - DB_PORT=${DB_PORT}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_NAME=${DB_NAME}
+        - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+        - JWT_SECRET=${JWT_SECRET}
+        - JWT_EXPIRE_IN=${JWT_EXPIRE_IN}
+        - JWT_ISSUER=${JWT_ISSUER}
+        - RWT_SECRET=${RWT_SECRET}
+        - RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
+        - SERVER_PUBLIC_PATH=${SERVER_PUBLIC_PATH}
     hostname: 'api'
     container_name: shorty-api
-    restart: always
+    restart: unless-stopped
     links:
-      - db
+      - mysql
+    depends_on:
+      - mysql
+    environment:
+      - WAIT_HOSTS=mysql:${DB_PORT}
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
+      - 9229:9229
     volumes:
-      - ./server:/opt/app:delegated
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - SERVER_HOST=${SERVER_HOST}
-      - SERVER_PORT=${SERVER_PORT}
-      - DOMAIN=${DOMAIN}
-      - SENTRY_URL_SHORTENER_SERVER_DNS=${SENTRY_URL_SHORTENER_SERVER_DNS}
-      - DB_URL=${DB_URL}
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
-      - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRE_IN=${JWT_EXPIRE_IN}
-      - JWT_ISSUER=${JWT_ISSUER}
-      - RWT_SECRET=${RWT_SECRET}
-      - RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
+      - ./server:/usr/src/server
+      - ./sql:/usr/src/sql
+      - /usr/src/server/node_modules
+    extra_hosts:
+      - 'api.shorty.local:172.28.1.3'
+    networks:
+      shorty_net:
+        ipv4_address: 172.28.1.3
+        aliases:
+          - mysql
   proxy:
-    build: ./proxy
+    build:
+      context: ./proxy
+      args:
+        - NODE_ENV=${NODE_ENV}
+        - PROXY_HOST=${PROXY_HOST}
+        - PROXY_PORT=${PROXY_PORT}
+        - DOMAIN=${DOMAIN}
+        - SENTRY_URL_SHORTENER_PROXY_DNS=${SENTRY_URL_SHORTENER_PROXY_DNS}
+        - DB_URL=${DB_URL}
+        - DB_PORT=${DB_PORT}
+        - DB_USER=${DB_USER}
+        - DB_PASSWORD=${DB_PASSWORD}
+        - DB_NAME=${DB_NAME}
+        - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
     hostname: 'proxy'
     container_name: shorty-proxy
-    restart: always
+    restart: unless-stopped
+    links:
+      - mysql
     depends_on:
-      - db
+      - mysql
+    environment:
+      - WAIT_HOSTS=mysql:${DB_PORT}
+      - WAIT_HOSTS_TIMEOUT=300
+      - WAIT_SLEEP_INTERVAL=30
+      - WAIT_HOST_CONNECT_TIMEOUT=30
     volumes:
-      - ./proxy:/app:delegated
+      - ./proxy:/usr/src/proxy
+      - ./sql:/usr/src/sql
+      - /usr/src/proxy/node_modules
     ports:
       - ${PROXY_PORT}:${PROXY_PORT}
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - PROXY_HOST=${PROXY_HOST}
-      - PROXY_PORT=${PROXY_PORT}
-      - DOMAIN=${DOMAIN}
-      - SENTRY_URL_SHORTENER_PROXY_DNS=${SENTRY_URL_SHORTENER_PROXY_DNS}
-      - DB_URL=${DB_URL}
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - DB_CONNECTION_LIMIT=${DB_CONNECTION_LIMIT}
+      - 9228:9229
+    extra_hosts:
+      - 'proxy.shorty.local:172.28.1.4'
+    networks:
+      shorty_net:
+        ipv4_address: 172.28.1.4
   client:
-    build: ./client
+    tty: true
+    build:
+      context: ./client
+      args:
+        - NODE_ENV=${NODE_ENV}
+        - CLIENT_PORT=${CLIENT_PORT}
+        - SERVER_HOST=${SERVER_HOST}
+        - SERVER_PORT=${SERVER_PORT}
+        - HTTP_SCHEME=${HTTP_SCHEME}
+        - DOMAIN=${DOMAIN}
+        - SENTRY_URL_SHORTENER_CLIENT_DNS=${SENTRY_URL_SHORTENER_CLIENT_DNS}
     hostname: 'client'
     container_name: shorty-client
-    restart: always
+    restart: unless-stopped
+    links:
+      - proxy
+      - api
     depends_on:
       - proxy
       - api
     ports:
       - ${CLIENT_PORT}:${CLIENT_PORT}
+      - 35729:35729
     volumes:
-      - ./client:/app:delegated
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - CLIENT_PORT=${CLIENT_PORT}
-      - DOMAIN=${DOMAIN}
-      - SENTRY_URL_SHORTENER_CLIENT_DNS=${SENTRY_URL_SHORTENER_CLIENT_DNS}
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      shorty_net:
+        ipv4_address: 172.28.1.5
+  mailcatcher:
+    image: yappabe/mailcatcher
+    hostname: 'mailcatcher'
+    container_name: shorty-mailcatcher
+    restart: unless-stopped
+    ports:
+      - '1027:1025'
+      - '1080:1080'
+    networks:
+      shorty_net:
+        ipv4_address: 172.28.1.6
+volumes:
+  db-data:
+    driver: local
+networks:
+  shorty_net:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16

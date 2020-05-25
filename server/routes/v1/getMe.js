@@ -4,10 +4,11 @@ const { pool: db } = require('../../config')
 module.exports = async (req, res) => {
   try {
     const token = getToken(req.get('Authorization'))
-    const { external_id: userExternalId } = decodeJwt(token)
+    const { external_id: userExternalId } = await decodeJwt(token)
 
-    const sql = sqlLoader('getMeByExternalId.sql')
-    const [user] = await db.query(sql, [userExternalId])
+    const [user] = await db.query(sqlLoader('getMeByExternalId.sql'), [
+      userExternalId,
+    ])
 
     res.send({ user })
   } catch (e) {

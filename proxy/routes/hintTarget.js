@@ -1,5 +1,5 @@
 const userAgent = require('express-useragent')
-const uuidv4 = require('uuid/v4')
+const { v4 } = require('uuid')
 
 const { sqlLoader } = require('../lib')
 const { pool: db } = require('../config')
@@ -18,7 +18,9 @@ module.exports = async (req, res) => {
 
   if (rows.length !== 1)
     return res.redirect(
-      isProd ? `${process.env.DOMAIN}/404` : `http://localhost:${process.env.PORT}/404`
+      isProd
+        ? `${process.env.DOMAIN}/404`
+        : `http://localhost:${process.env.PORT}/404`
     )
 
   const { id, targetUrl } = rows[0]
@@ -36,8 +38,8 @@ module.exports = async (req, res) => {
   const osQuery = sqlLoader('insertOsIfNotExist.sql')
   const deviceQuery = sqlLoader('getDeviceTypeId.sql')
 
-  await db.query(browserQuery, [uuidv4(), browser, browser])
-  await db.query(osQuery, [uuidv4(), os, os])
+  db.query(browserQuery, [v4(), browser, browser])
+  db.query(osQuery, [v4(), os, os])
 
   const [device] = await db.query(deviceQuery, deviceType)
 
@@ -46,7 +48,7 @@ module.exports = async (req, res) => {
 
   const insert = sqlLoader('insertUrlHint.sql')
 
-  await db.query(insert, [id, browser, os, device.id, referer, geo])
+  db.query(insert, [id, browser, os, device.id, referer, geo])
 
   res.redirect(301, targetUrl)
 }
