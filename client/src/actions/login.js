@@ -10,7 +10,7 @@ export const loginStart = (email, password) => async (dispatch) => {
     dispatch({ type: LOGIN_START })
     const json = { email, password }
     const { token, refreshToken, expiresIn } = await api
-      .post(URL_LOGIN, { json, secure: false })
+      .post(URL_LOGIN, { json })
       .json()
     Auth.authenticate(token, refreshToken, expiresIn)
     dispatch({ type: LOGIN_SUCCESS })

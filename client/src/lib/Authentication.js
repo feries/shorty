@@ -66,7 +66,7 @@ export default class Auth {
       Auth.pendingRefresh(true)
       const json = { rwt: Auth.getRwt() }
       const { token, refreshToken, expiresIn } = await api
-        .post(REFRESH_TOKEN, { json, secure: false })
+        .post(REFRESH_TOKEN, { json })
         .json()
 
       Auth.authenticate(token, refreshToken, expiresIn)
