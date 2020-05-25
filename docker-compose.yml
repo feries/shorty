@@ -34,6 +34,7 @@ services:
         - JWT_ISSUER=${JWT_ISSUER}
         - RWT_SECRET=${RWT_SECRET}
         - RWT_EXPIRE_IN=${RWT_EXPIRE_IN}
+        - SERVER_PUBLIC_PATH=${SERVER_PUBLIC_PATH}
     hostname: 'api'
     container_name: shorty-api
     restart: unless-stopped
@@ -118,11 +119,8 @@ services:
     container_name: shorty-mailcatcher
     restart: unless-stopped
     ports:
-      - '1025:1025'
+      - '1027:1025'
       - '1080:1080'
 volumes:
   db-data:
     driver: local
-networks:
-  ipam:
-    driver: default

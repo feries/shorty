@@ -100,10 +100,7 @@ export const api = ky.extend({
           await Auth.refreshToken()
         }
 
-        options.headers.append(
-          'Authorization',
-          Auth.getAuthenticationHeader()
-        )
+        options.headers.set('Authorization', Auth.getAuthenticationHeader())
       },
     ],
   },

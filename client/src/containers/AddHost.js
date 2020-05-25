@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import Modal from 'react-responsive-modal'
+import { Modal } from 'react-responsive-modal'
 
 import {
   startAddHost,
   addHostError,
-  setGlobalToast
+  setGlobalToast,
 } from '../actions/dashboard'
 import { isUrl } from '../lib/validators'
 
 class AddHost extends Component {
   static propTypes = {
     open: PropTypes.bool,
-    host: PropTypes.string
+    host: PropTypes.string,
   }
 
   constructor(props) {
@@ -56,7 +56,7 @@ class AddHost extends Component {
                   return onError({
                     type: 'error',
                     message:
-                      'You must provide a valid URL in the format http(s)://<short-domain>'
+                      'You must provide a valid URL in the format http(s)://<short-domain>',
                   })
 
                 onSubmit(inputVal, host).then(() => {
@@ -75,7 +75,7 @@ class AddHost extends Component {
 
 const mapStateToProps = (state) => ({
   open: !state.dashboard.host.isValid,
-  host: state.dashboard.host.targetUrl
+  host: state.dashboard.host.targetUrl,
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -84,10 +84,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(addHostError())
     dispatch(setGlobalToast(error))
   },
-  onBeforeClose: () => dispatch(addHostError())
+  onBeforeClose: () => dispatch(addHostError()),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddHost)
+export default connect(mapStateToProps, mapDispatchToProps)(AddHost)
