@@ -3,12 +3,15 @@
 Short is beautiful! Save the world by making it shorter!
 
 # General
+
 ⚠️ This project is a work in progress
 
 ### Description
+
 TODO
 
 ### Project Structure
+
 - CLI (oclif based app)
 - Client (create-react-app based app)
 - Server (express server for app api)
@@ -16,17 +19,30 @@ TODO
 - Sql (sql scripts used by server and proxy)
 
 # Install
-You can skip this block if you are going to use it in dockerized environment. Everything is setted up in `docker-compose.yml`, and all configurable parameters are defined into `.env` file.
+
+You can skip this block if you are going to use it in dockerized environment. Everything is configured into `docker-compose.yml`, and all configurable parameters are defined into `.env` file.
+
+Add this configuration to your `hosts` file to use the builtin nginx reverse proxy
+
+```
+172.28.1.1 app.shorty.local
+172.28.1.1 api.shorty.local
+172.28.1.1 proxy.shorty.local
+172.28.1.1 mail.shorty.local
+```
 
 ### Pre-requisite for non-docker environment
+
 - MySQL >= 5.5.40
 - Node.js >= 10.15.0
-- Yarn >= 1.10.1 *(optional)*
+- Yarn >= 1.10.1 _(optional)_
 
 ### Mail Service
+
 Configure the mail service, if you are using a Gmail account, you can follow up [this](https://nodemailer.com/usage/using-gmail/) or [this](https://security.google.com/settings/security/apppasswords)
 
 ### Setup
+
 1. Create a database and create tables with `mysql -u username -p password database_name < ./sql/bootstrap/init.sql`
 2. Copy the `.env` file with `cp env.dist .env` and edit with your own data.
 3. Then you can start the app with `yarn dev` for development environment or `yarn prod` for production.
@@ -34,13 +50,14 @@ Configure the mail service, if you are using a Gmail account, you can follow up 
 5. That's it. 🚀
 
 # To Do
-- [X] 🐳 Dockerize **[WIP]**
+
+- [x] 🐳 Dockerize
 - [ ] 🚦️ Test with [Jest](https://github.com/facebook/jest).
 - [ ] 🚨 Enhance user handling with roles.
 - [ ] 🌍 i18n
 - [ ] 🚀 CI/CD Set up
 - [ ] 🤖 Add Google Tag Manager for GA (Google Analytics)
-- [ ] 🤯 Migrate to Typescript
+- [ ] 🤯 Migrate to Typescript - Styled Components
 
 # Credit
 
@@ -48,11 +65,12 @@ Configure the mail service, if you are using a Gmail account, you can follow up 
 
 [Gabriele Pellegrini](https://github.com/gabrielepellegrini) (Designer/Developer Frontend)
 
-
 # Thanks
+
 [@Feries](https://www.feries.it)
 
 # License
+
 The MIT License (MIT)
 
 Copyright (c) 2020 Feries S.r.l.
