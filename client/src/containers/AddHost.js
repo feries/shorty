@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Modal } from 'react-responsive-modal'
+import { modalCustomStyle } from '../constants/style'
 
 import {
   startAddHost,
@@ -32,10 +33,15 @@ class AddHost extends Component {
     const { open, host, onSubmit, onError, onClose } = this.props
 
     return (
-      <Modal open={open} onClose={this.handleOnClose} center>
+      <Modal
+        open={open}
+        onClose={this.handleOnClose}
+        center
+        classNames={modalCustomStyle('big')}
+      >
         <div>
           <div className="m-top-x5 medium t-center alert">
-            You're trying to add an URL we can't associate with a short version.{' '}
+            You're trying to add an URL we can't associate with a short version.
             <br />
             Enter the short version of the domain:{' '}
           </div>

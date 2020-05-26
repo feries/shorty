@@ -1,9 +1,5 @@
 // Version
-const {
-  REACT_APP_HTTP_SCHEME,
-  REACT_APP_SERVER_HOST,
-  REACT_APP_SERVER_PORT,
-} = process.env
+const { REACT_APP_HTTP_SCHEME, REACT_APP_SERVER_HOST } = process.env
 
 export const HOST = `${REACT_APP_HTTP_SCHEME}://${REACT_APP_SERVER_HOST}`
 export const API_V1_ENDPOINT = `${HOST}/api/v1`

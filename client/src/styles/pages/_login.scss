@@ -1,10 +1,16 @@
 @import 'components/loginBox';
 
 .container {
-  margin: auto;
-  width: 90%;
+  padding: $pentaSpace;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 0;
+  width: auto;
+
   .content {
-    margin: auto;
     max-width: 1090px;
   }
 }
