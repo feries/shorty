@@ -8,15 +8,14 @@ module.exports = async (req, res) => {
     if (!rwt)
       return res.status(422).send({
         type: 'error',
-        message: 'You must provide a valid refresh token.'
+        message: 'You must provide a valid refresh token.',
       })
 
-    const sql = sqlLoader('getUserByRefreshToken.sql')
-    const [user] = await db.query(sql, [rwt])
+    const [user] = await db.query(sqlLoader('getUserByRefreshToken.sql'), [rwt])
 
     if (!user)
       return res
-        .status(401)
+        .status(403)
         .send({ type: 'error', message: 'Unauthorized user.' })
 
     const userId = user.id
@@ -33,8 +32,10 @@ module.exports = async (req, res) => {
         .status(500)
         .send({ type: 'error', message: 'Something went wrong.' })
 
-    const updateUserRefreshToken = sqlLoader('updateUserRefreshToken.sql')
-    await db.query(updateUserRefreshToken, [refreshToken, userId])
+    await db.query(sqlLoader('updateUserRefreshToken.sql'), [
+      refreshToken,
+      userId,
+    ])
 
     res.status(201).send({ token, refreshToken, expiresIn })
   } catch (error) {
