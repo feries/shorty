@@ -20,16 +20,16 @@ module.exports = async (req, res) => {
         ? Number(req.query.skip)
         : 0
 
-    const sql = sqlLoader('getUrlsPaginated.sql')
-    const urls = await db.query(sql, [limit, skip])
-
-    const countSql = sqlLoader('countUrls.sql')
-    const countQuery = await db.query(countSql)
+    const urls = await db.query(sqlLoader('getUrlsPaginated.sql'), [
+      limit,
+      skip,
+    ])
+    const countQuery = await db.query(sqlLoader('countUrls.sql'))
 
     let count = null
     if (countQuery.length === 1) count = countQuery[0].count
 
-    res.send({ urls, count })
+    res.status(200).send({ urls, count })
   } catch (e) {
     res.status(500).send({ message: 'Something went terribly wrong' })
   }

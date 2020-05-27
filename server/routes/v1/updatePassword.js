@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
   try {
     const { oldPassword, newPassword, confirmPassword } = req.body
     const token = getToken(req.get('Authorization'))
-    const { external_id: userExternalId } = decodeJwt(token)
+    const { external_id: userExternalId } = await decodeJwt(token)
 
     if (!oldPassword || !newPassword || !confirmPassword)
       return res

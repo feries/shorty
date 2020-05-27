@@ -20,22 +20,26 @@ module.exports = async ({ user, body }, res) => {
     if (!isValidUrl.test(url))
       return res.status(400).send({ message: 'Invalid url provided' })
 
-    const hostSql = sqlLoader('checkHost.sql')
-    const domain = url.match(getDomainFromUrl)
+    const [domain] = url.match(getDomainFromUrl)
 
-    if (domain.length === 0)
-      return res.status(200).send({ status: true, host: false })
+    if (!domain)
+      return res.status(200).send({ validDomain: false, knownHost: undefined })
 
-    const [host] = await db.query(hostSql, [domain[0]])
+    const [host] = await db.query(sqlLoader('checkHost.sql'), [domain])
 
-    if (!host) return res.status(200).send({ status: true, host: false })
+    if (!host)
+      return res.status(200).send({ validDomain: true, knownHost: false })
 
-    const hash = trailingSlash(removeInitialSlash(short)) || shortid.generate()
+    const hash = short
+      ? trailingSlash(removeInitialSlash(short))
+      : shortid.generate()
     const isCustomHash = Boolean(short)
 
     if (isCustomHash) {
-      const checkSql = sqlLoader('checkHostWithCustomHashExist.sql')
-      const [check] = await db.query(checkSql, [host.id, hash])
+      const [check] = await db.query(
+        sqlLoader('checkHostWithCustomHashExist.sql'),
+        [host.id, hash]
+      )
 
       if (check.exist === 1) {
         return res.status(400).send({
@@ -45,22 +49,17 @@ module.exports = async ({ user, body }, res) => {
     }
 
     const uuid = generateUuid4()
-    const options = [
-      uuid,
-      hash,
-      url,
-      user.sub.external_id,
-      host.id,
-      isCustomHash,
-    ]
-    const insertSql = sqlLoader('insertNewUrl.sql')
-    const { affectedRows } = await db.query(insertSql, options)
+    const options = [uuid, hash, url, user.external_id, host.id, isCustomHash]
+
+    const { affectedRows } = await db.query(
+      sqlLoader('insertNewUrl.sql'),
+      options
+    )
 
     if (affectedRows !== 1)
       return res.status(500).send({ message: 'Unable to add new url' })
 
-    const insertedUrl = sqlLoader('getUrlByExternalId.sql')
-    const rows = await db.query(insertedUrl, [uuid])
+    const rows = await db.query(sqlLoader('getUrlByExternalId.sql'), [uuid])
 
     if (rows.length !== 1)
       return res.status(500).send({ message: 'Something went wrong' })

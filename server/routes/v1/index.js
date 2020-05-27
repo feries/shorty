@@ -1,5 +1,4 @@
 const express = require('express')
-const jwt = require('express-jwt')
 const routerV1 = express.Router()
 
 // Middlewares
@@ -13,7 +12,7 @@ const getAllUrlsFiltered = require('./getAllUrlsFiltered')
 const insertNewUrl = require('./insertNewUrl')
 const insertNewHost = require('./insertNewHost')
 const deleteUrl = require('./deleteUrl')
-const apiKey = require('./generateApiKey')
+const insertApiKey = require('./insertApiKey')
 const getUrlDetail = require('./getUrlDetail')
 const refreshToken = require('./refreshToken')
 const updateContact = require('./updateContact')
@@ -41,19 +40,6 @@ routerV1.use(
     '/settings/error-page/:what'
   )
 )
-routerV1.use(
-  jwt({
-    secret: process.env.JWT_SECRET,
-    issuer: process.env.JWT_ISSUER
-  }).unless({
-    path: [
-      '/api/v1/login',
-      '/api/v1/refresh-token',
-      /^\/api\/v1\/(validate|activate)\/.*/,
-      /^\/api\/v1\/settings\/error-page\/(404|500)/
-    ]
-  })
-)
 
 routerV1.post('/login', login)
 routerV1.post('/refresh-token', refreshToken)
@@ -66,7 +52,7 @@ routerV1.delete('/urls/:id', deleteUrl)
 routerV1.get('/settings/user-info', getUserInfo)
 routerV1.post('/settings/user-info', updateContact)
 routerV1.get('/settings/api-key', getAllApiKeys)
-routerV1.post('/settings/api-key', apiKey)
+routerV1.post('/settings/api-key', insertApiKey)
 routerV1.delete('/settings/api-key/:id', deleteApiKey)
 routerV1.get('/settings/error-page/:page', fetchCustomPage)
 routerV1.post('/settings/error-page', saveCustomTemplate)

@@ -5,7 +5,7 @@ const { pool: db } = require('../../config')
 module.exports = async (req, res) => {
   try {
     const token = getToken(req.get('Authorization'))
-    const { external_id: userExternalId } = decodeJwt(token)
+    const { external_id: userExternalId } = await decodeJwt(token)
     const { issuer } = req.body
 
     if (!issuer)
@@ -13,8 +13,7 @@ module.exports = async (req, res) => {
         message: 'You must provide a valid Issuer for.',
       })
 
-    const existSql = sqlLoader('checkApiKeyExistence.sql')
-    const rows = await db.query(existSql, [issuer])
+    const rows = await db.query(sqlLoader('checkApiKeyExistence.sql'), [issuer])
 
     if (rows.length > 0)
       return res.status(417).send({
@@ -28,8 +27,7 @@ module.exports = async (req, res) => {
       .digest('hex')
       .toString()
 
-    const sql = sqlLoader('insertNewApiKey.sql')
-    const { affectedRows } = await db.query(sql, [
+    const { affectedRows } = await db.query(sqlLoader('insertNewApiKey.sql'), [
       generateUuid4(),
       issuer,
       apiKey,
@@ -39,8 +37,7 @@ module.exports = async (req, res) => {
     if (affectedRows !== 1)
       return res.status(500).send({ message: 'Something went terribly wrong' })
 
-    const keySql = sqlLoader('getApiKeyByKey.sql')
-    const key = await db.query(keySql, [apiKey])
+    const key = await db.query(sqlLoader('getApiKeyByKey.sql'), [apiKey])
 
     res.status(201).send({ key })
   } catch (error) {
