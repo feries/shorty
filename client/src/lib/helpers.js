@@ -95,12 +95,20 @@ export const api = ky.extend({
   hooks: {
     beforeRequest: [
       async (options) => {
-        const isSecure = options.secure || true
-        if (isSecure && !Auth.isRefreshPending() && Auth.isExpired()) {
-          await Auth.refreshToken()
-        }
-
         options.headers.set('Authorization', Auth.getAuthenticationHeader())
+      },
+    ],
+    afterResponse: [
+      async (request, _, response) => {
+        if (response.status === 401) {
+          // Get a fresh token
+          await Auth.refreshToken()
+
+          // Retry with the token
+          request.headers.set('Authorization', Auth.getAuthenticationHeader())
+
+          return ky(request)
+        }
       },
     ],
   },

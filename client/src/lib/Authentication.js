@@ -7,7 +7,7 @@ import {
   JWT_EXPIRE_KEY,
   JWT_REFRESH,
 } from '../constants/common'
-import { REFRESH_TOKEN } from '../constants/endpoint'
+import { REFRESH_TOKEN, URL_LOGIN } from '../constants/endpoint'
 
 export default class Auth {
   static authenticate(jwt, rwt, jwtExpire) {
@@ -49,10 +49,6 @@ export default class Auth {
     return Auth.getJwt() !== null
   }
 
-  static pendingRefresh(status) {
-    localStorage(JWT_REFRESH, status)
-  }
-
   static isRefreshPending() {
     return localStorage(JWT_REFRESH) !== null
   }
@@ -63,17 +59,19 @@ export default class Auth {
 
   static async refreshToken() {
     try {
-      Auth.pendingRefresh(true)
       const json = { rwt: Auth.getRwt() }
       const { token, refreshToken, expiresIn } = await api
-        .post(REFRESH_TOKEN, { json, secure: false })
+        .post(REFRESH_TOKEN, { json })
         .json()
 
+      if (!token || !refreshToken) {
+        Auth.deauthenticate()
+        window.location.assign(URL_LOGIN)
+        return
+      }
+
       Auth.authenticate(token, refreshToken, expiresIn)
-      Auth.pendingRefresh(null)
-      window.location.reload()
     } catch (exception) {
-      Auth.pendingRefresh(null)
       Auth.deauthenticate()
       window.location.assign('/500')
     }
