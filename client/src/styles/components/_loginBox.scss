@@ -6,8 +6,10 @@
     font-weight: $light;
   }
   .loginBox-form {
-    max-width: 70%;
+    display: flex;
+    flex-direction: column;
     margin: auto;
+
     input {
       margin-top: $tripleSpace;
       width: 100%;

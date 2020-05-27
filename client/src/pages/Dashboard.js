@@ -75,7 +75,14 @@ class Dashboard extends Component {
               center
               classNames={modalCustomStyle('small')}
             >
-              <Qrcode value={qrCodeValue} className="m-top-x4" />
+              <h1>QR Code</h1>
+              <p className="tiny">
+                Share this code with your user. Simply click on it to copy it
+                into your clipboard
+              </p>
+              <div className="t-center">
+                <Qrcode value={qrCodeValue} className="m-top-x4" />
+              </div>
             </Modal>
 
             <ShortyBar className="t-center m-bottom-x10" />

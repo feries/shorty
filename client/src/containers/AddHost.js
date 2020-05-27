@@ -39,6 +39,7 @@ class AddHost extends Component {
         center
         classNames={modalCustomStyle('big')}
       >
+        <h1>Add new host</h1>
         <div>
           <div className="m-top-x5 medium t-center alert">
             You're trying to add an URL we can't associate with a short version.
@@ -52,28 +53,28 @@ class AddHost extends Component {
               placeholder="Insert your custom SHORT HOST"
               className="w-100 m-top-x2 m-bottom-x2"
             />
-            <button
-              className="confirm button button-primary normal"
-              onClick={(e) => {
-                e.preventDefault()
-                const inputVal = this.input.current.value
-
-                if (!isUrl(inputVal))
-                  return onError({
-                    type: 'error',
-                    message:
-                      'You must provide a valid URL in the format http(s)://<short-domain>',
-                  })
-
-                onSubmit(inputVal, host).then(() => {
-                  onClose && onClose()
-                })
-              }}
-            >
-              ADD NEW DOMAIN URL
-            </button>
           </div>
         </div>
+        <button
+          className="confirm button button-primary normal"
+          onClick={(e) => {
+            e.preventDefault()
+            const inputVal = this.input.current.value
+
+            if (!isUrl(inputVal))
+              return onError({
+                type: 'error',
+                message:
+                  'You must provide a valid URL in the format http(s)://<short-domain>',
+              })
+
+            onSubmit(inputVal, host).then(() => {
+              onClose && onClose()
+            })
+          }}
+        >
+          ADD NEW DOMAIN URL
+        </button>
       </Modal>
     )
   }

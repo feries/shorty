@@ -27,12 +27,16 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       padding: $pentaSpace;
       border-radius: $radius;
       word-break: break-all;
       max-width: 90vw;
       max-height: 90vh;
+
+      &.vertical-centered {
+        justify-content: center;
+      }
 
       input {
         height: 32px;
@@ -87,14 +91,13 @@
         right: $doubleSpace;
         top: $doubleSpace;
         color: $dark;
+        padding: $space;
         &:hover {
           color: $lightDark;
         }
       }
       .modal--confirm {
-        position: absolute;
-        bottom: 0;
-        padding: $pentaSpace;
+        padding: $tripleSpace;
       }
       button {
         border-radius: $radiusSmall;
@@ -103,9 +106,7 @@
         font-size: $normal;
         font-weight: $bold;
         border: none;
-        padding: $space;
-        padding-left: $doubleSpace;
-        padding-right: $doubleSpace;
+        padding: $tripleSpace;
         text-transform: uppercase;
         cursor: pointer;
         &.confirm {
