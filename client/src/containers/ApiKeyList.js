@@ -80,14 +80,14 @@ class ApiKeyList extends Component {
               open={showAddKey}
               onClose={() => this.toggleState('showAddKey')}
               center
-              classNames={modalCustomStyle('big')}
+              classNames={modalCustomStyle('normal')}
             >
               <h1>Add new API-KEY</h1>
-              <p className="tiny">
-                The added key will be able to perform all available operations
-                exposed via API from Shorty.
-              </p>
-              <form className="t-center">
+              <div className="w-80">
+                <p className="tiny">
+                  The added key will be able to perform all available operations
+                  exposed via API from Shorty.
+                </p>
                 <input
                   type="text"
                   value={newApiKeyFor}
@@ -98,14 +98,14 @@ class ApiKeyList extends Component {
                   autoFocus={true}
                   className="w-100"
                 />
-                <button
-                  className="button button-primary normal uppercase m-top-x2"
-                  disabled={newApiKeyFor.length === 0}
-                  onClick={this.handleAddApiKey}
-                >
-                  Generate new API-KEY
-                </button>
-              </form>
+              </div>
+              <button
+                className="button button-primary normal uppercase m-top-x2"
+                disabled={newApiKeyFor.length === 0}
+                onClick={this.handleAddApiKey}
+              >
+                Generate new API-KEY
+              </button>
             </Modal>
             <ul className="header bold flex flex-space normal">
               <li className="item w-50">API Key</li>

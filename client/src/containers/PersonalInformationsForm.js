@@ -37,15 +37,31 @@ class PersonalInformationForm extends Component {
       't-center': (!user && !error) || (!user && error),
     })
 
+    const modalClasses = {
+      ...modalCustomStyle('big'),
+      modal: `${modalCustomStyle('big').modal} vertical-centered`,
+    }
+
     return (
       <div className="w-100">
-        <Modal open={showModal} onClose={this.handleModal} center>
-          <PasswordHandler
-            reset={true}
-            cta="Update my password"
-            showCtaIcon={false}
-            classNames={modalCustomStyle('big')}
-          />
+        <Modal
+          open={showModal}
+          onClose={this.handleModal}
+          center
+          classNames={modalClasses}
+        >
+          <h1>Update password</h1>
+          <div>
+            <p className="tiny">
+              Here you can edit your password. You will receive an email for
+              confirmation.
+            </p>
+            <PasswordHandler
+              reset={true}
+              cta="Update my password"
+              showCtaIcon={false}
+            />
+          </div>
         </Modal>
         <div className={wrapperClasses}>Personal Information</div>
         {!user && !error ? (

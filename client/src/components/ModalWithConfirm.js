@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Modal from 'react-responsive-modal'
 import { modalCustomStyle } from '../constants/style'
 
 class ModalWithConfirm extends Component {
   static propTypes = {
+    title: PropTypes.string,
     message: PropTypes.string,
     value: PropTypes.string,
     open: PropTypes.bool.isRequired,
@@ -13,18 +14,22 @@ class ModalWithConfirm extends Component {
     dismissible: PropTypes.bool,
     dismissLabel: PropTypes.string,
     confirmLabel: PropTypes.string,
+    size: PropTypes.string,
   }
 
   static defaultProps = {
     dismissible: true,
     dismissLabel: 'Dismiss',
     confirmLabel: 'Confirm',
+    size: 'normal',
   }
 
   render() {
     const {
+      size,
       open,
       value,
+      title,
       message,
       onConfirm,
       onDismiss,
@@ -36,10 +41,12 @@ class ModalWithConfirm extends Component {
         open={open}
         onClose={onDismiss}
         center
-        classNames={modalCustomStyle('normal')}
+        classNames={modalCustomStyle(size)}
       >
+        {title && <h1>{title}</h1>}
         <p className="tiny m-top-x5">
           {message && message}
+          <br />
           {value && <span className="bold">{value}</span>}
         </p>
         <div className="modal--confirm modal--confirm-wrapper">

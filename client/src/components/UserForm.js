@@ -9,11 +9,11 @@ class UserForm extends Component {
 
   static propTypes = {
     className: PropTypes.string,
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    className: ''
+    className: '',
   }
 
   componentDidMount() {
@@ -26,12 +26,11 @@ class UserForm extends Component {
     const nameInvalid = name === ''
     const surnameInvalid = surname === ''
     this.setState({
-      isSubmitDisabled: emailInvalid || nameInvalid || surnameInvalid
+      isSubmitDisabled: emailInvalid || nameInvalid || surnameInvalid,
     })
   }, 250)
 
-  handleSubmit = (e) => {
-    e.preventDefault()
+  handleSubmit = () => {
     const { name, surname, email } = this.state
     this.props.register(name, surname, email)
   }
@@ -45,7 +44,7 @@ class UserForm extends Component {
     const { isSubmitDisabled, name, surname, email } = this.state
 
     return (
-      <form className="loginBox-form">
+      <div className="loginBox-form">
         <input
           type="text"
           value={name}
@@ -71,12 +70,12 @@ class UserForm extends Component {
         <button
           disabled={isSubmitDisabled}
           onClick={this.handleSubmit}
-          className="button button-primary normal uppercase m-top-x3"
+          className="button button-primary normal uppercase m-top-x6"
         >
           <i className="far fa-user-plus " />
-          &nbsp; Register
+          &nbsp; Add new user
         </button>
-      </form>
+      </div>
     )
   }
 }

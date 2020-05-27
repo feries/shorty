@@ -54,20 +54,27 @@ class UserList extends Component {
       't-center': (!users && !error) || (!users && error),
     })
 
+    const modalClasses = {
+      ...modalCustomStyle('big'),
+      modal: `${modalCustomStyle('big').modal} vertical-centered`,
+    }
+
     return (
       <Fragment>
         <Modal
-          classNames={modalCustomStyle('big')}
+          classNames={modalClasses}
           open={showModal}
           onClose={this.toggleModal}
           center
         >
           <h1>Add new user</h1>
-          <p className="tiny">
-            Add new user able to access and create new short url. Each user be
-            able to add new users.
-          </p>
-          <UserForm register={register} />
+          <div>
+            <p className="tiny">
+              Add new user able to access and create new short url. Each user be
+              able to add new users.
+            </p>
+            <UserForm register={register} />
+          </div>
         </Modal>
         <div className={wrapperClasses}>
           {!users && !error ? (
