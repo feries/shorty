@@ -60,7 +60,7 @@ class Dashboard extends Component {
         <Toast />
         <div className="container">
           <ProfileBox />
-          <Logo className="m-top-x10" />
+          <Logo className="m-bottom-x10" />
           <div id="content" className="content m-top-x4">
             <AddHost />
             <DeleteLinkWithConfirm
@@ -73,7 +73,7 @@ class Dashboard extends Component {
               open={qrCodeModal}
               onClose={() => this.handleQrCode(false)}
               center
-              classNames={modalCustomStyle}
+              classNames={modalCustomStyle('small')}
             >
               <Qrcode value={qrCodeValue} className="m-top-x4" />
             </Modal>

@@ -13,10 +13,12 @@ class Login extends Component {
   render() {
     return (
       <div className="container">
-        <Toast />
-        <Logo />
-        <div id="content" className="content m-top-x4 t-center">
-          <LoginBox />
+        <div>
+          <Toast />
+          <Logo />
+          <div id="content" className="content m-top-x4 t-center">
+            <LoginBox />
+          </div>
         </div>
       </div>
     )

@@ -4,11 +4,13 @@
 
 .container {
   margin: auto;
-  width: 90%;
   position: relative;
-  margin-bottom: $space * 15 !important;
+  padding: $pentaSpace;
+  box-sizing: border-box;
+
   .content {
-    margin: auto;
+    margin: 0;
+    width: 100%;
     max-width: 1090px;
   }
 }

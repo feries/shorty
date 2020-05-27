@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import ModalWithConfirm from '../components/ModalWithConfirm'
-
+import { modalCustomStyle } from '../constants/style'
 import { startDeactivateKey } from '../actions/settings'
 
 const DeleteApiKeyWithConfirm = ({ value, issuer, onConfirm, onDismiss }) => (
@@ -12,20 +12,18 @@ const DeleteApiKeyWithConfirm = ({ value, issuer, onConfirm, onDismiss }) => (
     open={value !== null}
     onConfirm={() => onConfirm(value).then(() => onDismiss())}
     onDismiss={() => onDismiss()}
+    classNames={modalCustomStyle('normal')}
   />
 )
 
 DeleteApiKeyWithConfirm.propTypes = {
   value: PropTypes.string,
   issuer: PropTypes.string,
-  onDismiss: PropTypes.func.isRequired
+  onDismiss: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onConfirm: (externalId) => dispatch(startDeactivateKey(externalId))
+  onConfirm: (externalId) => dispatch(startDeactivateKey(externalId)),
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(DeleteApiKeyWithConfirm)
+export default connect(undefined, mapDispatchToProps)(DeleteApiKeyWithConfirm)

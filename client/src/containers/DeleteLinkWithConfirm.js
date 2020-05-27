@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import ModalWithConfirm from '../components/ModalWithConfirm'
-
+import { modalCustomStyle } from '../constants/style'
 import { startDelete } from '../actions/dashboard'
 
 const DeleteLinkWithConfirm = ({
@@ -10,7 +10,7 @@ const DeleteLinkWithConfirm = ({
   confirmAction,
   confirmModal,
   onConfirm,
-  onClose
+  onClose,
 }) => (
   <ModalWithConfirm
     message="Are you sure you want to delete this short link? Once deleted it will no longer be reachable by users."
@@ -19,14 +19,12 @@ const DeleteLinkWithConfirm = ({
     action={confirmAction}
     onConfirm={() => onConfirm(confirmAction)}
     onDismiss={() => onClose()}
+    classNames={modalCustomStyle('normal')}
   />
 )
 
 const mapDispatchToProps = (dispatch) => ({
-  onConfirm: (externalId) => dispatch(startDelete(externalId))
+  onConfirm: (externalId) => dispatch(startDelete(externalId)),
 })
 
-export default connect(
-  undefined,
-  mapDispatchToProps
-)(DeleteLinkWithConfirm)
+export default connect(undefined, mapDispatchToProps)(DeleteLinkWithConfirm)

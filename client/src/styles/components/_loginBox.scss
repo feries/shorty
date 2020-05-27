@@ -6,7 +6,7 @@
     font-weight: $light;
   }
   .loginBox-form {
-    max-width: 40%;
+    max-width: 70%;
     margin: auto;
     input {
       margin-top: $tripleSpace;
@@ -31,7 +31,7 @@
     button {
       &:disabled {
         cursor: default;
-        opacity: .5;
+        opacity: 0.5;
       }
       margin-top: $tripleSpace;
       color: $white;

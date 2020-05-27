@@ -1,9 +1,9 @@
 #profileBox {
-  margin: auto;
   max-width: 1090px;
-  position: relative;
-  height: 90px;
-  margin-bottom: -90px;
+  position: absolute;
+  height: 30px;
+  width: 100%;
+
   .profileItem {
     min-width: 200px;
     display: flex !important;
