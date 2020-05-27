@@ -1,6 +1,5 @@
 const crypto = require('crypto')
-const uuidv4 = require('uuid')
-const { sqlLoader, isEmail, Nodemailer } = require('../../lib')
+const { sqlLoader, isEmail, Nodemailer, generateUuid4 } = require('../../lib')
 const { pool: db } = require('../../config')
 const { registration } = require('../../constants')
 
@@ -20,7 +19,7 @@ module.exports = async (req, res) => {
       return res.status(400).send({ message: 'User already registered.' })
 
     const activationToken = await crypto.randomBytes(50).toString('base64')
-    const options = [uuidv4(), email, activationToken]
+    const options = [generateUuid4(), email, activationToken]
     const row = await db.query(sqlLoader('insertNewUser.sql'), options)
 
     if (row.affectedRows !== 1)
