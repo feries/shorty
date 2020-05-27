@@ -1,5 +1,5 @@
 const { authHeaderKey } = require('../constants')
-const { sqlLoader } = require('../lib')
+const { sqlLoader, verifyJwt, getToken } = require('../lib')
 const { pool: db } = require('../config')
 
 module.exports = async (req, res, next) => {
@@ -7,17 +7,25 @@ module.exports = async (req, res, next) => {
   const authKey = req.get(authHeaderKey)
   const { rwt } = req.body
 
-  if (!authHeader && !authKey && !rwt) return res.sendStatus(401)
+  if (!authHeader && !authKey && !rwt) return res.sendStatus(403)
 
-  if (authHeader) return next()
+  if (authHeader) {
+    const verified = await verifyJwt(getToken(authHeader))
+
+    if (!verified) return res.sendStatus(401)
+
+    return next()
+  }
 
   if (rwt) return next('route')
 
-  const query = await db.query(sqlLoader('checkAuthorizationKey.sql'), [
-    authHeader,
+  const [service] = await db.query(sqlLoader('checkAuthorizationKey.sql'), [
+    authKey,
   ])
 
-  if (query.length === 0) return res.sendStatus(403)
+  if (!service) return res.sendStatus(403)
+
+  req.user = service
 
   next('route')
 }

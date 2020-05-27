@@ -114,15 +114,26 @@ const getToken = (authHeader) => {
   return _validateScheme(_validateFormat(authHeader))
 }
 
+const verifyJwt = (token) => {
+  if (!token) throw new Error('Missing token.')
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET, {
+      issuer: process.env.JWT_ISSUER,
+    })
+  } catch (exception) {
+    return null
+  }
+}
+
 const decodeJwt = async (token) => {
   if (!token) throw new Error('Missing token.')
   try {
-    const verified = await jwt.verify(token, process.env.JWT_SECRET, {
+    const verified = await jwt.decode(token, process.env.JWT_SECRET, {
       issuer: process.env.JWT_ISSUER,
     })
     return verified.sub
-  } catch (e) {
-    throw new Error('Invalid token provided', e)
+  } catch (exception) {
+    return null
   }
 }
 
@@ -136,5 +147,6 @@ module.exports = {
   trailingSlash,
   generateTokens,
   getToken,
+  verifyJwt,
   decodeJwt,
 }

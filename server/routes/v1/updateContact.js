@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
   try {
     const { kind, value } = req.body
     const jwt = getToken(req.get('authorization'))
-    const user = decodeJwt(jwt)
+    const user = await decodeJwt(jwt)
 
     const sql = sqlLoader('insertOrUpdateContact.sql')
     await db.query(sql, [user.external_id, kind, value, value])

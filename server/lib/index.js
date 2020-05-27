@@ -11,8 +11,9 @@ const {
   trailingSlash,
   generateTokens,
   getToken,
+  verifyJwt,
   decodeJwt,
-  generateUuid4
+  generateUuid4,
 } = require('./common')
 
 module.exports = {
@@ -26,7 +27,8 @@ module.exports = {
   trailingSlash,
   generateTokens,
   getToken,
+  verifyJwt,
   decodeJwt,
   generateUuid4,
-  Nodemailer
+  Nodemailer,
 }

@@ -1,6 +1,6 @@
 // Name of the authorization header key to get
 // for validate api requests
-exports.authHeaderKey = 'x-auth-key'
+exports.authHeaderKey = 'X-Auth-Key'
 
 // Default value for limit paginated query
 exports.queryLimit = 10

@@ -5,7 +5,7 @@ const { pool: db } = require('../../config')
 module.exports = async (req, res) => {
   try {
     const token = getToken(req.get('Authorization'))
-    const { external_id: userExternalId } = decodeJwt(token)
+    const { external_id: userExternalId } = await decodeJwt(token)
     const { limit, skip } = req.query
     const _limit = Number(limit) || usersQueryLimit
     const _skip = limit && Number(skip) && !isNaN(skip) ? Number(skip) : 0
