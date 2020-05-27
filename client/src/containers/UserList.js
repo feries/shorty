@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Modal from 'react-responsive-modal'
+import { modalCustomStyle } from '../constants/style'
 
 import UserListTile from '../components/UserListTile'
 import Loader from '../components/Loader'
@@ -18,13 +19,13 @@ class UserList extends Component {
       PropTypes.shape({
         externalId: PropTypes.string.isRequired,
         active: PropTypes.oneOf([0, 1]).isRequired,
-        email: PropTypes.string.isRequired
+        email: PropTypes.string.isRequired,
       })
     ).isRequired,
     error: PropTypes.bool.isRequired,
     fetch: PropTypes.func.isRequired,
     deactivate: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -50,12 +51,17 @@ class UserList extends Component {
     const { showModal } = this.state
 
     const wrapperClasses = classnames('content flex flex-wrap', {
-      't-center': (!users && !error) || (!users && error)
+      't-center': (!users && !error) || (!users && error),
     })
 
     return (
       <Fragment>
-        <Modal open={showModal} onClose={this.toggleModal} center>
+        <Modal
+          classNames={modalCustomStyle('big')}
+          open={showModal}
+          onClose={this.toggleModal}
+          center
+        >
           <h1>Add new user</h1>
           <p className="tiny">
             Add new user able to access and create new short url. Each user be
@@ -94,16 +100,13 @@ class UserList extends Component {
 
 const mapStateToProps = (state) => ({
   users: state.settings.users.data,
-  error: state.settings.users.error
+  error: state.settings.users.error,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetch: (limit, skip) => dispatch(startFetchUsers(limit, skip)),
   deactivate: (externalId) => dispatch(startDeactivateUser(externalId)),
-  register: () => {}
+  register: () => {},
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserList)
+export default connect(mapStateToProps, mapDispatchToProps)(UserList)

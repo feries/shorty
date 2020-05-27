@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Modal from 'react-responsive-modal'
-
+import { modalCustomStyle } from '../constants/style'
 import EditableLabel from '../components/EditableLabel'
 import Loader from '../components/Loader'
 import PasswordHandler from '../containers/PasswordHandler'
@@ -16,9 +16,9 @@ class PersonalInformationForm extends Component {
     fetchUserData: PropTypes.func.isRequired,
     user: PropTypes.shape({
       name: PropTypes.string,
-      surname: PropTypes.string
+      surname: PropTypes.string,
     }),
-    error: PropTypes.bool.isRequired
+    error: PropTypes.bool.isRequired,
   }
 
   componentDidMount() {
@@ -34,7 +34,7 @@ class PersonalInformationForm extends Component {
     const { showModal } = this.state
 
     const wrapperClasses = classnames('light big m-bottom-x2', {
-      't-center': (!user && !error) || (!user && error)
+      't-center': (!user && !error) || (!user && error),
     })
 
     return (
@@ -44,6 +44,7 @@ class PersonalInformationForm extends Component {
             reset={true}
             cta="Update my password"
             showCtaIcon={false}
+            classNames={modalCustomStyle('big')}
           />
         </Modal>
         <div className={wrapperClasses}>Personal Information</div>
@@ -76,11 +77,11 @@ class PersonalInformationForm extends Component {
 
 const mapStateToProps = (state) => ({
   user: state.settings.me.data,
-  error: state.settings.me.error
+  error: state.settings.me.error,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchUserData: () => dispatch(startFetchUserInfo())
+  fetchUserData: () => dispatch(startFetchUserInfo()),
 })
 
 export default connect(

@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Modal from 'react-responsive-modal'
+import { modalCustomStyle } from '../constants/style'
 
 import {
   startAddNewApiKey,
   startDeactivateKey,
-  startFetchApiKeys
+  startFetchApiKeys,
 } from '../actions/settings'
 import ApiKeyListElement from '../components/ApiKeyListElement'
 import Loader from '../components/Loader'
@@ -25,12 +26,12 @@ class ApiKeyList extends Component {
           active: PropTypes.number.isRequired,
           author: PropTypes.string.isRequired,
           issuer: PropTypes.string.isRequired,
-          createdAt: PropTypes.string.isRequired
+          createdAt: PropTypes.string.isRequired,
         })
-      )
+      ),
     }),
     count: PropTypes.number,
-    error: PropTypes.bool
+    error: PropTypes.bool,
   }
 
   componentDidMount() {
@@ -64,7 +65,7 @@ class ApiKeyList extends Component {
     const { list, error } = this.props
 
     const wrapperClasses = classnames('content m-top-x2', {
-      't-center': (!list && !error) || (!list && error)
+      't-center': (!list && !error) || (!list && error),
     })
 
     return (
@@ -79,6 +80,7 @@ class ApiKeyList extends Component {
               open={showAddKey}
               onClose={() => this.toggleState('showAddKey')}
               center
+              classNames={modalCustomStyle('big')}
             >
               <h1>Add new API-KEY</h1>
               <p className="tiny">
@@ -145,16 +147,13 @@ class ApiKeyList extends Component {
 
 const mapStateToProps = (state) => ({
   list: state.settings.keys.data,
-  error: state.settings.keys.error
+  error: state.settings.keys.error,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchApiList: () => dispatch(startFetchApiKeys()),
   deactivateKey: (externalId) => dispatch(startDeactivateKey(externalId)),
-  saveApiKey: (issuer) => dispatch(startAddNewApiKey(issuer))
+  saveApiKey: (issuer) => dispatch(startAddNewApiKey(issuer)),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ApiKeyList)
+export default connect(mapStateToProps, mapDispatchToProps)(ApiKeyList)
