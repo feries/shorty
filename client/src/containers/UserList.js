@@ -9,7 +9,11 @@ import UserListTile from '../components/UserListTile'
 import Loader from '../components/Loader'
 import UserForm from '../components/UserForm'
 import { USER_PER_PAGE } from '../constants/common'
-import { startFetchUsers, startDeactivateUser } from '../actions/settings'
+import {
+  startFetchUsers,
+  startDeactivateUser,
+  startAddNewUser,
+} from '../actions/settings'
 
 class UserList extends Component {
   state = { showModal: false }
@@ -113,7 +117,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetch: (limit, skip) => dispatch(startFetchUsers(limit, skip)),
   deactivate: (externalId) => dispatch(startDeactivateUser(externalId)),
-  register: () => {},
+  register: (name, surname, email) => {
+    dispatch(startAddNewUser(name, surname, email))
+  },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList)
