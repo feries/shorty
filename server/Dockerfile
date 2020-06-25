@@ -1,4 +1,4 @@
-FROM node:10
+FROM nfqlt/node10:latest
 
 ARG NODE_ENV
 ARG SERVER_HOST
